@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">RolAppeame</string>
+    <string name="ajustes">ajustes</string>
+
+    //Descripiciones atributos
+    <string name="desFuerza">
+        Representa la potencia física, la dureza, el músculo y todo eso.\n
+        Es útil para aquellos héroes que quieren derribar puertas antes que
+        girar el pomo, o abren los cofres a golpes sin descerrajar la cerradura.
+    </string>
+    <string name="desAgilidad">
+        Este atributo cubre la velocidad en general, la destreza y todo lo relacionado.
+        Es útil para héroes sutiles.
+    </string>
+    <string name="desMente">
+        Intelecto, voluntad y sabiduría son los ámbitos cubiertos por la Mente.
+    </string>
+    <string name="desApariencia">
+        El aspecto general , el atractivo y el encanto.
+    </string>
+    <string name="fuerza">Fuerza:</string>
+    <string name="agilidad">Agilidad:</string>
+    <string name="percepci_n">Percepción:</string>
+    <string name="constituci_n">Constitución:</string>
+    <string name="inteligencia">Inteligencia:</string>
+    <string name="carisma">Carisma:</string>
+    <string name="imagen_del_personaje">Imagen del personaje</string>
+
+</resources>
