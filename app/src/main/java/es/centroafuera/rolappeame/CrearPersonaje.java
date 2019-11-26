@@ -1,5 +1,18 @@
 package es.centroafuera.rolappeame;
 
-public class CrearPersonaje {
-    //TODO: activity que crea el personaje
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_crearpersonaje);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
 }

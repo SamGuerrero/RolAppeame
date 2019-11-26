@@ -9,6 +9,9 @@
         android:id="@+id/LYbasico"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
@@ -39,6 +42,8 @@
         android:id="@+id/LYobligatorio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <Spinner
@@ -59,6 +64,8 @@
         android:id="@+id/TVpuntos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center"
         android:text="Tienes 0 puntos a repartir entre:" />
 
@@ -66,12 +73,15 @@
         android:id="@+id/LYatributos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/LYfuerza"
-            android:layout_width="wrap_content"
+            android:id="@+id/LYizquierda"
+            android:layout_width="194dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -81,18 +91,18 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/fuerza"
+                    android:layout_width="135dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:text="@string/fuerza" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/infoFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Button" />
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <LinearLayout
@@ -102,79 +112,284 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/menosFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="-" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/puntosFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="0" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/masFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="+" />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYtituloAgilidad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/agilidad"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/agilidad" />
+
+                <Button
+                    android:id="@+id/infoAgilidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYpuntosAgilidad"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/menosAgilidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/puntosAgilidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/masAgilidad"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="+" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYtituloPercepcion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/percepcion"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/percepci_n" />
+
+                <Button
+                    android:id="@+id/infoPercepcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYpuntosPercepcion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/menosPercepcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/puntosPercepcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/masPercepcion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="+" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/LYconstitucion"
+            android:id="@+id/LYderecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
             android:orientation="vertical">
 
             <LinearLayout
+                android:id="@+id/LYtituloConstitucion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/constitucion"
+                    android:layout_width="135dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="right"
                     android:text="@string/constituci_n" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/infoConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Button" />
+                    android:layout_weight="1" />
+
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/LYpuntosConstitucion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button2"
+                    android:id="@+id/menosConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="-" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/puntosConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="0" />
 
                 <Button
-                    android:id="@+id/button3"
+                    android:id="@+id/masConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Button" />
+                    android:text="+" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYtituloInteligencia"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/inteligencia"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/inteligencia" />
+
+                <Button
+                    android:id="@+id/infoInteligencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYpuntosInteligencia"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/menosInteligencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/puntosInteligencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/masInteligencia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="+" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYtituloCarisma"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/carisma"
+                    android:layout_width="135dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/carisma" />
+
+                <Button
+                    android:id="@+id/infoCarisma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LYpuntosCarisma"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/menosCarisma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/puntosCarisma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0" />
+
+                <Button
+                    android:id="@+id/masCarisma"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="+" />
             </LinearLayout>
         </LinearLayout>
 

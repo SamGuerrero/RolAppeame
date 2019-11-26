@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.view.ContextMenu;
@@ -69,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Si aprietas el float action button
     @Override
     public void onClick(View view) {
-        //TODO: Mandar a la activiy que Crea el personaje
+        Intent intent = new Intent(this, CrearPersonaje.class);
+        startActivity(intent);
+
+        /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Esto es un dialogo")
                 .setTitle("Dialogo de Muestra")
@@ -94,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                 );
         builder.create().show();
+        */
 
         //SECCIÓN FUTURA:Inflar el menú de elección
         /*
