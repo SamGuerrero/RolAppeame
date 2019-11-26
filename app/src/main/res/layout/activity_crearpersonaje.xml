@@ -74,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -99,7 +100,7 @@
                     android:text="@string/fuerza" />
 
                 <Button
-                    android:id="@+id/infoFuerza"
+                    android:id="@+id/BTinfoFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -112,7 +113,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/menosFuerza"
+                    android:id="@+id/BTmenosFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -126,7 +127,7 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/masFuerza"
+                    android:id="@+id/BTmasFuerza"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -148,7 +149,7 @@
                     android:text="@string/agilidad" />
 
                 <Button
-                    android:id="@+id/infoAgilidad"
+                    android:id="@+id/BTinfoAgilidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -161,7 +162,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/menosAgilidad"
+                    android:id="@+id/BTmenosAgilidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -175,7 +176,7 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/masAgilidad"
+                    android:id="@+id/BTmasAgilidad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -198,7 +199,7 @@
                     android:text="@string/percepci_n" />
 
                 <Button
-                    android:id="@+id/infoPercepcion"
+                    android:id="@+id/BTinfoPercepcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -211,7 +212,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/menosPercepcion"
+                    android:id="@+id/BTmenosPercepcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -225,7 +226,7 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/masPercepcion"
+                    android:id="@+id/BTmasPercepcion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -257,7 +258,7 @@
                     android:text="@string/constituci_n" />
 
                 <Button
-                    android:id="@+id/infoConstitucion"
+                    android:id="@+id/BTinfoConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -271,7 +272,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/menosConstitucion"
+                    android:id="@+id/BTmenosConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -285,7 +286,7 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/masConstitucion"
+                    android:id="@+id/BTmasConstitucion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -308,7 +309,7 @@
                     android:text="@string/inteligencia" />
 
                 <Button
-                    android:id="@+id/infoInteligencia"
+                    android:id="@+id/BTinfoInteligencia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -321,7 +322,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/menosInteligencia"
+                    android:id="@+id/BTmenosInteligencia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -335,7 +336,7 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/masInteligencia"
+                    android:id="@+id/BTmasInteligencia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -357,7 +358,7 @@
                     android:text="@string/carisma" />
 
                 <Button
-                    android:id="@+id/infoCarisma"
+                    android:id="@+id/BTinfoCarisma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1" />
@@ -371,7 +372,7 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/menosCarisma"
+                    android:id="@+id/BTmenosCarisma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -385,7 +386,7 @@
                     android:text="0" />
 
                 <Button
-                    android:id="@+id/masCarisma"
+                    android:id="@+id/BTmasCarisma"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -393,5 +394,31 @@
             </LinearLayout>
         </LinearLayout>
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/LYbotones"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BTvolver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Volver" />
+
+        <Button
+            android:id="@+id/BTcontinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="Continuar" />
     </LinearLayout>
 </LinearLayout>
