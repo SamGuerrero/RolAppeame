@@ -1,5 +1,6 @@
 package es.centroafuera.rolappeame;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.renderscript.Sampler;
 import android.view.View;
@@ -9,11 +10,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
+    //TODO: set puntos obligatorios, que no se puedan reducir según las combinaciones
+    int puntosTotales = 10; //El máximo de puntos a repartir cuando eliges X clase y X raza
+    int puntosActuales = 0; //Los puntos que llevas acumulados
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crearpersonaje);
@@ -110,6 +116,10 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         ArrayAdapter<Oficio> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
         Soficio.setAdapter(adaptadorOficio);
 
+        //Inicializar mensaje de los puntos
+        TextView TVpuntos = findViewById(R.id.TVpuntos);
+        TVpuntos.setText("Tienes " + (puntosTotales-puntosActuales) +" puntos a repartir entre:");
+
     }
 
     @Override
@@ -119,7 +129,28 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
                 break;
 
-            case R.id.BTcontinuar: //TODO: Recoger todos los datos y guardarlos en la base de datos
+            case R.id.BTcontinuar:
+                if (puntosTotales > puntosActuales) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage("Te quedan puntos por repartir\n¿Quieres continuar?")
+                            .setPositiveButton("Sí",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            guardarPersonaje();
+                                        }
+                                    })
+                            .setNegativeButton("No",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // En este caso se cierra directamente el diálogo y no se hace nada más
+                                            dialog.dismiss();
+                                        }
+                                    });
+                    builder.create().show();
+                }else
+                    guardarPersonaje();
                 break;
 
                 //TODO: Que en un mensaje salga información de cada atributo
@@ -130,7 +161,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             case R.id.BTinfoInteligencia:
             case R.id.BTinfoPercepcion: break;
 
-            //TODO: Cambiar el textView en función de si aumenta o disminuye su atributo
+            //Cambia los puntos
             case R.id.BTmasAgilidad:
                 TextView puntosAgilidad = findViewById(R.id.puntosAgilidad);
                 sumarPuntos(puntosAgilidad);
@@ -195,17 +226,62 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             default: break;
         }
 
+        //Se actualiza el mensaje de puntos
+        TextView TVpuntos = findViewById(R.id.TVpuntos);
+        TVpuntos.setText("Tienes " + (puntosTotales-puntosActuales) +" puntos a repartir entre:");
+
     }
 
     public void sumarPuntos(TextView pantalla){
-        int puntos = Integer.parseInt(String.valueOf(pantalla));
-        puntos++;
-        pantalla.setText(puntos);
+        int puntos = Integer.parseInt(pantalla.getText().toString());
+        if (puntosTotales > puntosActuales) {
+            puntos++;
+            puntosActuales++;
+            pantalla.setText(String.valueOf(puntos));
+        }
     }
 
     public void restarPuntos(TextView pantalla){
-        int puntos = Integer.parseInt(String.valueOf(pantalla));
-        puntos--;
-        pantalla.setText(puntos);
+        int puntos = Integer.parseInt(pantalla.getText().toString());
+        if (puntos > 0) {
+            puntos--;
+            puntosActuales--;
+            pantalla.setText(String.valueOf(puntos));
+        }
+    }
+
+    //TODO: Recoger todos los datos y guardarlos en la base de datos
+    public void guardarPersonaje(){
+        TextView TVnombre = findViewById(R.id.TVnombre);
+        Spinner Snivel = findViewById(R.id.Snivel);
+        Spinner Sraza = findViewById(R.id.Sraza);
+        Spinner Soficio = findViewById(R.id.Soficio);
+
+
+        //Estadisticas
+        TextView TVpuntosAgilidad = findViewById(R.id.puntosAgilidad);
+        TextView TVpuntoscarisma = findViewById(R.id.puntosCarisma);
+        TextView TVpuntosconstitucion = findViewById(R.id.puntosConstitucion);
+        TextView TVpuntosfuerza = findViewById(R.id.puntosFuerza);
+        TextView TVpuntosinteligencia = findViewById(R.id.puntosInteligencia);
+        TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
+
+        String nombre = TVnombre.getText().toString();
+        int nivel = Integer.valueOf(Snivel.toString());
+        Raza raza = Raza.valueOf(Sraza.toString());
+        Oficio oficio = Oficio.valueOf(Soficio.toString());
+
+        int agilidad = Integer.parseInt(TVpuntosAgilidad.getText().toString());
+        int carisma = Integer.parseInt(TVpuntoscarisma.getText().toString());
+        int constitucion = Integer.parseInt(TVpuntosconstitucion.getText().toString());
+        int fuerza = Integer.parseInt(TVpuntosfuerza.getText().toString());
+        int inteligencia = Integer.parseInt(TVpuntosinteligencia.getText().toString());
+        int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
+
+        Personaje personaje = new Personaje(nombre, nivel, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma);
+
+        BaseDeDatos bd = new BaseDeDatos(this);
+        bd.nuevoPersonaje(personaje);
+
     }
 }
