@@ -32,6 +32,9 @@ ACCIONES FUTURAS:
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    BaseDeDatos db;
+    ArrayList<Personaje> partidas;
+    PersonajeAdapter adaptador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,11 +45,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         anadirFAB.setOnClickListener(this);
 
         //Abro la BDD, Relleno el ArrayList con personajes de la BDD, lo paso por el adaptador y lo muestro por pantalla
-        BaseDeDatos db = new BaseDeDatos(this);
-        ArrayList<Personaje> partidas = new ArrayList<>();
-        partidas.addAll(db.getPersonajes());
+        partidas = new ArrayList<>();
         ListView lvPartidas = findViewById(R.id.partidasLV);
-        PersonajeAdapter adaptador = new PersonajeAdapter(this, partidas);
+        adaptador = new PersonajeAdapter(this, partidas);
         lvPartidas.setAdapter(adaptador);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
@@ -62,12 +63,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onResume();
 
         //Abro la BDD, Relleno el ArrayList con personajes de la BDD, lo paso por el adaptador y lo muestro por pantalla
-        BaseDeDatos db = new BaseDeDatos(this);
-        ArrayList<Personaje> partidas = new ArrayList<>();
+        db = new BaseDeDatos(this);
+        partidas.clear();
         partidas.addAll(db.getPersonajes());
-        ListView lvPartidas = findViewById(R.id.partidasLV);
-        PersonajeAdapter adaptador = new PersonajeAdapter(this, partidas);
-        lvPartidas.setAdapter(adaptador);
+
+        adaptador.notifyDataSetChanged();
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);

@@ -88,7 +88,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<Personaje> personajes = new ArrayList<>();
 
-        String[] SELECT = new String[]{_ID, NOMBRE, RAZA, OFICIO, FUERZA, AGILIDAD, PERCEPCION, CONSTITUCION, INTELIGENCIA, CARISMA};
+        String[] SELECT = new String[]{_ID, NOMBRE, RAZA, OFICIO, FUERZA, AGILIDAD, PERCEPCION, CONSTITUCION, INTELIGENCIA, CARISMA, IMAGEN};
         Cursor cursor = db.query(TABLA_PERSONAJES, SELECT, null, null, null, null, NOMBRE);
 
         Personaje personaje;
@@ -105,6 +105,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
             personaje.setConstitucion(cursor.getInt(7));
             personaje.setInteligencia(cursor.getInt(8));
             personaje.setCarisma(cursor.getInt(9));
+
+            personaje.setImagen(Util.getBitmap(cursor.getBlob(10)));
 
             personajes.add(personaje);
         }

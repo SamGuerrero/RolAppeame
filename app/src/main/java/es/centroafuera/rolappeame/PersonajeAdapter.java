@@ -17,7 +17,7 @@ public class PersonajeAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return personajes.size();
     }
 
     public PersonajeAdapter(Context context, ArrayList<Personaje> personajes) {
@@ -28,12 +28,12 @@ public class PersonajeAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return null;
+        return personajes.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return personajes.get(i).getId();
     }
 
     static class ViewHolder {

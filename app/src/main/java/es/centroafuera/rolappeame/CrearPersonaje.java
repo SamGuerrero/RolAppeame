@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -135,27 +136,34 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.BTcontinuar:
-                if (puntosTotales > puntosActuales) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage("Te quedan puntos por repartir\n¿Quieres continuar?")
-                            .setPositiveButton("Sí",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            guardarPersonaje();
-                                        }
-                                    })
-                            .setNegativeButton("No",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            // En este caso se cierra directamente el diálogo y no se hace nada más
-                                            dialog.dismiss();
-                                        }
-                                    });
-                    builder.create().show();
-                }else
-                    guardarPersonaje();
+                EditText nombre = findViewById(R.id.ETnombre);
+                if (nombre.getText().toString().equals("")) {
+                    Toast.makeText(this, "No puedes guardar un personaje sin nombre", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else
+                    if (puntosTotales > puntosActuales) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                        builder.setMessage("Te quedan puntos por repartir\n¿Quieres continuar?")
+                                .setPositiveButton("Sí",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                guardarPersonaje();
+                                            }
+                                        })
+                                .setNegativeButton("No",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // En este caso se cierra directamente el diálogo y no se hace nada más
+                                                dialog.dismiss();
+                                            }
+                                        });
+                        builder.create().show();
+                    }else
+                        guardarPersonaje();
+
                 break;
 
             case R.id.IVavatar:
@@ -265,7 +273,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    //TODO: Recoger todos los datos y guardarlos en la base de datos
+    //FIXME: No se están guardadno los datos en la BDD
     public void guardarPersonaje(){
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
