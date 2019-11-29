@@ -14,4 +14,5 @@ public class Constantes {
     public final static String CONSTITUCION = "constitucion";
     public final static String INTELIGENCIA = "inteligencia";
     public final static String CARISMA = "carisma";
+    public final static String IMAGEN = "imagen";
 }

@@ -25,5 +25,6 @@
     <string name="inteligencia">Inteligencia:</string>
     <string name="carisma">Carisma:</string>
     <string name="imagen_del_personaje">Imagen del personaje</string>
+    <string name="avatar_de_personaje">Avatar de personaje</string>
 
 </resources>

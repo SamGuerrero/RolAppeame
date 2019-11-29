@@ -1,19 +1,16 @@
 package es.centroafuera.rolappeame;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.view.ContextMenu;
+import android.provider.MediaStore;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -40,9 +37,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Cojo el botón
+        //añado los listeners
         FloatingActionButton anadirFAB = findViewById(R.id.anadirFAB);
         anadirFAB.setOnClickListener(this);
+
+        //Abro la BDD, Relleno el ArrayList con personajes de la BDD, lo paso por el adaptador y lo muestro por pantalla
+        BaseDeDatos db = new BaseDeDatos(this);
+        ArrayList<Personaje> partidas = new ArrayList<>();
+        partidas.addAll(db.getPersonajes());
+        ListView lvPartidas = findViewById(R.id.partidasLV);
+        PersonajeAdapter adaptador = new PersonajeAdapter(this, partidas);
+        lvPartidas.setAdapter(adaptador);
+
+        //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
+        TextView comentario = findViewById(R.id.comentarioTV);
+        if (partidas.size() == 0)
+            comentario.setText("Aquí se mostrarán tus partidas cuando añadas alguna");
+        else
+            comentario.setText("Tus personajes:");
+    }
+
+    //Cuando vuelve de hacer el personaje
+    public void onResume() {
+        super.onResume();
 
         //Abro la BDD, Relleno el ArrayList con personajes de la BDD, lo paso por el adaptador y lo muestro por pantalla
         BaseDeDatos db = new BaseDeDatos(this);
@@ -70,8 +87,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Si aprietas el float action button
     @Override
     public void onClick(View view) {
-        Intent intent = new Intent(this, CrearPersonaje.class);
-        startActivity(intent);
+
+        switch (view.getId()){
+            case R.id.anadirFAB:
+                Intent intent = new Intent(this, CrearPersonaje.class);
+                startActivity(intent);
+
+
+        }
+
 
         /*
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

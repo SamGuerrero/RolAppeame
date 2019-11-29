@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#BCB3843C"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -23,12 +24,17 @@
         <TextView
             android:id="@+id/comentarioTV"
             android:layout_width="match_parent"
-            android:layout_height="39dp" />
+            android:layout_height="39dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="100dp"
+            android:textColor="#000000"
+            android:visibility="visible" />
 
         <ListView
             android:id="@+id/partidasLV"
             android:layout_width="match_parent"
-            android:layout_height="518dp">
+            android:layout_height="433dp"
+            android:visibility="visible">
 
         </ListView>
 
@@ -36,8 +42,9 @@
             android:id="@+id/anadirFAB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="180dp"
+            android:layout_marginStart="180dp"
             android:clickable="true"
+            android:focusable="true"
             app:backgroundTint="#BEDFBE"
             app:srcCompat="@android:drawable/ic_input_add" />
 

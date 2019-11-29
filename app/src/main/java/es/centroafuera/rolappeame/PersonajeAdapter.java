@@ -50,6 +50,7 @@ public class PersonajeAdapter extends BaseAdapter {
         TextView constitucion;
         TextView inteligencia;
         TextView carisma;
+
         //FUTURO: la ubicación
     }
 
@@ -77,7 +78,7 @@ public class PersonajeAdapter extends BaseAdapter {
         }
 
         Personaje personaje = personajes.get(pos);
-        viewHolder.avatar.setImageDrawable(context.getResources().getDrawable(android.R.drawable.btn_star)); //aquí estoy poniendo una estrella por defecto, pero la idea es que el usuario pueda elegir
+        viewHolder.avatar.setImageBitmap(personaje.getImagen());
         viewHolder.nombre.setText(personaje.getNombre());
         viewHolder.raza.setText(personaje.getRaza().toString());
         viewHolder.oficio.setText(personaje.getOficio().toString());

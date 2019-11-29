@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#BCB3843C"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/LYbasico"
@@ -19,7 +21,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:contentDescription="@string/avatar_de_personaje"
+            android:visibility="visible"
+            android:src="@mipmap/ic_launcher"/>
 
         <EditText
             android:id="@+id/ETnombre"
@@ -27,14 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Nombre" />
-
-        <Spinner
-            android:id="@+id/Snivel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:hint="Nombre"
+            android:inputType="textPersonName" />
 
     </LinearLayout>
 

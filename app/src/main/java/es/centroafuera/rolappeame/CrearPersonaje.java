@@ -1,17 +1,25 @@
 package es.centroafuera.rolappeame;
 
+import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.renderscript.Sampler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 
@@ -19,6 +27,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
     //TODO: set puntos obligatorios, que no se puedan reducir según las combinaciones
     int puntosTotales = 10; //El máximo de puntos a repartir cuando eliges X clase y X raza
     int puntosActuales = 0; //Los puntos que llevas acumulados
+    private final int AVATAR = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +38,8 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         BTvolver.setOnClickListener(this);
         Button BTcontinuar = findViewById(R.id.BTcontinuar);
         BTcontinuar.setOnClickListener(this);
+        ImageView IVavatar = findViewById(R.id.IVavatar);
+        IVavatar.setOnClickListener(this);
 
         Button BTinfoAgilidad = findViewById(R.id.BTinfoAgilidad);
         BTinfoAgilidad.setOnClickListener(this);
@@ -69,13 +80,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         BTmenosPercepcion.setOnClickListener(this);
 
         //Rellenar Spinners
-        ArrayList<String> nivel = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-            nivel.add(Integer.toString(i));
-        Spinner Snivel = findViewById(R.id.Snivel);
-        ArrayAdapter<String> adaptadorNivel = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, nivel);
-        Snivel.setAdapter(adaptadorNivel);
-
         ArrayList<Raza> razas = new ArrayList<>();
         razas.add(Raza.GUNCH);
         razas.add(Raza.HUMANO);
@@ -120,6 +124,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntos = findViewById(R.id.TVpuntos);
         TVpuntos.setText("Tienes " + (puntosTotales-puntosActuales) +" puntos a repartir entre:");
 
+
     }
 
     @Override
@@ -151,6 +156,16 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                     builder.create().show();
                 }else
                     guardarPersonaje();
+                break;
+
+            case R.id.IVavatar:
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+                }else{
+                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent2, AVATAR);
+                }
+
                 break;
 
                 //TODO: Que en un mensaje salga información de cada atributo
@@ -252,8 +267,12 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
     //TODO: Recoger todos los datos y guardarlos en la base de datos
     public void guardarPersonaje(){
+        //Imagen
+        ImageView IVavatar = findViewById(R.id.IVavatar);
+        Bitmap imagen = ((BitmapDrawable) IVavatar.getDrawable()).getBitmap();
+
+        //Básico
         TextView TVnombre = findViewById(R.id.TVnombre);
-        Spinner Snivel = findViewById(R.id.Snivel);
         Spinner Sraza = findViewById(R.id.Sraza);
         Spinner Soficio = findViewById(R.id.Soficio);
 
@@ -267,7 +286,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
 
         String nombre = TVnombre.getText().toString();
-        int nivel = Integer.valueOf(Snivel.toString());
         Raza raza = Raza.valueOf(Sraza.toString());
         Oficio oficio = Oficio.valueOf(Soficio.toString());
 
@@ -278,7 +296,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         int inteligencia = Integer.parseInt(TVpuntosinteligencia.getText().toString());
         int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
 
-        Personaje personaje = new Personaje(nombre, nivel, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma);
+        Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
 
         BaseDeDatos bd = new BaseDeDatos(this);
         bd.nuevoPersonaje(personaje);

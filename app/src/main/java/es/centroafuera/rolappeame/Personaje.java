@@ -1,13 +1,15 @@
 package es.centroafuera.rolappeame;
 
+import android.graphics.Bitmap;
+
 public class Personaje {
-    //TODO: Añadir Bitmap imagen y agregarlo en: el adaptador, la base de datos
+    //TODO: Hacer que el bitMap funcione
     //Datos básicos
     private long id;
     private String nombre;
+    private Bitmap imagen;
     //private String ubicacion; //FUTURO: Lugar donde se encuentra. Lo decidirá el máster
     private String notas;
-    private int nivel;
     private Raza raza;
     private Oficio oficio;
 
@@ -24,9 +26,8 @@ public class Personaje {
     public Personaje() {
     }
 
-    public Personaje(String nombre, int nivel, Raza raza, Oficio oficio, int fuerza, int agilidad, int percepcion, int constitucion, int inteligencia, int carisma) {
+    public Personaje(String nombre, Raza raza, Oficio oficio, int fuerza, int agilidad, int percepcion, int constitucion, int inteligencia, int carisma, Bitmap imagen) {
         this.nombre = nombre;
-        this.nivel = nivel;
         this.raza = raza;
         this.oficio = oficio;
         this.fuerza = fuerza;
@@ -35,6 +36,7 @@ public class Personaje {
         this.constitucion = constitucion;
         this.inteligencia = inteligencia;
         this.carisma = carisma;
+        this.imagen = imagen;
     }
 
     //Setters y Getters
@@ -57,13 +59,6 @@ public class Personaje {
     }
     public void setNotas(String notas) {
         this.notas = notas;
-    }
-
-    public int getNivel() {
-        return nivel;
-    }
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
     }
 
     public Raza getRaza() {
@@ -121,4 +116,9 @@ public class Personaje {
     public void setCarisma(int carisma) {
         this.carisma = carisma;
     }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+    public void setImagen(Bitmap imagen) { this.imagen = imagen; }
 }

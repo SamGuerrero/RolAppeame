@@ -17,6 +17,7 @@ import static es.centroafuera.rolappeame.Constantes.BASEDATOS;
 import static es.centroafuera.rolappeame.Constantes.CARISMA;
 import static es.centroafuera.rolappeame.Constantes.CONSTITUCION;
 import static es.centroafuera.rolappeame.Constantes.FUERZA;
+import static es.centroafuera.rolappeame.Constantes.IMAGEN;
 import static es.centroafuera.rolappeame.Constantes.INTELIGENCIA;
 import static es.centroafuera.rolappeame.Constantes.NOMBRE;
 import static es.centroafuera.rolappeame.Constantes.OFICIO;
@@ -43,7 +44,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
                 PERCEPCION + " INTEGER, " +
                 CONSTITUCION + " INTEGER, " +
                 INTELIGENCIA + " INTEGER, " +
-                CARISMA + " INTEGER" +
+                CARISMA + " INTEGER, " +
+                IMAGEN + " BLOB" +
                 ")");
     }
 
@@ -66,6 +68,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         values.put(CONSTITUCION, personaje.getConstitucion());
         values.put(INTELIGENCIA, personaje.getInteligencia());
         values.put(CARISMA, personaje.getCarisma());
+        values.put(IMAGEN, Util.getBytes(personaje.getImagen()));
 
         db.insertOrThrow(TABLA_PERSONAJES, null, values);
         db.close();
