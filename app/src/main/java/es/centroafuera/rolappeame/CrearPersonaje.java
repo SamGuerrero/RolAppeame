@@ -4,8 +4,11 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.renderscript.Sampler;
@@ -308,6 +311,28 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         BaseDeDatos bd = new BaseDeDatos(this);
         bd.nuevoPersonaje(personaje);
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if ((requestCode == AVATAR) && (resultCode == RESULT_OK) && (data != null)) {
+            // Obtiene el Uri de la imagen seleccionada por el usuario
+            Uri imagenSeleccionada = data.getData();
+            String[] ruta = {MediaStore.Images.Media.DATA };
+
+            // Realiza una consulta a la galería de imágenes solicitando la imagen seleccionada
+            Cursor cursor = getContentResolver().query(imagenSeleccionada, ruta, null, null, null);
+            cursor.moveToFirst();
+
+            // Obtiene la ruta a la imagen
+            int indice = cursor.getColumnIndex(ruta[0]);
+            String picturePath = cursor.getString(indice);
+            cursor.close();
+
+            // Carga la imagen en una vista ImageView que se encuentra en
+            // en layout de la Activity actual
+            ImageView imageView = findViewById(R.id.IVavatar);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
     }
 }

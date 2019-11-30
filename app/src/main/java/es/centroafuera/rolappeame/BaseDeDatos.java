@@ -91,9 +91,8 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         String[] SELECT = new String[]{_ID, NOMBRE, RAZA, OFICIO, FUERZA, AGILIDAD, PERCEPCION, CONSTITUCION, INTELIGENCIA, CARISMA, IMAGEN};
         Cursor cursor = db.query(TABLA_PERSONAJES, SELECT, null, null, null, null, NOMBRE);
 
-        Personaje personaje;
+        Personaje personaje = new Personaje();
         while (cursor.moveToNext()){
-            personaje = new Personaje();
             personaje.setId(cursor.getLong(0));
             personaje.setNombre(cursor.getString(1));
             personaje.setRaza(Raza.valueOf(cursor.getString(2)));

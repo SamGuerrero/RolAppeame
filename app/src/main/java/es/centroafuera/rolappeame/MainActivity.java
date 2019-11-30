@@ -93,66 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(this, CrearPersonaje.class);
                 startActivity(intent);
 
-
+                break;
         }
 
-
-        /*
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Esto es un dialogo")
-                .setTitle("Dialogo de Muestra")
-                .setPositiveButton("Continuar",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Qué hacer si el usuario pulsa "Si"
-                                // En este caso se cierra directamente el diálogo y no se hace nada más
-                                dialog.dismiss();
-                            }
-                        }
-                )
-                .setNegativeButton("Cancelar",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // Qué hacer si el usuario pulsa "No"
-                                // En este caso se cierra directamente el diálogo y no se hace nada más
-                                dialog.dismiss();
-                            }
-                        }
-                );
-        builder.create().show();
-        */
-
-        //SECCIÓN FUTURA:Inflar el menú de elección
-        /*
-            getMenuInflater().inflate(R.menu.elige, menu);
-        */
     }
-
-    /*SECCIÓN FUTURA
-    //Dentro del menú de elección (Máster / Jugador)
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        AdapterView.AdapterContextMenuInfo menuInfo;
-
-        switch (item.getItemId()){
-            case R.id.jugadorItM:
-                //TO DO: Mandar a otra activity
-                    Intent inten = new Intent(this, NOMBREACTIVITY.class);
-                    startActivity(Intent);
-                break;
-
-            case R.id.masterItM:
-                //TO DO: Mandar a otra activity
-                    Intent inten = new Intent(this, NOMBREACTIVITY.class);
-                    startActivity(Intent);
-                break;
-
-            default: break;
-        }
-
-        return true;
-    }
-    */
 }
