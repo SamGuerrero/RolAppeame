@@ -3,7 +3,6 @@ package es.centroafuera.rolappeame;
 import android.graphics.Bitmap;
 
 public class Personaje {
-    //TODO: Hacer que el bitMap funcione
     //Datos básicos
     private long id;
     private String nombre;

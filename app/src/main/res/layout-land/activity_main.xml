@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/comentarioTV"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:gravity="center" />
+
+    <ListView
+        android:id="@+id/partidasLV"
+        android:layout_width="match_parent"
+        android:layout_height="296dp"
+        android:scrollbars="vertical">
+
+    </ListView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/anadirFAB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="#8BC34A"
+        android:clickable="true"
+        app:srcCompat="@android:drawable/ic_input_add" />
+</LinearLayout>

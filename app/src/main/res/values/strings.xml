@@ -26,5 +26,7 @@
     <string name="carisma">Carisma:</string>
     <string name="imagen_del_personaje">Imagen del personaje</string>
     <string name="avatar_de_personaje">Avatar de personaje</string>
+    <string name="condiciones_legales">Estoy de acuerdo y acepto las condiciones legales</string>
+    <string name="aceptar">Aceptar</string>
 
 </resources>

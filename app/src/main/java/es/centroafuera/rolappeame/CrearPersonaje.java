@@ -283,7 +283,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         Bitmap imagen = ((BitmapDrawable) IVavatar.getDrawable()).getBitmap();
 
         //Básico
-        TextView TVnombre = findViewById(R.id.TVnombre);
+        EditText ETnombre = findViewById(R.id.ETnombre);
         Spinner Sraza = findViewById(R.id.Sraza);
         Spinner Soficio = findViewById(R.id.Soficio);
 
@@ -296,9 +296,9 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntosinteligencia = findViewById(R.id.puntosInteligencia);
         TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
 
-        String nombre = TVnombre.getText().toString();
-        Raza raza = Raza.valueOf(Sraza.toString());
-        Oficio oficio = Oficio.valueOf(Soficio.toString());
+        String nombre = ETnombre.getText().toString();
+        Raza raza = Raza.valueOf(Sraza.getSelectedItem().toString());
+        Oficio oficio = Oficio.valueOf(Soficio.getSelectedItem().toString());
 
         int agilidad = Integer.parseInt(TVpuntosAgilidad.getText().toString());
         int carisma = Integer.parseInt(TVpuntoscarisma.getText().toString());

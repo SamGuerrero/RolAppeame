@@ -1,5 +1,6 @@
 package es.centroafuera.rolappeame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,7 @@ public class PersonajeAdapter extends BaseAdapter {
         return personajes.size();
     }
 
-    public PersonajeAdapter(Context context, ArrayList<Personaje> personajes) {
+    public PersonajeAdapter(Activity context, ArrayList<Personaje> personajes) {
         this.context = context;
         this.personajes = personajes;
         layoutInflater = LayoutInflater.from(context);
@@ -61,15 +62,16 @@ public class PersonajeAdapter extends BaseAdapter {
         if (convertView  == null){
             convertView = layoutInflater.inflate(R.layout.item_personaje, null);
             viewHolder = new ViewHolder();
-            viewHolder.avatar = convertView.findViewById(R.id.IVavatar);
-            viewHolder.raza = convertView.findViewById(R.id.TVraza);
-            viewHolder.oficio = convertView.findViewById(R.id.TVoficio);
-            viewHolder.fuerza = convertView.findViewById(R.id.TVfuerza);
-            viewHolder.agilidad = convertView.findViewById(R.id.TVagilidad);
-            viewHolder.percepcion = convertView.findViewById(R.id.TVpercepcion);
-            viewHolder.constitucion = convertView.findViewById(R.id.TVconstitucion);
-            viewHolder.inteligencia = convertView.findViewById(R.id.TVinteligencia);
-            viewHolder.carisma = convertView.findViewById(R.id.TVcarisma);
+            viewHolder.avatar = (ImageView) convertView.findViewById(R.id.IVavatar);
+            viewHolder.nombre = (TextView) convertView.findViewById(R.id.TVnombre);
+            viewHolder.raza = (TextView) convertView.findViewById(R.id.TVraza);
+            viewHolder.oficio = (TextView) convertView.findViewById(R.id.TVoficio);
+            viewHolder.fuerza =(TextView)  convertView.findViewById(R.id.TVfuerza);
+            viewHolder.agilidad = (TextView) convertView.findViewById(R.id.TVagilidad);
+            viewHolder.percepcion = (TextView) convertView.findViewById(R.id.TVpercepcion);
+            viewHolder.constitucion = (TextView) convertView.findViewById(R.id.TVconstitucion);
+            viewHolder.inteligencia = (TextView) convertView.findViewById(R.id.TVinteligencia);
+            viewHolder.carisma = (TextView) convertView.findViewById(R.id.TVcarisma);
 
             convertView.setTag(viewHolder);
 
