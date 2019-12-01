@@ -276,7 +276,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    //FIXME: No se están guardadno los datos en la BDD
     public void guardarPersonaje(){
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);

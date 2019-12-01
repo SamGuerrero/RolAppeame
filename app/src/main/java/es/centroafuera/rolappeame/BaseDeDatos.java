@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,8 +83,6 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         db.close();
     }
 
-    //TODO: Modificar las stats
-
     public List<Personaje> getPersonajes(){
         SQLiteDatabase db = getWritableDatabase();
         ArrayList<Personaje> personajes = new ArrayList<>();
@@ -111,5 +110,49 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         }
 
         return personajes;
+    }
+
+    //Devuelve un personaje concreto egún el ID
+    public Personaje getPersonajeId(long id){
+
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] SELECT = new String[]{_ID, NOMBRE, RAZA, OFICIO, FUERZA, AGILIDAD, PERCEPCION, CONSTITUCION, INTELIGENCIA, CARISMA, IMAGEN};
+        Cursor cursor = db.query(TABLA_PERSONAJES, SELECT, _ID + " = " + id, null, null, null, NOMBRE);
+
+        Personaje personaje = new Personaje();
+        personaje.setId(cursor.getLong(0));
+        personaje.setNombre(cursor.getString(1));
+        personaje.setRaza(Raza.valueOf(cursor.getString(2)));
+        personaje.setOficio(Oficio.valueOf(cursor.getString(3)));
+
+        personaje.setFuerza(cursor.getInt(4));
+        personaje.setAgilidad(cursor.getInt(5));
+        personaje.setPercepcion(cursor.getInt(6));
+        personaje.setConstitucion(cursor.getInt(7));
+        personaje.setInteligencia(cursor.getInt(8));
+        personaje.setCarisma(cursor.getInt(9));
+
+        personaje.setImagen(Util.getBitmap(cursor.getBlob(10)));
+
+        return personaje;
+    }
+
+    //Modifica el personaje
+    public void actualizaPersonaje(Personaje personaje){
+        SQLiteDatabase db = getWritableDatabase();
+
+        String[] arguments = new String[]{String.valueOf(personaje.getId())};
+        ContentValues values = new ContentValues();
+        values.put(FUERZA, personaje.getFuerza());
+        values.put(AGILIDAD, personaje.getAgilidad());
+        values.put(PERCEPCION, personaje.getPercepcion());
+        values.put(CONSTITUCION, personaje.getConstitucion());
+        values.put(INTELIGENCIA, personaje.getInteligencia());
+        values.put(CARISMA, personaje.getCarisma());
+        values.put(IMAGEN, Util.getBytes(personaje.getImagen()));
+
+        db.update(TABLA_PERSONAJES, values, _ID + " = ?", arguments);
+        db.close();
     }
 }

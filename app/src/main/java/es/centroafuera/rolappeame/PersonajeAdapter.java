@@ -80,16 +80,24 @@ public class PersonajeAdapter extends BaseAdapter {
         }
 
         Personaje personaje = personajes.get(pos);
+        String fuerzaTexto = "Fuerza: " + personaje.getFuerza();
+        String agilidadTexto = "Agilidad: " + personaje.getAgilidad();
+        String percepcionTexto = "Percepción: " + personaje.getPercepcion();
+        String constitucionTexto = "Constitución: " + personaje.getConstitucion();
+        String inteligenciaTexto = "Inteligencia: " + personaje.getInteligencia();
+        String carismaTexto = "Carisma: " + personaje.getCarisma();
+
+
         viewHolder.avatar.setImageBitmap(personaje.getImagen());
         viewHolder.nombre.setText(personaje.getNombre());
         viewHolder.raza.setText(personaje.getRaza().toString());
         viewHolder.oficio.setText(personaje.getOficio().toString());
-        viewHolder.fuerza.setText("@string/fuerza" + personaje.getFuerza());
-        viewHolder.agilidad.setText("@string/agilidad" + personaje.getAgilidad());
-        viewHolder.percepcion.setText("@string/percepci_n" + personaje.getPercepcion());
-        viewHolder.constitucion.setText("@string/constituci_n" + personaje.getConstitucion());
-        viewHolder.inteligencia.setText("@string/inteligencia" + personaje.getInteligencia());
-        viewHolder.carisma.setText("@string/carisma" + personaje.getCarisma());
+        viewHolder.fuerza.setText(fuerzaTexto);
+        viewHolder.agilidad.setText(agilidadTexto);
+        viewHolder.percepcion.setText(percepcionTexto);
+        viewHolder.constitucion.setText(constitucionTexto);
+        viewHolder.inteligencia.setText(inteligenciaTexto);
+        viewHolder.carisma.setText(carismaTexto);
 
         return convertView;
     }

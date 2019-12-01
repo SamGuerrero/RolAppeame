@@ -1,5 +1,6 @@
 package es.centroafuera.rolappeame;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -8,15 +9,18 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /*
@@ -78,13 +82,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             comentario.setText("Tus personajes:");
     }
 
-    //Crea el botón de ajustes
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.fijo, menu);
-        return true;
-    }
-
     //Si aprietas el float action button
     @Override
     public void onClick(View view) {
@@ -96,20 +93,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
         }
-
     }
 
+    //Infla el Action Bar
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fijo, menu);
+        return true;
+    }
+
+    @Override //Dentro del Action Bar
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, AcercaDe.class);
+        startActivity(intent);
+        return true;
+    }
 
-        switch (item.getItemId()) {
-            case R.id.ajustes:
-                Intent intent = new Intent(this, AcercaDe.class);
+    //FIXME: El menú no se infla
+    @Override //Infla el menú contextual
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        getMenuInflater().inflate(R.menu.elige, menu);
+    }
+
+    @Override//Dentro del menú contextual
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        AdapterView.AdapterContextMenuInfo menuInfo = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int pos = menuInfo.position;
+
+        switch (item.getItemId()){
+            case R.id.imVer:
+                Intent intent = new Intent(this, VistaPersonaje.class);
+
+                intent.putExtra("ID", partidas.get(pos).getId());
+
                 startActivity(intent);
-                return true;
+                break;
 
-            default:
-                return true;
+            case R.id.imEliminar:
+                Personaje personaje = partidas.remove(pos);
+                db = new BaseDeDatos(this);
+
+                db.borrarPersonaje(personaje);
+                adaptador.notifyDataSetChanged();
+                break;
+
+            default: break;
         }
+
+        return true;
     }
 }
