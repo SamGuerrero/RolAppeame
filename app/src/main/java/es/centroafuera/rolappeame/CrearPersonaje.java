@@ -311,6 +311,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         BaseDeDatos bd = new BaseDeDatos(this);
         bd.nuevoPersonaje(personaje);
+        onBackPressed();
     }
 
     @Override

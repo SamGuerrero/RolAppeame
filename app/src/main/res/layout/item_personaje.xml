@@ -3,80 +3,105 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:background="@drawable/panel_jugador"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/IVavatar"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="1dp"
         android:layout_weight="1"
-        android:contentDescription="@string/imagen_del_personaje"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:background="@drawable/titulo_partida"
+        android:paddingLeft="10dp"
+        android:text="Partida Jugador"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#6e2c00" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/TVnombre"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/IVavatar"
+            android:layout_width="253dp"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:contentDescription="@string/imagen_del_personaje"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/TVraza"
-                android:layout_width="wrap_content"
+                android:id="@+id/TVnombre"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/TVraza"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/TVoficio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/TVoficio"
-                android:layout_width="wrap_content"
+                android:id="@+id/TVfuerza"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:layout_marginTop="10dp"
+                android:text="@string/fuerza" />
+
+            <TextView
+                android:id="@+id/TVagilidad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/agilidad" />
+
+            <TextView
+                android:id="@+id/TVpercepcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/percepci_n" />
+
+            <TextView
+                android:id="@+id/TVconstitucion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/constituci_n" />
+
+            <TextView
+                android:id="@+id/TVinteligencia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/inteligencia" />
+
+            <TextView
+                android:id="@+id/TVcarisma"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/carisma" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/TVfuerza"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/fuerza" />
-
-        <TextView
-            android:id="@+id/TVagilidad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/agilidad" />
-
-        <TextView
-            android:id="@+id/TVpercepcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/percepci_n" />
-
-        <TextView
-            android:id="@+id/TVconstitucion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/constituci_n" />
-
-        <TextView
-            android:id="@+id/TVinteligencia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/inteligencia" />
-
-        <TextView
-            android:id="@+id/TVcarisma"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/carisma" />
     </LinearLayout>
+
 </LinearLayout>

@@ -237,6 +237,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         personaje.setPercepcion( Integer.parseInt(TVpuntospercepcion.getText().toString()));
 
         bd.actualizaPersonaje(personaje);
+        onBackPressed();
     }
 
     @Override
