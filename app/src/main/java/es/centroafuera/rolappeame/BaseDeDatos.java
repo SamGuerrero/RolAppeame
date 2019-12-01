@@ -90,8 +90,9 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         String[] SELECT = new String[]{_ID, NOMBRE, RAZA, OFICIO, FUERZA, AGILIDAD, PERCEPCION, CONSTITUCION, INTELIGENCIA, CARISMA, IMAGEN};
         Cursor cursor = db.query(TABLA_PERSONAJES, SELECT, null, null, null, null, NOMBRE);
 
-        Personaje personaje = new Personaje();
+
         while (cursor.moveToNext()){
+            Personaje personaje = new Personaje();
             personaje.setId(cursor.getLong(0));
             personaje.setNombre(cursor.getString(1));
             personaje.setRaza(Raza.valueOf(cursor.getString(2)));
@@ -121,19 +122,23 @@ public class BaseDeDatos extends SQLiteOpenHelper {
         Cursor cursor = db.query(TABLA_PERSONAJES, SELECT, _ID + " = " + id, null, null, null, NOMBRE);
 
         Personaje personaje = new Personaje();
-        personaje.setId(cursor.getLong(0));
-        personaje.setNombre(cursor.getString(1));
-        personaje.setRaza(Raza.valueOf(cursor.getString(2)));
-        personaje.setOficio(Oficio.valueOf(cursor.getString(3)));
+        while (cursor.moveToNext()) {
 
-        personaje.setFuerza(cursor.getInt(4));
-        personaje.setAgilidad(cursor.getInt(5));
-        personaje.setPercepcion(cursor.getInt(6));
-        personaje.setConstitucion(cursor.getInt(7));
-        personaje.setInteligencia(cursor.getInt(8));
-        personaje.setCarisma(cursor.getInt(9));
+            personaje = new Personaje();
+            personaje.setId(cursor.getLong(0));
+            personaje.setNombre(cursor.getString(1));
+            personaje.setRaza(Raza.valueOf(cursor.getString(2)));
+            personaje.setOficio(Oficio.valueOf(cursor.getString(3)));
 
-        personaje.setImagen(Util.getBitmap(cursor.getBlob(10)));
+            personaje.setFuerza(cursor.getInt(4));
+            personaje.setAgilidad(cursor.getInt(5));
+            personaje.setPercepcion(cursor.getInt(6));
+            personaje.setConstitucion(cursor.getInt(7));
+            personaje.setInteligencia(cursor.getInt(8));
+            personaje.setCarisma(cursor.getInt(9));
+
+            personaje.setImagen(Util.getBitmap(cursor.getBlob(10)));
+        }
 
         return personaje;
     }

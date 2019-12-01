@@ -19,6 +19,7 @@
         </activity>
         <activity android:name=".CrearPersonaje"/>
         <activity android:name=".AcercaDe"/>
+        <activity android:name=".VistaPersonaje"/>
 
     </application>
 

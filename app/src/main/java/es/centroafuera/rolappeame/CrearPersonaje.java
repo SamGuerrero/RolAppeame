@@ -45,17 +45,17 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         ImageView IVavatar = findViewById(R.id.IVavatar);
         IVavatar.setOnClickListener(this);
 
-        Button BTinfoAgilidad = findViewById(R.id.BTinfoAgilidad);
+        TextView BTinfoAgilidad = findViewById(R.id.agilidad);
         BTinfoAgilidad.setOnClickListener(this);
-        Button BTinfoCarisma = findViewById(R.id.BTinfoCarisma);
+        TextView BTinfoCarisma = findViewById(R.id.carisma);
         BTinfoCarisma.setOnClickListener(this);
-        Button BTinfoConstitucion = findViewById(R.id.BTinfoConstitucion);
+        TextView BTinfoConstitucion = findViewById(R.id.constitucion);
         BTinfoConstitucion.setOnClickListener(this);
-        Button BTinfoFuerza = findViewById(R.id.BTinfoFuerza);
+        TextView BTinfoFuerza = findViewById(R.id.fuerza);
         BTinfoFuerza.setOnClickListener(this);
-        Button BTinfoInteligencia = findViewById(R.id.BTinfoInteligencia);
+        TextView BTinfoInteligencia = findViewById(R.id.inteligencia);
         BTinfoInteligencia.setOnClickListener(this);
-        Button BTinfoPercepcion = findViewById(R.id.BTinfoPercepcion);
+        TextView BTinfoPercepcion = findViewById(R.id.percepcion);
         BTinfoPercepcion.setOnClickListener(this);
 
         Button BTmasAgilidad = findViewById(R.id.BTmasAgilidad);
@@ -180,12 +180,12 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                 break;
 
                 //TODO: Que en un mensaje salga información de cada atributo
-            case R.id.BTinfoAgilidad:
-            case R.id.BTinfoCarisma:
-            case R.id.BTinfoConstitucion:
-            case R.id.BTinfoFuerza:
-            case R.id.BTinfoInteligencia:
-            case R.id.BTinfoPercepcion: break;
+            case R.id.agilidad:
+            case R.id.carisma:
+            case R.id.constitucion:
+            case R.id.fuerza:
+            case R.id.inteligencia:
+            case R.id.percepcion: break;
 
             //Cambia los puntos
             case R.id.BTmasAgilidad:
@@ -277,6 +277,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
     }
 
     public void guardarPersonaje(){
+        //TODO: poner foto por defecto
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
         Bitmap imagen = ((BitmapDrawable) IVavatar.getDrawable()).getBitmap();

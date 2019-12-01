@@ -112,7 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#FF9800"
+                    android:background="@drawable/borde_redondo_resta"
                     android:text="-" />
 
                 <TextView
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#8BC34A"
+                    android:background="@drawable/borde_redondo_suma"
                     android:text="+" />
             </LinearLayout>
 
@@ -161,7 +161,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#FF9800"
+                    android:background="@drawable/borde_redondo_resta"
                     android:text="-" />
 
                 <TextView
@@ -178,7 +178,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#8BC34A"
+                    android:background="@drawable/borde_redondo_suma"
                     android:text="+" />
 
             </LinearLayout>
@@ -211,7 +211,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#FF9800"
+                    android:background="@drawable/borde_redondo_resta"
                     android:text="-" />
 
                 <TextView
@@ -228,7 +228,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#8BC34A"
+                    android:background="@drawable/borde_redondo_suma"
                     android:text="+" />
             </LinearLayout>
 
@@ -269,7 +269,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="#FF9800"
+                    android:background="@drawable/borde_redondo_resta"
                     android:text="-" />
 
                 <TextView
@@ -286,7 +286,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#8BC34A"
+                    android:background="@drawable/borde_redondo_suma"
                     android:text="+" />
 
             </LinearLayout>
@@ -319,7 +319,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#FF9800"
+                    android:background="@drawable/borde_redondo_resta"
                     android:text="-" />
 
                 <TextView
@@ -336,7 +336,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#8BC34A"
+                    android:background="@drawable/borde_redondo_suma"
                     android:text="+" />
             </LinearLayout>
 
@@ -368,7 +368,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#FF9800"
+                    android:background="@drawable/borde_redondo_resta"
                     android:text="-" />
 
                 <TextView
@@ -385,7 +385,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="#8BC34A"
+                    android:background="@drawable/borde_redondo_suma"
                     android:text="+" />
             </LinearLayout>
         </LinearLayout>

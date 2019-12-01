@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ListView lvPartidas = findViewById(R.id.partidasLV);
         adaptador = new PersonajeAdapter(this, partidas);
         lvPartidas.setAdapter(adaptador);
+        registerForContextMenu(lvPartidas);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);

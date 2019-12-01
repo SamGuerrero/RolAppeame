@@ -4,8 +4,11 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
@@ -46,24 +49,24 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         tvOficio.setText(personaje.getOficio().toString());
 
         TextView tvFuerza = findViewById(R.id.puntosFuerza);
-        tvFuerza.setText(personaje.getFuerza());
+        tvFuerza.setText(Integer.toString(personaje.getFuerza()));
         TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
-        tvAgilidad.setText(personaje.getAgilidad());
+        tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
         TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
-        tvPercepcion.setText(personaje.getPercepcion());
+        tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
         TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
-        tvConstitucion.setText(personaje.getConstitucion());
+        tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
         TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
-        tvInteligencia.setText(personaje.getInteligencia());
+        tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
         TextView tvCarisma = findViewById(R.id.puntosCarisma);
-        tvCarisma.setText(personaje.getCarisma());
+        tvCarisma.setText(Integer.toString(personaje.getCarisma()));
 
         //Añado listeners a los botones
         //Coger y añadir ClickListener en botones
         Button BTvolver = findViewById(R.id.BTvolver);
         BTvolver.setOnClickListener(this);
-        Button BTcontinuar = findViewById(R.id.BTcontinuar);
-        BTcontinuar.setOnClickListener(this);
+        Button BTguardar = findViewById(R.id.BTguardar);
+        BTguardar.setOnClickListener(this);
         ImageView IVavatar = findViewById(R.id.IVavatar);
         IVavatar.setOnClickListener(this);
 
@@ -234,5 +237,28 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         personaje.setPercepcion( Integer.parseInt(TVpuntospercepcion.getText().toString()));
 
         bd.actualizaPersonaje(personaje);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if ((requestCode == AVATAR) && (resultCode == RESULT_OK) && (data != null)) {
+            // Obtiene el Uri de la imagen seleccionada por el usuario
+            Uri imagenSeleccionada = data.getData();
+            String[] ruta = {MediaStore.Images.Media.DATA };
+
+            // Realiza una consulta a la galería de imágenes solicitando la imagen seleccionada
+            Cursor cursor = getContentResolver().query(imagenSeleccionada, ruta, null, null, null);
+            cursor.moveToFirst();
+
+            // Obtiene la ruta a la imagen
+            int indice = cursor.getColumnIndex(ruta[0]);
+            String picturePath = cursor.getString(indice);
+            cursor.close();
+
+            // Carga la imagen en una vista ImageView que se encuentra en
+            // en layout de la Activity actual
+            ImageView imageView = findViewById(R.id.IVavatar);
+            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+        }
     }
 }
