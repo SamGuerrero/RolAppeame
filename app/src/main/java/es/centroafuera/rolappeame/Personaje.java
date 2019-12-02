@@ -13,7 +13,6 @@ public class Personaje {
     private Oficio oficio;
 
     //Stats del personaje
-    //TODO: terminar descripciones
     private int fuerza;
     private int agilidad;
     private int percepcion;

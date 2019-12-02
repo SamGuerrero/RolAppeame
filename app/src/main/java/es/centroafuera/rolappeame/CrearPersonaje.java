@@ -12,7 +12,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.renderscript.Sampler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -148,7 +150,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                     if (puntosTotales > puntosActuales) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setMessage("Te quedan puntos por repartir\n¿Quieres continuar?")
-                                .setPositiveButton("Sí",
+                                .setPositiveButton(getString(R.string.si),
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
@@ -179,13 +181,30 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
                 break;
 
-                //TODO: Que en un mensaje salga información de cada atributo
+            //Muestra información sobre los atributos
             case R.id.agilidad:
+                vistaInformacion(getString(R.string.desAgilidad));
+                break;
+
             case R.id.carisma:
+                vistaInformacion(getString(R.string.desCarisma));
+                break;
+
             case R.id.constitucion:
+                vistaInformacion(getString(R.string.desConstitucion));
+                break;
+
             case R.id.fuerza:
+                vistaInformacion(getString(R.string.desFuerza));
+                break;
+
             case R.id.inteligencia:
-            case R.id.percepcion: break;
+                vistaInformacion(getString(R.string.desInteligencia));
+                break;
+
+            case R.id.percepcion:
+                vistaInformacion(getString(R.string.desPercepcion));
+                break;
 
             //Cambia los puntos
             case R.id.BTmasAgilidad:
@@ -335,5 +354,17 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             ImageView imageView = findViewById(R.id.IVavatar);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
+    }
+
+    public void vistaInformacion(String descripcion){
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.toast_info, (ViewGroup) findViewById(R.id.lyToastInfo));
+
+        TextView info = v.findViewById(R.id.tvInfo);
+        info.setText(descripcion);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setView(v);
+        toast.show();
     }
 }

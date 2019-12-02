@@ -96,6 +96,7 @@
                     android:layout_width="135dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableRight="@android:drawable/ic_menu_info_details"
                     android:gravity="center"
                     android:text="@string/fuerza" />
 
@@ -145,6 +146,7 @@
                     android:layout_width="135dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableRight="@android:drawable/ic_menu_info_details"
                     android:gravity="center"
                     android:text="@string/agilidad" />
 
@@ -195,6 +197,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:drawableRight="@android:drawable/ic_menu_info_details"
                     android:gravity="center"
                     android:text="@string/percepci_n" />
 
@@ -253,6 +256,7 @@
                     android:layout_width="135dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableRight="@android:drawable/ic_menu_info_details"
                     android:gravity="center"
                     android:text="@string/constituci_n" />
 
@@ -303,6 +307,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:drawableRight="@android:drawable/ic_menu_info_details"
                     android:gravity="center"
                     android:text="@string/inteligencia" />
 
@@ -352,6 +357,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_weight="1"
+                    android:drawableRight="@android:drawable/ic_menu_info_details"
                     android:gravity="center"
                     android:text="@string/carisma" />
 

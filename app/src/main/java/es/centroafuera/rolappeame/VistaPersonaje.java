@@ -11,7 +11,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -95,6 +97,19 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         Button BTmenosPercepcion = findViewById(R.id.BTmenosPercepcion);
         BTmenosPercepcion.setOnClickListener(this);
 
+        TextView BTinfoAgilidad = findViewById(R.id.agilidad);
+        BTinfoAgilidad.setOnClickListener(this);
+        TextView BTinfoCarisma = findViewById(R.id.carisma);
+        BTinfoCarisma.setOnClickListener(this);
+        TextView BTinfoConstitucion = findViewById(R.id.constitucion);
+        BTinfoConstitucion.setOnClickListener(this);
+        TextView BTinfoFuerza = findViewById(R.id.fuerza);
+        BTinfoFuerza.setOnClickListener(this);
+        TextView BTinfoInteligencia = findViewById(R.id.inteligencia);
+        BTinfoInteligencia.setOnClickListener(this);
+        TextView BTinfoPercepcion = findViewById(R.id.percepcion);
+        BTinfoPercepcion.setOnClickListener(this);
+
         TextView tvComentario = findViewById(R.id.TVpuntos);
         tvComentario.setText("Buena suerte en la partida");
     }
@@ -135,6 +150,30 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                     startActivityForResult(intent2, AVATAR);
                 }
 
+                break;
+
+            case R.id.agilidad:
+                vistaInformacion(getString(R.string.desAgilidad));
+                break;
+
+            case R.id.carisma:
+                vistaInformacion(getString(R.string.desCarisma));
+                break;
+
+            case R.id.constitucion:
+                vistaInformacion(getString(R.string.desConstitucion));
+                break;
+
+            case R.id.fuerza:
+                vistaInformacion(getString(R.string.desFuerza));
+                break;
+
+            case R.id.inteligencia:
+                vistaInformacion(getString(R.string.desInteligencia));
+                break;
+
+            case R.id.percepcion:
+                vistaInformacion(getString(R.string.desPercepcion));
                 break;
 
             //Cambia los puntos
@@ -261,5 +300,17 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
             ImageView imageView = findViewById(R.id.IVavatar);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
+    }
+
+    public void vistaInformacion(String descripcion){
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.toast_info, (ViewGroup) findViewById(R.id.lyToastInfo));
+
+        TextView info = v.findViewById(R.id.tvInfo);
+        info.setText(descripcion);
+
+        Toast toast = new Toast(getApplicationContext());
+        toast.setView(v);
+        toast.show();
     }
 }

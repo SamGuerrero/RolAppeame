@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RolAppeame</string>
+    <string name="ajustes">settings</string>
+
+    //Descripiciones atributos
+    <string name="desFuerza">
+        It represents physical power, hardness, muscle and all that.
+    </string>
+    <string name="desAgilidad">
+        This attribute covers overall speed, dexterity and all things related.
+    </string>
+    <string name="desPercepcion">
+        Ability to discover or realize something.
+    </string>
+    <string name="desConstitucion">
+        Health and fitness of the character. Resistance to physical adversities.
+    </string>
+    <string name="desInteligencia">
+        Intelecto, voluntad y sabiduría son los ámbitos cubiertos por la Mente.
+    </string>
+    <string name="desCarisma">
+        The overall appearance, attractiveness and charm.
+    </string>
+    <string name="fuerza">Strength:</string>
+    <string name="agilidad">Agility:</string>
+    <string name="percepci_n">Perception:</string>
+    <string name="constituci_n">Constitution:</string>
+    <string name="inteligencia">Inteligence:</string>
+    <string name="carisma">Charisma:</string>
+    <string name="imagen_del_personaje">Character image</string>
+    <string name="avatar_de_personaje">Character avatar</string>
+    <string name="condiciones_legales">I agree and accept the legal conditions</string>
+    <string name="aceptar">Accept</string>
+    <string name="si">Yes</string>
+</resources>
