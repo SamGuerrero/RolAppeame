@@ -72,11 +72,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/LYizquierda"
-            android:layout_width="194dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="10dp"
@@ -90,7 +91,7 @@
 
                 <TextView
                     android:id="@+id/fuerza"
-                    android:layout_width="135dp"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:drawableRight="@android:drawable/ic_menu_info_details"
@@ -108,7 +109,7 @@
 
                 <Button
                     android:id="@+id/BTmenosFuerza"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_resta"
@@ -125,7 +126,7 @@
 
                 <Button
                     android:id="@+id/BTmasFuerza"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_suma"
@@ -159,7 +160,7 @@
 
                 <Button
                     android:id="@+id/BTmenosAgilidad"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_resta"
@@ -176,7 +177,7 @@
 
                 <Button
                     android:id="@+id/BTmasAgilidad"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_suma"
@@ -211,7 +212,7 @@
 
                 <Button
                     android:id="@+id/BTmenosPercepcion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_resta"
@@ -228,7 +229,7 @@
 
                 <Button
                     android:id="@+id/BTmasPercepcion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_suma"
@@ -239,9 +240,9 @@
 
         <LinearLayout
             android:id="@+id/LYderecha"
-            android:layout_width="wrap_content"
+            android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:orientation="vertical">
 
@@ -271,7 +272,7 @@
 
                 <Button
                     android:id="@+id/BTmenosConstitucion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_resta"
@@ -279,7 +280,7 @@
 
                 <TextView
                     android:id="@+id/puntosConstitucion"
-                    android:layout_width="20dp"
+                    android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -288,7 +289,7 @@
 
                 <Button
                     android:id="@+id/BTmasConstitucion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_suma"
@@ -323,7 +324,7 @@
 
                 <Button
                     android:id="@+id/BTmenosInteligencia"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_resta"
@@ -331,7 +332,7 @@
 
                 <TextView
                     android:id="@+id/puntosInteligencia"
-                    android:layout_width="20dp"
+                    android:layout_width="25dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
@@ -340,7 +341,7 @@
 
                 <Button
                     android:id="@+id/BTmasInteligencia"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_suma"
@@ -374,7 +375,7 @@
 
                 <Button
                     android:id="@+id/BTmenosCarisma"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_resta"
@@ -391,7 +392,7 @@
 
                 <Button
                     android:id="@+id/BTmasCarisma"
-                    android:layout_width="wrap_content"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="@drawable/borde_redondo_suma"
