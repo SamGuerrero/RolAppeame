@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/imVer"
-        android:title="Entrar" />
+        android:title="@string/entrar" />
     <item
         android:id="@+id/imEliminar"
-        android:title="Eliminar" />
+        android:title="@string/eliminar" />
 </menu>

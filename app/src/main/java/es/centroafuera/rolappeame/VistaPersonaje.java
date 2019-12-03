@@ -111,7 +111,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         BTinfoPercepcion.setOnClickListener(this);
 
         TextView tvComentario = findViewById(R.id.TVpuntos);
-        tvComentario.setText("Buena suerte en la partida");
+        tvComentario.setText(R.string.suerte);
     }
 
     @Override
@@ -124,15 +124,15 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
             case R.id.BTguardar:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Si guardas se modificarán los datos que hayas cambiado\n¿Seguro que quieres continuar?")
-                            .setPositiveButton("Sí",
+                builder.setMessage(getString(R.string.seguro))
+                            .setPositiveButton(getString(R.string.si),
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             guardarPersonaje();
                                         }
                                     })
-                            .setNegativeButton("No",
+                            .setNegativeButton(getString(R.string.no),
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
@@ -247,12 +247,16 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         int puntos = Integer.parseInt(pantalla.getText().toString());
         puntos++;
         pantalla.setText(String.valueOf(puntos));
+        TextView tvComentario = findViewById(R.id.TVpuntos);
+        tvComentario.setText(R.string.buenasuerte);
     }
 
     public void restarPuntos(TextView pantalla){
         int puntos = Integer.parseInt(pantalla.getText().toString());
         puntos--;
         pantalla.setText(String.valueOf(puntos));
+        TextView tvComentario = findViewById(R.id.TVpuntos);
+        tvComentario.setText(R.string.malasuerte);
     }
 
     public void guardarPersonaje(){

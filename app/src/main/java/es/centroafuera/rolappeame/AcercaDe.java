@@ -20,8 +20,8 @@ public class AcercaDe extends AppCompatActivity implements View.OnClickListener 
         Button BTaceptar = findViewById(R.id.BTaceptar);
         BTaceptar.setOnClickListener(this);
 
-        Texto acercaDe = new Texto("Acerca de", "RolAppeame es una applicación desarrollada por:\n G. Samantha Guerrero Macías. GSam en GitHub.\n La aplicación está diseñada para poder anotar fácilmente y con rápidez las estadísticas de tu personaje en un juego de rol. Al mismo tiempo que te ofrece información sobre las distintas opciones del jeugo y su lore");
-        Texto condicionesLegales = new Texto("Condiciones legales", "Al aceptar las condiciones aquí recogidas, autorizas a G. Samantha Guerrero a recopilar información sobre la aplicación. Su rendimiento, su uso y sus errores, si es que se produjera alguno.");
+        Texto acercaDe = new Texto(getString(R.string.About), getString(R.string.contenido_about));
+        Texto condicionesLegales = new Texto(getString(R.string.titulo_condiciones), getString(R.string.contenido_condiciones));
 
         ArrayList<Texto> textos = new ArrayList<>();
         textos.add(acercaDe);

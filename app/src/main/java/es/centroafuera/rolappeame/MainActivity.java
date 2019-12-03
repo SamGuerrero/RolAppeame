@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -59,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);
         if (partidas.size() == 0)
-            comentario.setText("Aquí se mostrarán tus partidas cuando añadas alguna");
+            comentario.setText(getString(R.string.comentarioInicial));
         else
-            comentario.setText("Tus personajes:");
+            comentario.setText(getString(R.string.comentario));
     }
 
     //Cuando vuelve de hacer el personaje
@@ -78,9 +79,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);
         if (partidas.size() == 0)
-            comentario.setText("Aquí se mostrarán tus partidas cuando añadas alguna");
+            comentario.setText(getString(R.string.comentarioInicial));
         else
-            comentario.setText("Tus personajes:");
+            comentario.setText(getString(R.string.comentario));
     }
 
     //Si aprietas el float action button

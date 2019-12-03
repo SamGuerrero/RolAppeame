@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:hint="Nombre"
+            android:hint="@string/nombre"
             android:inputType="textPersonName" />
 
     </LinearLayout>
@@ -415,7 +415,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="Volver" />
+            android:text="@string/volver" />
 
         <Button
             android:id="@+id/BTcontinuar"
@@ -424,6 +424,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="Continuar" />
+            android:text="@string/continuar" />
     </LinearLayout>
 </LinearLayout>

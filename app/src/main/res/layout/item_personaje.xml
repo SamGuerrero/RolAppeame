@@ -16,7 +16,7 @@
         android:layout_weight="1"
         android:background="@drawable/titulo_partida"
         android:paddingLeft="10dp"
-        android:text="Partida Jugador"
+        android:text="@string/partida_jugador"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#6e2c00" />
 

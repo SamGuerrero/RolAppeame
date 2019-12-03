@@ -143,13 +143,13 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             case R.id.BTcontinuar:
                 EditText nombre = findViewById(R.id.ETnombre);
                 if (nombre.getText().toString().equals("")) {
-                    Toast.makeText(this, "No puedes guardar un personaje sin nombre", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else
                     if (puntosTotales > puntosActuales) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage("Te quedan puntos por repartir\n¿Quieres continuar?")
+                        builder.setMessage(getString(R.string.quedanpuntos))
                                 .setPositiveButton(getString(R.string.si),
                                         new DialogInterface.OnClickListener() {
                                             @Override
@@ -157,7 +157,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                                                 guardarPersonaje();
                                             }
                                         })
-                                .setNegativeButton("No",
+                                .setNegativeButton(getString(R.string.no),
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {

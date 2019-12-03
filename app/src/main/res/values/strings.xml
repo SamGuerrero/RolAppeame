@@ -32,5 +32,25 @@
     <string name="condiciones_legales">Estoy de acuerdo y acepto las condiciones legales</string>
     <string name="aceptar">Aceptar</string>
     <string name="si">Sí</string>
+    <string name="nombre">Nombre</string>
+    <string name="volver">Volver</string>
+    <string name="continuar">Continuar</string>
+    <string name="partida_jugador">Partida Jugador</string>
+    <string name="entrar">Entrar</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="guardar">Guardar</string>
+    <string name="comentario">Tus personajes</string>
+    <string name="comentarioInicial">Aquí se mostrarán tus partidas cuando añadas alguna</string>
+    <string name="About">Acerca de</string>
+    <string name="titulo_condiciones">Condiciones legales</string>
+    <string name="contenido_about">RolAppeame es una applicación desarrollada por:  G. Samantha Guerrero Macías. GSam en GitHub.\nLa aplicación está diseñada para poder anotar fácilmente y con rápidez las estadísticas de tu personaje en un juego de rol. Al mismo tiempo que te ofrece información sobre las distintas opciones del juego y su lore</string>
+    <string name="contenido_condiciones">Al aceptar las condiciones aquí recogidas, autorizas a G. Samantha Guerrero a recopilar información sobre la aplicación. Su rendimiento, su uso y sus errores, si es que se produjera alguno.</string>
+    <string name="suerte">Buena suerte en la partida</string>
+    <string name="seguro">Si guardas se modificarán los datos que hayas cambiado\n ¿Seguro que quieres continuar?</string>
+    <string name="no">No</string>
+    <string name="buenasuerte">Qué bien has ganado puntos</string>
+    <string name="malasuerte">Qué mal has perdido puntos</string>
+    <string name="error">No puedes guardar un personaje sin nombre</string>
+    <string name="quedanpuntos">Te quedan puntos por repartir\n ¿Quieres continuar?</string>
 
 </resources>
