@@ -31,8 +31,9 @@ import java.util.ArrayList;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
     //TODO: set puntos obligatorios, que no se puedan reducir según las combinaciones
-    int puntosTotales = 10; //El máximo de puntos a repartir cuando eliges X clase y X raza
+    int puntosTotales = 12; //El máximo de puntos a repartir cuando eliges X clase y X raza
     int puntosActuales = 0; //Los puntos que llevas acumulados
+    boolean cambiofoto = false;
     private final int AVATAR = 1;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +129,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Inicializar mensaje de los puntos
         TextView TVpuntos = findViewById(R.id.TVpuntos);
-        TVpuntos.setText("Tienes " + (puntosTotales-puntosActuales) +" puntos a repartir entre:");
+        TVpuntos.setText(getString(R.string.tienes) + " " + (puntosTotales-puntosActuales) + " " + getString(R.string.puntos));
 
 
     }
@@ -177,6 +178,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                 }else{
                     Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent2, AVATAR);
+                    cambiofoto = true;
                 }
 
                 break;
@@ -273,7 +275,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Se actualiza el mensaje de puntos
         TextView TVpuntos = findViewById(R.id.TVpuntos);
-        TVpuntos.setText("Tienes " + (puntosTotales-puntosActuales) +" puntos a repartir entre:");
+        TVpuntos.setText(getString(R.string.tienes) + " " + (puntosTotales-puntosActuales) + " " + getString(R.string.puntos));
 
     }
 
@@ -299,7 +301,13 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         //TODO: poner foto por defecto
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
-        Bitmap imagen = ((BitmapDrawable) IVavatar.getDrawable()).getBitmap();
+        Bitmap imagen;
+        if (cambiofoto == false) {
+            Toast.makeText(this, getString(R.string.errorfoto), Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            imagen = ((BitmapDrawable) IVavatar.getDrawable()).getBitmap();
+        }
 
         //Básico
         EditText ETnombre = findViewById(R.id.ETnombre);

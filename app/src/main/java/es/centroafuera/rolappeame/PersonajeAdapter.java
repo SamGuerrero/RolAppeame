@@ -80,12 +80,12 @@ public class PersonajeAdapter extends BaseAdapter {
         }
 
         Personaje personaje = personajes.get(pos);
-        String fuerzaTexto = context.getString(R.string.fuerza) + personaje.getFuerza();
-        String agilidadTexto = context.getString(R.string.agilidad) + personaje.getAgilidad();
-        String percepcionTexto = context.getString(R.string.percepci_n) + personaje.getPercepcion();
-        String constitucionTexto = context.getString(R.string.constituci_n) + personaje.getConstitucion();
-        String inteligenciaTexto = context.getString(R.string.inteligencia) + personaje.getInteligencia();
-        String carismaTexto = context.getString(R.string.carisma) + personaje.getCarisma();
+        String fuerzaTexto = context.getString(R.string.fuerza) + " " + personaje.getFuerza();
+        String agilidadTexto = context.getString(R.string.agilidad) + " " + personaje.getAgilidad();
+        String percepcionTexto = context.getString(R.string.percepci_n) + " " + personaje.getPercepcion();
+        String constitucionTexto = context.getString(R.string.constituci_n) + " " + personaje.getConstitucion();
+        String inteligenciaTexto = context.getString(R.string.inteligencia) + " " + personaje.getInteligencia();
+        String carismaTexto = context.getString(R.string.carisma) + " " + personaje.getCarisma();
 
 
         viewHolder.avatar.setImageBitmap(personaje.getImagen());

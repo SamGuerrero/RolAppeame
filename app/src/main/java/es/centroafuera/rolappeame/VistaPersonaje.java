@@ -69,8 +69,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         BTvolver.setOnClickListener(this);
         Button BTguardar = findViewById(R.id.BTguardar);
         BTguardar.setOnClickListener(this);
-        ImageView IVavatar = findViewById(R.id.IVavatar);
-        IVavatar.setOnClickListener(this);
 
         Button BTmasAgilidad = findViewById(R.id.BTmasAgilidad);
         BTmasAgilidad.setOnClickListener(this);
@@ -141,14 +139,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                                         }
                                     });
                     builder.create().show();
-
-            case R.id.IVavatar:
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                    ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
-                }else{
-                    Intent intent2 = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(intent2, AVATAR);
-                }
 
                 break;
 
@@ -260,10 +250,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
     }
 
     public void guardarPersonaje(){
-        //Imagen
-        ImageView IVavatar = findViewById(R.id.IVavatar);
-        personaje.setImagen( ((BitmapDrawable) IVavatar.getDrawable()).getBitmap() );
-
         //Estadisticas
         TextView TVpuntosAgilidad = findViewById(R.id.puntosAgilidad);
         TextView TVpuntoscarisma = findViewById(R.id.puntosCarisma);
@@ -281,29 +267,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         bd.actualizaPersonaje(personaje);
         onBackPressed();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if ((requestCode == AVATAR) && (resultCode == RESULT_OK) && (data != null)) {
-            // Obtiene el Uri de la imagen seleccionada por el usuario
-            Uri imagenSeleccionada = data.getData();
-            String[] ruta = {MediaStore.Images.Media.DATA };
-
-            // Realiza una consulta a la galería de imágenes solicitando la imagen seleccionada
-            Cursor cursor = getContentResolver().query(imagenSeleccionada, ruta, null, null, null);
-            cursor.moveToFirst();
-
-            // Obtiene la ruta a la imagen
-            int indice = cursor.getColumnIndex(ruta[0]);
-            String picturePath = cursor.getString(indice);
-            cursor.close();
-
-            // Carga la imagen en una vista ImageView que se encuentra en
-            // en layout de la Activity actual
-            ImageView imageView = findViewById(R.id.IVavatar);
-            imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-        }
     }
 
     public void vistaInformacion(String descripcion){

@@ -37,7 +37,7 @@ public class AcercaDe extends AppCompatActivity implements View.OnClickListener 
         CheckBox CBaceptar = findViewById(R.id.CBaceptar);
 
         if (!CBaceptar.isChecked()) {
-            Toast.makeText(this, "Debes aceptar primero las condiciones legales", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.control, Toast.LENGTH_SHORT).show();
             return;
         }else
             onBackPressed();

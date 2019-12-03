@@ -46,11 +46,15 @@
     <string name="titulo_condiciones">Legal Conditions</string>
     <string name="contenido_about">RolAppeame is an application developed by: G. Samantha Guerrero Macías. GSam on GitHub.\nThe application is designed to easily and quickly annotate your character\'s statistics in a role-playing game. At the same time it offers you information about the different options of the game and its lore</string>
     <string name="contenido_condiciones">By accepting the conditions contained herein, you authorize G. Samantha Guerrero to collect information about the application. Its performance, its use and its errors, if any..</string>
-    <string name="suerte">Good luck in your actions</string>
+    <string name="suerte">Good luck in all your actions</string>
     <string name="seguro">If you save, the data you have changed will be modified \n Are you sure you want to continue?</string>
     <string name="no">No</string>
     <string name="buenasuerte">So good you have earned points</string>
     <string name="malasuerte">Too bad you\'ve lost points</string>
     <string name="error">You cannot save an unnamed character</string>
     <string name="quedanpuntos">You have points left to distribute\n Do you want to continue?</string>
+    <string name="tienes">You have </string>
+    <string name="puntos"> points to distribute:</string>
+    <string name="errorfoto">You cannot save a character without a photo</string>
+    <string name="control">First you must accept the legal conditions</string>
 </resources>
