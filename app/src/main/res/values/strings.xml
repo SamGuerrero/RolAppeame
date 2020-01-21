@@ -56,5 +56,7 @@
     <string name="puntos"> puntos a repartir entre:</string>
     <string name="errorfoto">No puedes guardar un personaje sin una foto</string>
     <string name="control">Debes aceptar primero las condiciones legales</string>
+    <string name="m_nimo">Mínimo</string>
+    <string name="m_ximo">Máximo</string>
 
 </resources>

@@ -57,4 +57,6 @@
     <string name="puntos"> points to distribute:</string>
     <string name="errorfoto">You cannot save a character without a photo</string>
     <string name="control">First you must accept the legal conditions</string>
+    <string name="m_nimo">Minimum</string>
+    <string name="m_ximo">Maximum</string>
 </resources>

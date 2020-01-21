@@ -88,41 +88,19 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Rellenar Spinners
         ArrayList<Raza> razas = new ArrayList<>();
-        razas.add(Raza.GUNCH);
-        razas.add(Raza.HUMANO);
-        razas.add(Raza.MORULAK);
-        razas.add(Raza.NOMADA_AZUL);
-        razas.add(Raza.NULD);
-        razas.add(Raza.REY_DRAGON);
-        razas.add(Raza.SLORG);
+        Raza[] razasArray = Raza.values();
+        for(int i = 0; i < razasArray.length; i++)
+            razas.add(razasArray[i]);
+
         Spinner Sraza = findViewById(R.id.Sraza);
         ArrayAdapter<Raza> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
         Sraza.setAdapter(adaptadorRaza);
 
         ArrayList<Oficio> oficios = new ArrayList<>();
-        oficios.add(Oficio.ALQUIMISTA);
-        oficios.add(Oficio.NOBLE);
-        oficios.add(Oficio.SACERDOTE);
-        oficios.add(Oficio.ASESINO);
-        oficios.add(Oficio.BAILARINA);
-        oficios.add(Oficio.BÁRBARO);
-        oficios.add(Oficio.CAMARERA);
-        oficios.add(Oficio.CAZADOR);
-        oficios.add(Oficio.ESCLAVO);
-        oficios.add(Oficio.ESCRIBA);
-        oficios.add(Oficio.GALENO);
-        oficios.add(Oficio.GLADIADOR);
-        oficios.add(Oficio.GRANJERO);
-        oficios.add(Oficio.HERRERO);
-        oficios.add(Oficio.JUGLAR);
-        oficios.add(Oficio.LADRON);
-        oficios.add(Oficio.MAGO);
-        oficios.add(Oficio.MERCADER);
-        oficios.add(Oficio.MERCENARIO);
-        oficios.add(Oficio.PILOTO);
-        oficios.add(Oficio.PIRATA);
-        oficios.add(Oficio.VERDUGO);
-        oficios.add(Oficio.SOLDADO);
+        Oficio[] oArray = Oficio.values();
+        for(int i = 0; i < oArray.length; i++)
+            oficios.add(oArray[i]);
+
         Spinner Soficio = findViewById(R.id.Soficio);
         ArrayAdapter<Oficio> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
         Soficio.setAdapter(adaptadorOficio);

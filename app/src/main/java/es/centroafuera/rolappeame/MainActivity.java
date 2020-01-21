@@ -1,11 +1,13 @@
 package es.centroafuera.rolappeame;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -90,11 +92,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (view.getId()){
             case R.id.anadirFAB:
-                Intent intent = new Intent(this, CrearPersonaje.class);
-                startActivity(intent);
+
+                //Elegir entre Master y Jugador
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("¿Cómo quieres jugar?")
+                        .setPositiveButton("Jugador",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        crearPersonaje();
+                                    }
+                                })
+                        .setNeutralButton("Master",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        crearPartida();
+                                    }
+                                });
+                builder.create().show();
+
+
 
                 break;
         }
+    }
+
+    public void crearPersonaje(){
+        Intent intent = new Intent(this, CrearPersonaje.class);
+        startActivity(intent);
+    }
+
+    public void crearPartida(){
+        Intent intent = new Intent(this, CrearPartida.class);
+        startActivity(intent);
     }
 
     //Infla el Action Bar
@@ -137,6 +168,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 db.borrarPersonaje(personaje);
                 adaptador.notifyDataSetChanged();
+
+                TextView comentario = findViewById(R.id.comentarioTV);
+                if (partidas.size() == 0)
+                    comentario.setText(getString(R.string.comentarioInicial));
+                else
+                    comentario.setText(getString(R.string.comentario));
+
                 break;
 
             default: break;
