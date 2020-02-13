@@ -353,4 +353,5 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         toast.setView(v);
         toast.show();
     }
+
 }

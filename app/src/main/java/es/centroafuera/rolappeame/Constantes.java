@@ -1,6 +1,7 @@
 package es.centroafuera.rolappeame;
 
 public class Constantes {
+    //TODO: Hacer esto en FireBase
     public final static String BASEDATOS = "rolappeame.db";
 
     public final static String TABLA_PERSONAJES = "personajes";
@@ -15,4 +16,5 @@ public class Constantes {
     public final static String INTELIGENCIA = "inteligencia";
     public final static String CARISMA = "carisma";
     public final static String IMAGEN = "imagen";
+
 }

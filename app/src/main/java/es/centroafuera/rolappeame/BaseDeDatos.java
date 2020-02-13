@@ -35,6 +35,7 @@ public class BaseDeDatos extends SQLiteOpenHelper {
 
   @Override
   public void onCreate(SQLiteDatabase db) {
+    //TODO: Hacer esto en FireBase
     db.execSQL("CREATE TABLE " + TABLA_PERSONAJES + "(" +
             _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             NOMBRE + " TEXT, " +

@@ -18,10 +18,12 @@
 
         <ImageView
             android:id="@+id/IVavatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="42dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:contentDescription="@string/avatar_de_personaje"
+            android:maxWidth="50dp"
+            android:maxHeight="77dp"
             android:src="@mipmap/ic_launcher"
             android:visibility="visible" />
 

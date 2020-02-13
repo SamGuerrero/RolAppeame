@@ -14,10 +14,15 @@
 
         <ImageView
             android:id="@+id/IVavatar"
-            android:layout_width="wrap_content"
+            android:layout_width="175dp"
             android:layout_height="77dp"
             android:layout_weight="1"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
+            android:contentDescription="Fondo de Partida"
+            android:maxWidth="50dp"
+            android:maxHeight="77dp"
+            android:src="@mipmap/ic_launcher"
+            android:visibility="visible"
+            android:onClick="ponerFoto"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -96,7 +101,7 @@
             android:text="-" />
 
         <TextView
-            android:id="@+id/MinVida"
+            android:id="@+id/minVida"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -120,7 +125,7 @@
             android:text="-" />
 
         <TextView
-            android:id="@+id/MaxVida"
+            android:id="@+id/maxVida"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -260,7 +265,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button10"
+            android:id="@+id/btMenosMinDefensa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -268,7 +273,7 @@
             android:text="-" />
 
         <TextView
-            android:id="@+id/textView17"
+            android:id="@+id/minDefensa"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -276,7 +281,7 @@
             android:text="0" />
 
         <Button
-            android:id="@+id/button11"
+            android:id="@+id/btMasMinDefensa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -284,7 +289,7 @@
             android:text="+" />
 
         <Button
-            android:id="@+id/button12"
+            android:id="@+id/btMenosMaxDefensa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -292,7 +297,7 @@
             android:text="-" />
 
         <TextView
-            android:id="@+id/textView16"
+            android:id="@+id/maxDefensa"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -300,7 +305,7 @@
             android:text="0" />
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/btMasMaxDefensa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -309,10 +314,23 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/BTvolver"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/volver" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/BTvolver"
+            android:layout_width="207dp"
+            android:layout_height="wrap_content"
+            android:text="@string/volver" />
+
+        <Button
+            android:id="@+id/BTcontinuar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/continuar" />
+    </LinearLayout>
 
 </LinearLayout>
