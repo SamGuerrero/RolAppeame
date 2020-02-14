@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "481844380460",
+    "firebase_url": "https://rolappeame.firebaseio.com",
+    "project_id": "rolappeame",
+    "storage_bucket": "rolappeame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:481844380460:android:4cfd0e650da549802ca289",
+        "android_client_info": {
+          "package_name": "es.centroafuera.rolappeame"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "481844380460-eqq6c6p1qjh19h8epfep8jq5voskf2ke.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.centroafuera.rolappeame",
+            "certificate_hash": "72f950da8d1e63799a991f5f706e17ee73768143"
+          }
+        },
+        {
+          "client_id": "481844380460-i35r52qmbg69ll081g0ng1i3v3oul3a9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDp8C5CbrSNDp_jNx8EZF1zC1FMsjkrH5w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "481844380460-i35r52qmbg69ll081g0ng1i3v3oul3a9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

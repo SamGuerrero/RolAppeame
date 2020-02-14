@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,9 +23,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /*
 Este programa de momento sólo crea partidas como jugador:
@@ -40,11 +48,30 @@ ACCIONES FUTURAS:
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    BaseDeDatos db;
     ArrayList<Personaje> partidas;
     PersonajeAdapter adaptador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("message");
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                String value = dataSnapshot.getValue(String.class);
+                Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -69,12 +96,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //Cuando vuelve de hacer el personaje
     public void onResume() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
         super.onResume();
-
-        //Abro la BDD, Relleno el ArrayList con personajes de la BDD, lo paso por el adaptador y lo muestro por pantalla
-        db = new BaseDeDatos(this);
         partidas.clear();
-        partidas.addAll(db.getPersonajes());
+        partidas.addAll(db.collection());
 
         adaptador.notifyDataSetChanged();
 
