@@ -11,8 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.renderscript.Sampler;
-import android.util.Log;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,21 +23,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
     //TODO: set puntos obligatorios, que no se puedan reducir según las combinaciones
@@ -325,30 +318,34 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
 
-        // Access a Cloud Firestore instance from your Activity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        // Create a new user with a first and last name
-        Map<String, Object> personajeBD = new HashMap<>();
-        personajeBD.put("personaje", personaje);
 
-        // Add a new document with a generated ID
-        db.collection("personajes")
-                .add(personaje)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error adding document", e);
-                    }
-                });
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Personaje"); //Referencia a la clase Java
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("nombre").setValue(personaje.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("imagen").setValue(BitMapToString(personaje.getImagen()));
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("oficio").setValue(personaje.getOficio());
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("raza").setValue(personaje.getRaza());
+
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("agilidad").setValue(personaje.getAgilidad());
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("carisma").setValue(personaje.getCarisma());
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("constitucion").setValue(personaje.getConstitucion());
+
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("fuerza").setValue(personaje.getFuerza());
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("inteligencia").setValue(personaje.getInteligencia());
+        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("percepcion").setValue(personaje.getPercepcion());
+
+
 
         onBackPressed();
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
+        byte [] b = ByteStream.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     @Override

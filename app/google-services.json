@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "481844380460-ojbf0qjqbht4b6m391msnp1pbslmhuk6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "es.centroafuera.rolappeame",
+            "certificate_hash": "de4aca232952f30ee00633b240083f523f5f2729"
+          }
+        },
+        {
           "client_id": "481844380460-eqq6c6p1qjh19h8epfep8jq5voskf2ke.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

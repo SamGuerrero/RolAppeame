@@ -2,13 +2,15 @@ package es.centroafuera.rolappeame;
 
 import android.graphics.Bitmap;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Personaje {
-    //Datos básicos
+    //Datos
+    private static final AtomicInteger count = new AtomicInteger(0);
     private long id;
     private String nombre;
     private Bitmap imagen;
     //private String ubicacion; //FUTURO: Lugar donde se encuentra. Lo decidirá el máster
-    private String notas;
     private Raza raza;
     private Oficio oficio;
 
@@ -22,6 +24,7 @@ public class Personaje {
 
     //Constructores
     public Personaje() {
+        this.id = count.incrementAndGet();
     }
 
     public Personaje(String nombre, Raza raza, Oficio oficio, int fuerza, int agilidad, int percepcion, int constitucion, int inteligencia, int carisma, Bitmap imagen) {
@@ -35,6 +38,7 @@ public class Personaje {
         this.inteligencia = inteligencia;
         this.carisma = carisma;
         this.imagen = imagen;
+        this.id = count.incrementAndGet();
     }
 
     //Setters y Getters
@@ -50,13 +54,6 @@ public class Personaje {
     }
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getNotas() {
-        return notas;
-    }
-    public void setNotas(String notas) {
-        this.notas = notas;
     }
 
     public Raza getRaza() {

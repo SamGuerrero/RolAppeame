@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,14 +22,31 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class VistaPersonaje extends AppCompatActivity implements View.OnClickListener{
     Personaje personaje;
-    BaseDeDatos bd;
     private final int AVATAR = 1;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    long id;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +54,29 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Recojo los datos del Intent para tener al personaje
         Intent intent = getIntent();
-        long id = intent.getLongExtra("ID", 0);
-        bd = new BaseDeDatos(this);
-        personaje = bd.getPersonajeId(id);
+        id = intent.getLongExtra("ID", 0);
+
+        //Cojo el personaje de la base de datos
+        DatabaseReference myRef = database.getReference("Personaje");
+
+        // Read from the database
+        myRef.child("personajes").child(Long.toString(id)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists())
+                    personaje = dataSnapshot.getValue(Personaje.class); //Si esto no funciona puedo coger los datos uno por uno
+                else
+                    Toast.makeText(VistaPersonaje.this, "Algo salió mal", Toast.LENGTH_LONG);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
         //Muestro los datos por pantalla
         ImageView ivAvatar = findViewById(R.id.IVavatar);
@@ -265,7 +303,35 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         personaje.setInteligencia( Integer.parseInt(TVpuntosinteligencia.getText().toString()));
         personaje.setPercepcion( Integer.parseInt(TVpuntospercepcion.getText().toString()));
 
-        bd.actualizaPersonaje(personaje);
+        //Guardo los datos en un HashMap que luego guardaré
+        Map<String, Object> personajeT = new HashMap<>();
+        personajeT.put("id", personaje.getId());
+        personajeT.put("nombre", personaje.getNombre());
+        personajeT.put("raza", personaje.getRaza());
+        personajeT.put("oficio", personaje.getOficio());
+        personajeT.put("fuerza", personaje.getFuerza());
+        personajeT.put("agilidad", personaje.getAgilidad());
+        personajeT.put("percepcion", personaje.getPercepcion());
+        personajeT.put("constitucion", personaje.getConstitucion());
+        personajeT.put("inteligencia", personaje.getInteligencia());
+        personajeT.put("carisma", personaje.getCarisma());
+        personajeT.put("imagen", personaje.getImagen());
+
+
+        //Personaje > personajes > id > Todos los datos del personaje
+        DatabaseReference myRef = database.getReference("Personaje");
+        myRef.child("personajes").child(Long.toString(personaje.getId())).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(VistaPersonaje.this, "El personaje se ha guardado correctamente", Toast.LENGTH_LONG);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(VistaPersonaje.this, "El personaje NO se ha guardado", Toast.LENGTH_LONG);
+            }
+        });
+
         onBackPressed();
     }
 

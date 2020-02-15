@@ -1,17 +1,23 @@
 package es.centroafuera.rolappeame;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -21,7 +27,10 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,6 +41,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 /*
@@ -47,31 +63,13 @@ ACCIONES FUTURAS:
 */
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
-    ArrayList<Personaje> partidas;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    ArrayList<Personaje> partidas = new ArrayList<>();
     PersonajeAdapter adaptador;
+    RecyclerView lvPartidas;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("message");
-
-        // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -79,12 +77,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FloatingActionButton anadirFAB = findViewById(R.id.anadirFAB);
         anadirFAB.setOnClickListener(this);
 
-        //Abro la BDD, Relleno el ArrayList con personajes de la BDD, lo paso por el adaptador y lo muestro por pantalla
-        partidas = new ArrayList<>();
-        ListView lvPartidas = findViewById(R.id.partidasLV);
-        adaptador = new PersonajeAdapter(this, partidas);
-        lvPartidas.setAdapter(adaptador);
-        registerForContextMenu(lvPartidas);
+        //Obtengo los personajes y los muestro por pantalal
+        lvPartidas = findViewById(R.id.partidasLV);
+        lvPartidas.setLayoutManager(new LinearLayoutManager(this));
+        getMensajesFromFirebase();
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);
@@ -94,21 +90,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             comentario.setText(getString(R.string.comentario));
     }
 
+    public void getMensajesFromFirebase(){
+
+        //Obtengo una lista de la base de datos
+        DatabaseReference myRef = database.getReference("Personaje"); //La clase en Java
+
+        // Read from the database
+        myRef.child("personajes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+                    partidas.clear();
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = (String) ds.child("nombre").getValue();
+                        Bitmap imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+                        Raza raza = Raza.valueOf(ds.child("raza").getValue().toString());
+                        Oficio oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
+                        int fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
+                        int agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
+                        int percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
+                        int constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
+                        int inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
+                        int carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+
+                        Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+                        //Personaje personajeT = ds.getValue(Personaje.class);
+                        partidas.add(personajeT);
+                    }
+
+                    //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
+                    TextView comentario = findViewById(R.id.comentarioTV);
+                    if (partidas.size() == 0)
+                        comentario.setText(getString(R.string.comentarioInicial));
+                    else
+                        comentario.setText(getString(R.string.comentario));
+
+                    adaptador = new PersonajeAdapter(partidas, R.layout.item_personaje);
+                    lvPartidas.setAdapter(adaptador);
+                    registerForContextMenu(lvPartidas);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }catch(Exception e){
+            e.getMessage();
+            return null;
+        }
+    }
+
     //Cuando vuelve de hacer el personaje
     public void onResume() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         super.onResume();
-        partidas.clear();
-        partidas.addAll(db.collection());
 
-        adaptador.notifyDataSetChanged();
+        //getMensajesFromFirebase();
+        //adaptador.notifyDataSetChanged();
 
-        //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
-        TextView comentario = findViewById(R.id.comentarioTV);
-        if (partidas.size() == 0)
-            comentario.setText(getString(R.string.comentarioInicial));
-        else
-            comentario.setText(getString(R.string.comentario));
     }
 
     //Si aprietas el float action button
@@ -188,17 +240,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.imEliminar:
-                Personaje personaje = partidas.remove(pos);
-                db = new BaseDeDatos(this);
+                Personaje temporal = partidas.remove(pos);
+                DatabaseReference myRef = database.getReference("Personaje");
+                myRef.child("personajes").child(Long.toString(temporal.getId())).removeValue().addOnSuccessListener(new OnSuccessListener<Void>(){
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG);
+                    }
+                }).addOnFailureListener(new OnFailureListener(){
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG);
+                    }
+                });
 
-                db.borrarPersonaje(personaje);
+                Map<String, Object> personajesHM = new HashMap<>();
+                personajesHM.put("personajes", partidas);
+                myRef.updateChildren(personajesHM); //"personajes": ArrayList<Personajes>
+
+                //getMensajesFromFirebase();
                 adaptador.notifyDataSetChanged();
-
-                TextView comentario = findViewById(R.id.comentarioTV);
-                if (partidas.size() == 0)
-                    comentario.setText(getString(R.string.comentarioInicial));
-                else
-                    comentario.setText(getString(R.string.comentario));
 
                 break;
 
