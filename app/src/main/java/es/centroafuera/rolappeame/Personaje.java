@@ -22,6 +22,8 @@ public class Personaje {
     private int inteligencia;
     private int carisma;
 
+    private String idT;
+
     //Constructores
     public Personaje() {
         this.id = count.incrementAndGet();
@@ -116,4 +118,12 @@ public class Personaje {
         return imagen;
     }
     public void setImagen(Bitmap imagen) { this.imagen = imagen; }
+
+    public String getIdT() {
+        return idT;
+    }
+
+    public void setIdT(String idT) {
+        this.idT = idT;
+    }
 }

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     ArrayList<Personaje> partidas = new ArrayList<>();
     PersonajeAdapter adaptador;
-    RecyclerView lvPartidas;
+    ListView lvPartidas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Obtengo los personajes y los muestro por pantalal
         lvPartidas = findViewById(R.id.partidasLV);
-        lvPartidas.setLayoutManager(new LinearLayoutManager(this));
-        getMensajesFromFirebase();
+        getMensajesFromFirebase(this);
+
+        registerForContextMenu(lvPartidas);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);
@@ -90,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             comentario.setText(getString(R.string.comentario));
     }
 
-    public void getMensajesFromFirebase(){
+    public void getMensajesFromFirebase(final MainActivity activity){
 
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference("Personaje"); //La clase en Java
@@ -106,18 +109,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
                         String nombre = (String) ds.child("nombre").getValue();
-                        Bitmap imagen = StringToBitMap(ds.child("imagen").getValue().toString());
-                        Raza raza = Raza.valueOf(ds.child("raza").getValue().toString());
-                        Oficio oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
-                        int fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
-                        int agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
-                        int percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
-                        int constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
-                        int inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
-                        int carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+                        Bitmap imagen = null;
+                        Raza raza = Raza.DRACÓNIDO;
+                        Oficio oficio = Oficio.BARDO;
+                        int fuerza = 0;
+                        int agilidad = 0;
+                        int percepcion = 0;
+                        int constitucion = 0;
+                        int inteligencia = 0;
+                        int carisma = 0;
+
+                        try {
+                            imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+
+                            raza = Raza.valueOf(ds.child("raza").getValue().toString());
+                            oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
+                            fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
+                            agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
+                            percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
+                            constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
+                            inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
+                            carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+
+                        }catch (NullPointerException e){}
 
                         Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-                        //Personaje personajeT = ds.getValue(Personaje.class);
+                        personajeT.setIdT(ds.getKey());
                         partidas.add(personajeT);
                     }
 
@@ -128,9 +145,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     else
                         comentario.setText(getString(R.string.comentario));
 
-                    adaptador = new PersonajeAdapter(partidas, R.layout.item_personaje);
+                    adaptador = new PersonajeAdapter(activity, partidas);
                     lvPartidas.setAdapter(adaptador);
-                    registerForContextMenu(lvPartidas);
                 }
             }
 
@@ -234,15 +250,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.imVer:
                 Intent intent = new Intent(this, VistaPersonaje.class);
 
-                intent.putExtra("ID", partidas.get(pos).getId());
+                intent.putExtra("ID", partidas.get(pos).getIdT()); //Estoy pasando mal el Id
 
                 startActivity(intent);
                 break;
 
             case R.id.imEliminar:
-                Personaje temporal = partidas.remove(pos);
+                Personaje temporal = partidas.get(pos);
                 DatabaseReference myRef = database.getReference("Personaje");
-                myRef.child("personajes").child(Long.toString(temporal.getId())).removeValue().addOnSuccessListener(new OnSuccessListener<Void>(){
+                myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>(){
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG);
@@ -253,10 +269,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG);
                     }
                 });
-
-                Map<String, Object> personajesHM = new HashMap<>();
-                personajesHM.put("personajes", partidas);
-                myRef.updateChildren(personajesHM); //"personajes": ArrayList<Personajes>
 
                 //getMensajesFromFirebase();
                 adaptador.notifyDataSetChanged();

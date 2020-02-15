@@ -1,78 +1,50 @@
 package es.centroafuera.rolappeame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
-public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.ViewHolder> {
+public class PersonajeAdapter extends BaseAdapter {
+    private Context context;
     private ArrayList<Personaje> personajes;
-    private int resources;
-
-    @NonNull
-    @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        //R.layout.item_personaje
-        View view = LayoutInflater.from(parent.getContext()).inflate(resources, parent, false);
-
-        return new ViewHolder(view);
-    }
+    private LayoutInflater layoutInflater;
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int i) {
-
-        Personaje personaje = personajes.get(i);
-
-        String fuerzaTexto = "Fuerza: " + personaje.getFuerza();
-        String agilidadTexto = "Agilidad: " + personaje.getAgilidad();
-        String percepcionTexto = "Percepcion: " + personaje.getPercepcion();
-        String constitucionTexto = "Constitucion: " + personaje.getConstitucion();
-        String inteligenciaTexto = "Inteligencia: " + personaje.getInteligencia();
-        String carismaTexto = "Carisma: " + personaje.getCarisma();
-
-        holder.avatar.setImageBitmap(personaje.getImagen());
-        holder.nombre.setText(personaje.getNombre());
-        holder.raza.setText(personaje.getRaza().toString());
-        holder.oficio.setText(personaje.getOficio().toString());
-        holder.fuerza.setText(fuerzaTexto);
-        holder.agilidad.setText(agilidadTexto);
-        holder.percepcion.setText(percepcionTexto);
-        holder.constitucion.setText(constitucionTexto);
-        holder.inteligencia.setText(inteligenciaTexto);
-        holder.carisma.setText(carismaTexto);
-
-    }
-
-    @Override
-    public int getItemCount() {
+    public int getCount() {
         return personajes.size();
     }
 
-
-    public PersonajeAdapter(ArrayList<Personaje> personajes, int resources) {
-        this.resources = resources;
+    public PersonajeAdapter(Activity context, ArrayList<Personaje> personajes) {
+        this.context = context;
         this.personajes = personajes;
-
-        //layoutInflater = LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context);
     }
 
+    @Override
+    public Object getItem(int i) {
+        return personajes.get(i);
+    }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public long getItemId(int i) {
+        return personajes.get(i).getId();
+    }
+
+    static class ViewHolder {
         //A la izquierda
         ImageView avatar;
         //Como tal
         TextView nombre;
         TextView raza;
         TextView oficio;
-        //A un lado saldrá el nombre y al otro el número
+        //A un lado saldrÃ¡ el nombre y al otro el nÃºmero
         TextView fuerza;
         TextView agilidad;
         TextView percepcion;
@@ -80,32 +52,10 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.View
         TextView inteligencia;
         TextView carisma;
 
-        View view;
-
-        public ViewHolder(@NonNull View view) {
-            super(view);
-            this.view = view;
-
-            //A la izquierda
-            this.avatar = (ImageView) view.findViewById(R.id.IVavatar);
-            //Como tal
-            this.nombre = (TextView) view.findViewById(R.id.TVnombre);
-            this.raza = (TextView) view.findViewById(R.id.TVraza);
-            this.oficio = (TextView) view.findViewById(R.id.TVoficio);
-            //A un lado saldrá el nombre y al otro el número
-            this.fuerza = (TextView) view.findViewById(R.id.TVfuerza);
-            this.agilidad = (TextView) view.findViewById(R.id.TVagilidad);
-            this.percepcion = (TextView) view.findViewById(R.id.TVpercepcion);
-            this.constitucion = (TextView) view.findViewById(R.id.TVconstitucion);
-            this.inteligencia = (TextView) view.findViewById(R.id.TVinteligencia);
-            this.carisma = (TextView) view.findViewById(R.id.TVcarisma);
-
-        }
-
-        //FUTURO: la ubicación
+        //FUTURO: la ubicaciÃ³n
     }
 
-    /*@Override
+    @Override
     public View getView(int pos, View convertView, ViewGroup viewGroup) {
         ViewHolder viewHolder = null;
 
@@ -150,6 +100,6 @@ public class PersonajeAdapter extends RecyclerView.Adapter<PersonajeAdapter.View
         viewHolder.carisma.setText(carismaTexto);
 
         return convertView;
-    }*/
+    }
 
 }

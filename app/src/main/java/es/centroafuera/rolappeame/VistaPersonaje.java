@@ -11,6 +11,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +48,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
     Personaje personaje;
     private final int AVATAR = 1;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    long id;
+    String id;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,21 +56,60 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Recojo los datos del Intent para tener al personaje
         Intent intent = getIntent();
-        id = intent.getLongExtra("ID", 0);
+        id = intent.getStringExtra("ID");
 
         //Cojo el personaje de la base de datos
-        DatabaseReference myRef = database.getReference("Personaje");
+        DatabaseReference myRef = database.getReference();
 
         // Read from the database
-        myRef.child("personajes").child(Long.toString(id)).addValueEventListener(new ValueEventListener() {
+        myRef.child("Personaje").child("personajes").child(id).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(DataSnapshot ds) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                if (dataSnapshot.exists())
-                    personaje = dataSnapshot.getValue(Personaje.class); //Si esto no funciona puedo coger los datos uno por uno
-                else
+                if (ds.exists()) {
+                    String nombre = ds.child("nombre").getValue().toString();
+                    Bitmap imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+                    Raza raza = Raza.valueOf(ds.child("raza").getValue().toString());
+                    Oficio oficio = Oficio.valueOf(ds.child("oficio").getValue().toString());
+                    int fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
+                    int agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
+                    int percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
+                    int constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
+                    int inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
+                    int carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+
+                    personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+                    personaje.setIdT(ds.getKey());
+
+                    //Muestro los datos por pantalla
+                    ImageView ivAvatar = findViewById(R.id.IVavatar);
+                    ivAvatar.setImageBitmap(personaje.getImagen());
+
+                    TextView tvNombre = findViewById(R.id.TVnombre);
+                    tvNombre.setText(personaje.getNombre());
+                    TextView tvRaza = findViewById(R.id.TVraza);
+                    tvRaza.setText(personaje.getRaza().toString());
+                    TextView tvOficio = findViewById(R.id.TVoficio);
+                    tvOficio.setText(personaje.getOficio().toString());
+
+                    TextView tvFuerza = findViewById(R.id.puntosFuerza);
+                    tvFuerza.setText(Integer.toString(personaje.getFuerza()));
+                    TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
+                    tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
+                    TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
+                    tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
+                    TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
+                    tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
+                    TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
+                    tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
+                    TextView tvCarisma = findViewById(R.id.puntosCarisma);
+
+
+                } else {
                     Toast.makeText(VistaPersonaje.this, "Algo salió mal", Toast.LENGTH_LONG);
+                    personaje = new Personaje();
+                }
             }
 
             @Override
@@ -78,28 +119,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        //Muestro los datos por pantalla
-        ImageView ivAvatar = findViewById(R.id.IVavatar);
-        ivAvatar.setImageBitmap(personaje.getImagen());
-        TextView tvNombre = findViewById(R.id.TVnombre);
-        tvNombre.setText(personaje.getNombre());
-        TextView tvRaza = findViewById(R.id.TVraza);
-        tvRaza.setText(personaje.getRaza().toString());
-        TextView tvOficio = findViewById(R.id.TVoficio);
-        tvOficio.setText(personaje.getOficio().toString());
 
-        TextView tvFuerza = findViewById(R.id.puntosFuerza);
-        tvFuerza.setText(Integer.toString(personaje.getFuerza()));
-        TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
-        tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
-        TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
-        tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
-        TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
-        tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
-        TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
-        tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
-        TextView tvCarisma = findViewById(R.id.puntosCarisma);
-        tvCarisma.setText(Integer.toString(personaje.getCarisma()));
 
         //Añado listeners a los botones
         //Coger y añadir ClickListener en botones
@@ -148,6 +168,17 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         TextView tvComentario = findViewById(R.id.TVpuntos);
         tvComentario.setText(R.string.suerte);
+    }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }catch(Exception e){
+            e.getMessage();
+            return null;
+        }
     }
 
     @Override
@@ -305,7 +336,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Guardo los datos en un HashMap que luego guardaré
         Map<String, Object> personajeT = new HashMap<>();
-        personajeT.put("id", personaje.getId());
         personajeT.put("nombre", personaje.getNombre());
         personajeT.put("raza", personaje.getRaza());
         personajeT.put("oficio", personaje.getOficio());
@@ -315,12 +345,12 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         personajeT.put("constitucion", personaje.getConstitucion());
         personajeT.put("inteligencia", personaje.getInteligencia());
         personajeT.put("carisma", personaje.getCarisma());
-        personajeT.put("imagen", personaje.getImagen());
+        personajeT.put("imagen", BitMapToString(personaje.getImagen()));
 
 
         //Personaje > personajes > id > Todos los datos del personaje
         DatabaseReference myRef = database.getReference("Personaje");
-        myRef.child("personajes").child(Long.toString(personaje.getId())).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRef.child("personajes").child(personaje.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(VistaPersonaje.this, "El personaje se ha guardado correctamente", Toast.LENGTH_LONG);
@@ -333,6 +363,14 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         });
 
         onBackPressed();
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
+        byte [] b = ByteStream.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 
     public void vistaInformacion(String descripcion){
