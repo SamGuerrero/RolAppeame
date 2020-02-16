@@ -27,6 +27,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,6 +75,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TabHost tabHost = findViewById(R.id.tabhost);
+        tabHost.setup();
+
+        TabHost.TabSpec spec = tabHost.newTabSpec("Personajes");
+        spec.setContent(R.id.personajes);
+        spec.setIndicator("Personajes");
+        tabHost.addTab(spec);
+
+        spec = tabHost.newTabSpec("Partidas");
+        spec.setContent(R.id.partidas);
+        spec.setIndicator("Partidas");
+        tabHost.addTab(spec);
 
         //añado los listeners
         FloatingActionButton anadirFAB = findViewById(R.id.anadirFAB);
