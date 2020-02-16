@@ -10,9 +10,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +24,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
@@ -57,9 +65,8 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         Button btMasMaxDefensa = findViewById(R.id.btMasMaxDefensa);
         btMasMaxDefensa.setOnClickListener(this);
 
-        ImageView ivAvatar;
+        ImageView ivAvatar = findViewById(R.id.IVavatar);
 
-        ivAvatar = findViewById(R.id.IVavatar);
         //TextViews
         TextView tvVida = findViewById(R.id.tvVida);
         tvVida.setOnClickListener(this);
@@ -68,9 +75,23 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         TextView tvDefensa = findViewById(R.id.tvDefensa);
         tvDefensa.setOnClickListener(this);
 
+        TextView BTinfoEnemigos = findViewById(R.id.tvEnemigo);
+        BTinfoEnemigos.setOnClickListener(this);
+
+        //Relleno Spinner
+        ArrayList<TipoPartida> tipos = new ArrayList<>();
+        TipoPartida[] tiposArray = TipoPartida.values();
+        for(int i = 0; i < tiposArray.length; i++)
+            tipos.add(tiposArray[i]);
+        Spinner SPtipos = findViewById(R.id.SPtipos);
+        ArrayAdapter<TipoPartida> adaptadorTipos = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tipos);
+        SPtipos.setAdapter(adaptadorTipos);
+
 
         Button volver = findViewById(R.id.BTvolver);
         volver.setOnClickListener(this);
+        Button continuar = findViewById(R.id.BTcontinuar);
+        continuar.setOnClickListener(this);
     }
 
     @Override
@@ -82,8 +103,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.BTcontinuar:
-                onBackPressed();
-                //guardarPartida();
+                guardarPartida();
                 break;
 
             //Muestra información sobre los atributos
@@ -163,6 +183,9 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.tvEnemigo:
+                vistaInformacion("Estos enemigo se enfrentarán a tus personajes con valores aleatorios entre los mínimos y máximos que escojas");
+
             default: break;
         }
     }
@@ -226,9 +249,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-    /*public void guardarPartida(){
-        //TODO: Hacer con firebase
+    public void guardarPartida(){
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
         Bitmap imagen;
@@ -241,33 +262,54 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
 
         //Básico
         EditText ETnombre = findViewById(R.id.ETnombre);
-        Spinner Sraza = findViewById(R.id.Sraza);
-        Spinner Soficio = findViewById(R.id.Soficio);
+        Spinner SPtipos = findViewById(R.id.SPtipos);
 
 
         //Estadisticas
-        TextView TVpuntosAgilidad = findViewById(R.id.puntosAgilidad);
-        TextView TVpuntoscarisma = findViewById(R.id.puntosCarisma);
-        TextView TVpuntosconstitucion = findViewById(R.id.puntosConstitucion);
-        TextView TVpuntosfuerza = findViewById(R.id.puntosFuerza);
-        TextView TVpuntosinteligencia = findViewById(R.id.puntosInteligencia);
-        TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
+        TextView TvminVida = findViewById(R.id.minVida);
+        TextView TVmaxVida = findViewById(R.id.maxVida);
+        TextView TVminAtaque = findViewById(R.id.minAtaque);
+        TextView TVmaxAtaque = findViewById(R.id.maxAtaque);
+        TextView TVminDefensa = findViewById(R.id.minDefensa);
+        TextView TVmaxDefensa = findViewById(R.id.maxDefensa);
 
         String nombre = ETnombre.getText().toString();
-        Raza raza = Raza.valueOf(Sraza.getSelectedItem().toString());
-        Oficio oficio = Oficio.valueOf(Soficio.getSelectedItem().toString());
+        TipoPartida tipoPartida = TipoPartida.valueOf(SPtipos.getSelectedItem().toString());
 
-        int agilidad = Integer.parseInt(TVpuntosAgilidad.getText().toString());
-        int carisma = Integer.parseInt(TVpuntoscarisma.getText().toString());
-        int constitucion = Integer.parseInt(TVpuntosconstitucion.getText().toString());
-        int fuerza = Integer.parseInt(TVpuntosfuerza.getText().toString());
-        int inteligencia = Integer.parseInt(TVpuntosinteligencia.getText().toString());
-        int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
+        int minVida = Integer.parseInt(TvminVida.getText().toString());
+        int maxVida = Integer.parseInt(TVmaxVida.getText().toString());
+        int minAtaque = Integer.parseInt(TVminAtaque.getText().toString());
+        int maxAtaque = Integer.parseInt(TVmaxAtaque.getText().toString());
+        int minDefensa = Integer.parseInt(TVminDefensa.getText().toString());
+        int maxDefensa = Integer.parseInt(TVmaxDefensa.getText().toString());
 
-        Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+        Partida partida = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
 
-        BaseDeDatos bd = new BaseDeDatos(this);
-        bd.nuevoPersonaje(personaje);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Partida"); //Referencia a la clase Java
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("nombre").setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("imagen").setValue(BitMapToString(partida.getImagen()));
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("tipoPartida").setValue(partida.getTipoPartida());
+
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("minVida").setValue(partida.getMinVida());
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("maxVida").setValue(partida.getMaxVida());
+
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("minAtaque").setValue(partida.getMinAtaque());
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("maxAtaque").setValue(partida.getMaxAtaque());
+
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("minDefensa").setValue(partida.getMinDefensa());
+        myRef.child("partidas").child(String.valueOf(partida.getId())).child("maxDefensa").setValue(partida.getMaxDefensa());
+
         onBackPressed();
-    }*/
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
+        byte [] b = ByteStream.toByteArray();
+        String temp = Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
+    }
+
 }

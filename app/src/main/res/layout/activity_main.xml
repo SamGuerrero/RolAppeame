@@ -105,7 +105,7 @@
                         android:id="@+id/FABanadir"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="180dp"
+                        android:layout_marginStart="150dp"
                         android:clickable="true"
                         android:focusable="true"
                         app:backgroundTint="#BEDFBE"

@@ -318,8 +318,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
 
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Personaje"); //Referencia a la clase Java
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("nombre").setValue(personaje.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
@@ -334,8 +332,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("fuerza").setValue(personaje.getFuerza());
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("inteligencia").setValue(personaje.getInteligencia());
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("percepcion").setValue(personaje.getPercepcion());
-
-
 
         onBackPressed();
     }

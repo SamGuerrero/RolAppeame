@@ -71,19 +71,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PersonajeAdapter adaptador;
     ListView lvPartidas;
 
+    ArrayList<Partida> partidasMaster = new ArrayList<>();
+    PartidaAdapter adaptadorMaster;
+    ListView lvPartidasMaster;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Tab
         TabHost tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
-
         TabHost.TabSpec spec = tabHost.newTabSpec("Personajes");
         spec.setContent(R.id.personajes);
         spec.setIndicator("Personajes");
         tabHost.addTab(spec);
-
         spec = tabHost.newTabSpec("Partidas");
         spec.setContent(R.id.partidas);
         spec.setIndicator("Partidas");
@@ -92,12 +95,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //añado los listeners
         FloatingActionButton anadirFAB = findViewById(R.id.anadirFAB);
         anadirFAB.setOnClickListener(this);
+        FloatingActionButton FABanadir = findViewById(R.id.FABanadir);
+        FABanadir.setOnClickListener(this);
 
-        //Obtengo los personajes y los muestro por pantalal
+        //Obtengo los personajes y los muestro en su tabhost
         lvPartidas = findViewById(R.id.partidasLV);
         getMensajesFromFirebase(this);
-
         registerForContextMenu(lvPartidas);
+
+        //Obtengo las partidas y las muestro en su tabhost
+        lvPartidasMaster = findViewById(R.id.LVpartidas);
+        getPartidasFromFirebase(this);
+        //registerForContextMenu(lvPartidasMaster);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);
@@ -173,6 +182,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void getPartidasFromFirebase(final MainActivity activity){
+
+        //Obtengo una lista de la base de datos
+        DatabaseReference myRef = database.getReference("Partida"); //La clase en Java
+
+        // Read from the database
+        myRef.child("partidas").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+                    partidasMaster.clear();
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = (String) ds.child("nombre").getValue();
+                        Bitmap imagen = null;
+                        TipoPartida tipoPartida = TipoPartida.Akelarre;
+
+                        int minVida = 0;
+                        int maxVida = 0;
+                        int minAtaque = 0;
+                        int maxAtaque = 0;
+                        int minDefensa = 0;
+                        int maxDefensa = 0;
+
+                        try {
+                            imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+                            tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
+
+                            minVida = Integer.parseInt(ds.child("minVida").getValue().toString());
+                            maxVida = Integer.parseInt(ds.child("maxVida").getValue().toString());
+                            minAtaque = Integer.parseInt(ds.child("minAtaque").getValue().toString());
+                            maxAtaque = Integer.parseInt(ds.child("maxAtaque").getValue().toString());
+                            minDefensa = Integer.parseInt(ds.child("minDefensa").getValue().toString());
+                            maxDefensa = Integer.parseInt(ds.child("maxDefensa").getValue().toString());
+
+                        }catch (NullPointerException e){}
+
+                        Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
+                        partidaT.setIdT(ds.getKey());
+                        partidasMaster.add(partidaT);
+                    }
+
+                    //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
+                    TextView comentario = findViewById(R.id.TVcomentario);
+                    if (partidasMaster.size() == 0)
+                        comentario.setText(getString(R.string.comentarioInicial));
+                    else
+                        comentario.setText("Tus partidas");
+
+                    adaptadorMaster = new PartidaAdapter(activity, partidasMaster);
+                    lvPartidasMaster.setAdapter(adaptadorMaster);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+    }
+
     public Bitmap StringToBitMap(String encodedString){
         try{
             byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
@@ -198,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
 
         switch (view.getId()){
-            case R.id.anadirFAB:
+            case R.id.anadirFAB: case R.id.FABanadir:
 
                 //Elegir entre Master y Jugador
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
