@@ -44,9 +44,4 @@ public class AcercaDe extends AppCompatActivity implements View.OnClickListener 
             onBackPressed();
 
     }
-
-    public void verMapa(View view) {
-        Intent intent = new Intent(this, MapsActivity.class);
-        startActivity(intent);
-    }
 }

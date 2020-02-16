@@ -264,9 +264,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onResume() {
         super.onResume();
 
-        //getMensajesFromFirebase();
-        //adaptador.notifyDataSetChanged();
-
     }
 
     //Si aprietas el float action button
@@ -320,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override //Dentro del Action Bar
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, AcercaDe.class);
+        Intent intent = new Intent(this, Configuracion.class);
         startActivity(intent);
         return true;
     }
