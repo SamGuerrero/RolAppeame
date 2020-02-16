@@ -1,19 +1,13 @@
 package es.centroafuera.rolappeame;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 
-import androidx.annotation.DrawableRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-
-public class Configuracion extends AppCompatActivity implements View.OnClickListener  {
+public class Configuracion extends AppCompatActivity implements View.OnClickListener {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +29,10 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
 
         switch (v.getId()){
             case R.id.btPreferencias:
-                //TODO: Enviar a Activity Preferencias
+                Intent intentPreferencias = new Intent(this, Preferencias.class);
+                startActivity(intentPreferencias);
                 break;
+
             case R.id.btCondiciones:
                 Intent intentCondiciones = new Intent(this, AcercaDe.class);
                 startActivity(intentCondiciones);
