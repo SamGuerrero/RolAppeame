@@ -1,6 +1,7 @@
 package es.centroafuera.rolappeame;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Locale;
 
 public class Preferencias extends AppCompatActivity implements View.OnClickListener {
     CheckBox cbSonido, cbNoche, cbIdioma;
@@ -23,7 +26,10 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         cbSonido = findViewById(R.id.cbSonido);
         cbSonido.setOnClickListener(this);
         cbNoche = findViewById(R.id.cbNoche);
+        //TODO: Modo noche
         cbIdioma = findViewById(R.id.cbIdioma);
+        cbIdioma.setOnClickListener(this);
+        //TODO: Poner los Strings como variables en StringValues para poder cambiarlo de idioma
 
     }
 
@@ -37,14 +43,18 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.cbSonido:
-                activarPreferencias();
+                activarSonido();
+                break;
+
+            case R.id.cbIdioma:
+                activarIdioma();
                 break;
 
         }
 
     }
 
-    public void activarPreferencias(){
+    public void activarSonido(){
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         if (cbSonido.isChecked()){
@@ -60,5 +70,22 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
             audioManager.setStreamVolume(AudioManager.STREAM_RING, 100, 0);
 
         }
+    }
+
+    public void activarIdioma(){
+        Locale loc;
+
+        if (cbIdioma.isChecked()){
+            loc = new Locale(Locale.ENGLISH.getLanguage());
+
+        }else{
+            loc = new Locale("es", "ES");
+        }
+
+        Locale.setDefault(loc);
+        Configuration config = new Configuration();
+        config.locale = loc;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
     }
 }
