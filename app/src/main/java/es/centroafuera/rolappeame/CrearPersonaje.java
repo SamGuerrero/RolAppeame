@@ -34,7 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
-    //TODO: set puntos obligatorios, que no se puedan reducir según las combinaciones
+    //A futuro: set puntos obligatorios, que no se puedan reducir según las combinaciones
     int puntosTotales = 12; //El máximo de puntos a repartir cuando eliges X clase y X raza
     int puntosActuales = 0; //Los puntos que llevas acumulados
     boolean cambiofoto = false;
@@ -280,7 +280,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
     }
 
     public void guardarPersonaje(){
-        //TODO: poner foto por defecto
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
         Bitmap imagen;

@@ -19,7 +19,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
 
     private GoogleMap mMap;
     private ArrayList<Marker> markers;
@@ -45,6 +45,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         marcadores(googleMap);
     }
@@ -52,6 +53,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void marcadores(GoogleMap googleMap){
         mMap = googleMap;
         markers = new ArrayList<>();
+        mMap.setOnMarkerClickListener(this);
+        mMap.setOnInfoWindowClickListener(this);
 
         final LatLng punto1 = new LatLng(	40.47960826297022, -3.665799020694628);
         final LatLng punto2 = new LatLng(	40.43629956289038, 	-3.6504096146979457);
@@ -92,6 +95,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public boolean onMarkerClick(Marker marker) {
         //Con esto guardaré los sitios donde quedar
 
+
         for (Marker markerT : markers){
             if (marker.equals(markerT)){
                 //Así veo qué marker me clickean
@@ -104,5 +108,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
         return false;
+    }
+
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        InformacionFragment.newInstance(marker.getTitle(), "Este sitio es ideal para hacer tus movidas roleras").show(getSupportFragmentManager(), null);
+
     }
 }
