@@ -1,32 +1,23 @@
 package es.centroafuera.rolappeame;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,16 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class VistaPersonaje extends AppCompatActivity implements View.OnClickListener{
     Personaje personaje;
-    private final int AVATAR = 1;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     String id;
 
@@ -68,42 +56,60 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 if (ds.exists()) {
-                    String nombre = ds.child("nombre").getValue().toString();
-                    Bitmap imagen = StringToBitMap(ds.child("imagen").getValue().toString());
-                    Raza raza = Raza.valueOf(ds.child("raza").getValue().toString());
-                    Oficio oficio = Oficio.valueOf(ds.child("oficio").getValue().toString());
-                    int fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
-                    int agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
-                    int percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
-                    int constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
-                    int inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
-                    int carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+                    String nombre = (String) ds.child("nombre").getValue();
+                    Bitmap imagen = null;
+                    Raza raza = Raza.DRACÓNIDO;
+                    Oficio oficio = Oficio.BARDO;
+                    int fuerza = 0;
+                    int agilidad = 0;
+                    int percepcion = 0;
+                    int constitucion = 0;
+                    int inteligencia = 0;
+                    int carisma = 0;
+
+                    try {
+                        imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+
+                        raza = Raza.valueOf(ds.child("raza").getValue().toString());
+                        oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
+                        fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
+                        agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
+                        percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
+                        constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
+                        inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
+                        carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+
+                    }catch (NullPointerException e){}
 
                     personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
                     personaje.setIdT(ds.getKey());
 
-                    //Muestro los datos por pantalla
-                    ImageView ivAvatar = findViewById(R.id.IVavatar);
-                    ivAvatar.setImageBitmap(personaje.getImagen());
+                    try {
+                        //Muestro los datos por pantalla
+                        ImageView ivAvatar = findViewById(R.id.IVavatar);
+                        ivAvatar.setImageBitmap(personaje.getImagen());
 
-                    TextView tvNombre = findViewById(R.id.TVnombre);
-                    tvNombre.setText(personaje.getNombre());
-                    TextView tvRaza = findViewById(R.id.TVraza);
-                    tvRaza.setText(personaje.getRaza().toString());
-                    TextView tvOficio = findViewById(R.id.TVoficio);
-                    tvOficio.setText(personaje.getOficio().toString());
+                        TextView tvNombre = findViewById(R.id.TVnombre);
+                        tvNombre.setText(personaje.getNombre());
+                        TextView tvRaza = findViewById(R.id.TVraza);
+                        tvRaza.setText(personaje.getRaza().toString());
+                        TextView tvOficio = findViewById(R.id.TVoficio);
+                        tvOficio.setText(personaje.getOficio().toString());
 
-                    TextView tvFuerza = findViewById(R.id.puntosFuerza);
-                    tvFuerza.setText(Integer.toString(personaje.getFuerza()));
-                    TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
-                    tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
-                    TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
-                    tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
-                    TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
-                    tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
-                    TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
-                    tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
-                    TextView tvCarisma = findViewById(R.id.puntosCarisma);
+
+                        TextView tvFuerza = findViewById(R.id.puntosFuerza);
+                        tvFuerza.setText(Integer.toString(personaje.getFuerza()));
+                        TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
+                        tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
+                        TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
+                        tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
+                        TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
+                        tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
+                        TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
+                        tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
+                        TextView tvCarisma = findViewById(R.id.puntosCarisma);
+                        tvCarisma.setText(Integer.toString(personaje.getCarisma()));
+                    }catch (NullPointerException e){}
 
 
                 } else {

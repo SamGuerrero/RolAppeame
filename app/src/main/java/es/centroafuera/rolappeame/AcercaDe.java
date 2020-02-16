@@ -1,5 +1,6 @@
 package es.centroafuera.rolappeame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -42,5 +43,10 @@ public class AcercaDe extends AppCompatActivity implements View.OnClickListener 
         }else
             onBackPressed();
 
+    }
+
+    public void verMapa(View view) {
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 }

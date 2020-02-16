@@ -75,13 +75,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     PartidaAdapter adaptadorMaster;
     ListView lvPartidasMaster;
 
+    TabHost tabHost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Tab
-        TabHost tabHost = findViewById(R.id.tabhost);
+        tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
         TabHost.TabSpec spec = tabHost.newTabSpec("Personajes");
         spec.setContent(R.id.personajes);
@@ -106,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Obtengo las partidas y las muestro en su tabhost
         lvPartidasMaster = findViewById(R.id.LVpartidas);
         getPartidasFromFirebase(this);
-        //registerForContextMenu(lvPartidasMaster);
+        registerForContextMenu(lvPartidasMaster);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
         TextView comentario = findViewById(R.id.comentarioTV);
@@ -336,30 +338,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         switch (item.getItemId()){
             case R.id.imVer:
-                Intent intent = new Intent(this, VistaPersonaje.class);
+                Intent intent;
 
-                intent.putExtra("ID", partidas.get(pos).getIdT()); //Estoy pasando mal el Id
+                if (tabHost.getCurrentTabTag().equals("Personajes")) {
+                    intent = new Intent(this, VistaPersonaje.class);
+                    intent.putExtra("ID", partidas.get(pos).getIdT()); //Estoy pasando mal el Id
+                }else{
+                    intent = new Intent(this, VistaPartida.class);
+                    intent.putExtra("ID", partidasMaster.get(pos).getIdT()); //Estoy pasando mal el Id
+                }
 
                 startActivity(intent);
                 break;
 
             case R.id.imEliminar:
-                Personaje temporal = partidas.get(pos);
-                DatabaseReference myRef = database.getReference("Personaje");
-                myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>(){
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG);
-                    }
-                }).addOnFailureListener(new OnFailureListener(){
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG);
-                    }
-                });
+                if (tabHost.getCurrentTabTag().equals("Personajes")) {
+                    Personaje temporal = partidas.get(pos);
+                    DatabaseReference myRef = database.getReference("Personaje");
+                    myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG);
+                        }
+                    });
 
-                //getMensajesFromFirebase();
-                adaptador.notifyDataSetChanged();
+                    //adaptador.notifyDataSetChanged();
+                }else{
+                    Partida temporal = partidasMaster.get(pos);
+                    DatabaseReference myRef = database.getReference("Partida");
+                    myRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(MainActivity.this, "La partida se ha eliminado correctamente", Toast.LENGTH_LONG);
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(MainActivity.this, "La partida no se ha podido eliminar", Toast.LENGTH_LONG);
+                        }
+                    });
+
+                    //adaptador.notifyDataSetChanged();
+                }
 
                 break;
 
