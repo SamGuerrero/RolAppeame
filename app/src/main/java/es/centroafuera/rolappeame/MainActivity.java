@@ -358,12 +358,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG);
+                            Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG);
+                            Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -374,12 +374,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(MainActivity.this, "La partida se ha eliminado correctamente", Toast.LENGTH_LONG);
+                            Toast.makeText(MainActivity.this, "La partida se ha eliminado correctamente", Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "La partida no se ha podido eliminar", Toast.LENGTH_LONG);
+                            Toast.makeText(MainActivity.this, "La partida no se ha podido eliminar", Toast.LENGTH_LONG).show();
                         }
                     });
 

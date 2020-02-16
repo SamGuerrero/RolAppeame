@@ -106,7 +106,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
 
                 } else {
-                    Toast.makeText(VistaPartida.this, "Algo salió mal", Toast.LENGTH_LONG);
+                    Toast.makeText(VistaPartida.this, "Algo salió mal", Toast.LENGTH_LONG).show();
                     partida = new Partida();
                 }
             }

@@ -113,7 +113,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
 
                 } else {
-                    Toast.makeText(VistaPersonaje.this, "Algo salió mal", Toast.LENGTH_LONG);
+                    Toast.makeText(VistaPersonaje.this, "Algo salió mal", Toast.LENGTH_LONG).show();
                     personaje = new Personaje();
                 }
             }
