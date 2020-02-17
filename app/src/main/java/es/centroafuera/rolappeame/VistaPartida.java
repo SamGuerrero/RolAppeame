@@ -80,9 +80,9 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                     TextView tvTipoPartida = findViewById(R.id.TVtipoPartida);
                     tvTipoPartida.setText(partida.getTipoPartida().toString());
 
-                    String vidaActual = "Vida: " + partida.sacarVida();
-                    String ataqueActual = "Ataque: " + partida.sacarAtaque();
-                    String defensaActual = "Defensa: " + partida.sacarDefensa();
+                    String vidaActual = getString(R.string.vida_vista) + partida.sacarVida();
+                    String ataqueActual = getString(R.string.ataque_vista) + partida.sacarAtaque();
+                    String defensaActual = getString(R.string.defensa_vista) + partida.sacarDefensa();
                     TextView tvVida = findViewById(R.id.tvVida);
                     tvVida.setText(vidaActual);
                     TextView tvAtaque = findViewById(R.id.tvAtaque);
@@ -106,7 +106,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
 
                 } else {
-                    Toast.makeText(VistaPartida.this, "Algo salió mal", Toast.LENGTH_LONG).show();
+                    Toast.makeText(VistaPartida.this, "Something failed", Toast.LENGTH_LONG).show();
                     partida = new Partida();
                 }
             }
@@ -188,9 +188,9 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.BTgenerar:
-                String vidaActual = "Vida: " + partida.sacarVida();
-                String ataqueActual = "Ataque: " + partida.sacarAtaque();
-                String defensaActual = "Defensa: " + partida.sacarDefensa();
+                String vidaActual = getString(R.string.vida_vista) + partida.sacarVida();
+                String ataqueActual = getString(R.string.ataque_vista) + partida.sacarAtaque();
+                String defensaActual = getString(R.string.defensa_vista) + partida.sacarDefensa();
                 TextView tvVida = findViewById(R.id.tvVida);
                 tvVida.setText(vidaActual);
                 TextView tvAtaque = findViewById(R.id.tvAtaque);
@@ -202,15 +202,15 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
             //Muestra información sobre los atributos
             case R.id.tvVida:
-                vistaInformacion("Esto indicará la vida que tendrá tu enemigo");
+                vistaInformacion(getString(R.string.vida_info));
                 break;
 
             case R.id.tvAtaque:
-                vistaInformacion("Esto es el daño que puede causar a tus personajes");
+                vistaInformacion(getString(R.string.ataque_info));
                 break;
 
             case R.id.tvDefensa:
-                vistaInformacion("Esta es la defensa que tendrá tu enemigo cuando los personajes le ataquen");
+                vistaInformacion(getString(R.string.defensa_info));
                 break;
 
             //Cambia los puntos
@@ -278,7 +278,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.tvEnemigo:
-                vistaInformacion("Pulsa el botón Generar, para generar un enemigo aleatorio");
+                vistaInformacion(getString(R.string.generar_info));
 
             default: break;
         }
@@ -371,12 +371,12 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         myRef.child("partidas").child(partida.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(VistaPartida.this, "El personaje se ha guardado correctamente", Toast.LENGTH_LONG);
+                Toast.makeText(VistaPartida.this, R.string.guardado_mensaje, Toast.LENGTH_LONG);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(VistaPartida.this, "El personaje NO se ha guardado", Toast.LENGTH_LONG);
+                Toast.makeText(VistaPartida.this, R.string.guardado_error, Toast.LENGTH_LONG);
             }
         });
 

@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableRight="@android:drawable/ic_menu_info_details"
-        android:text="Enemigos"
+        android:text="@string/enemigos"
         android:textSize="24sp"
         android:textStyle="bold" />
 
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Vida"
+        android:text="@string/vida_mostrar"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -147,7 +147,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Ataque"
+        android:text="@string/ataque_mostrar"
         android:textStyle="bold" />
 
     <LinearLayout
@@ -234,7 +234,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:text="Defensa"
+        android:text="@string/defensa_mostrar"
         android:textStyle="bold" />
 
     <LinearLayout

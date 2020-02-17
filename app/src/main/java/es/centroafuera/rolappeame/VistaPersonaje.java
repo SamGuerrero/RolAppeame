@@ -113,7 +113,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
 
                 } else {
-                    Toast.makeText(VistaPersonaje.this, "Algo salió mal", Toast.LENGTH_LONG).show();
+                    Toast.makeText(VistaPersonaje.this, "Something failed", Toast.LENGTH_LONG).show();
                     personaje = new Personaje();
                 }
             }
@@ -359,12 +359,12 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         myRef.child("personajes").child(personaje.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(VistaPersonaje.this, "El personaje se ha guardado correctamente", Toast.LENGTH_LONG);
+                Toast.makeText(VistaPersonaje.this, R.string.guardado_mensaje, Toast.LENGTH_LONG);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(VistaPersonaje.this, "El personaje NO se ha guardado", Toast.LENGTH_LONG);
+                Toast.makeText(VistaPersonaje.this, R.string.guardado_error, Toast.LENGTH_LONG);
             }
         });
 

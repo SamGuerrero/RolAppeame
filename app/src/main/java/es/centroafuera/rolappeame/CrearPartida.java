@@ -184,7 +184,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.tvEnemigo:
-                vistaInformacion("Estos enemigo se enfrentarán a tus personajes con valores aleatorios entre los mínimos y máximos que escojas");
+                vistaInformacion(getString(R.string.enemigo_info_crear));
 
             default: break;
         }

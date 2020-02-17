@@ -73,9 +73,9 @@ public class PartidaAdapter extends BaseAdapter {
         }
 
         Partida partida = partidas.get(pos);
-        String vidaTexto = "Vida: (" + partida.getMinVida() + ") - (" + partida.getMaxVida() + ")";
-        String ataqueTexto = "Ataque: (" + partida.getMinAtaque() + ") - (" + partida.getMaxAtaque() + ")";
-        String defensaTexto = "Defensa: (" + partida.getMinDefensa() + ") - (" + partida.getMaxDefensa() + ")";
+        String vidaTexto = context.getString(R.string.vida) + partida.getMinVida() + ") - (" + partida.getMaxVida() + ")";
+        String ataqueTexto = context.getString(R.string.ataque) + partida.getMinAtaque() + ") - (" + partida.getMaxAtaque() + ")";
+        String defensaTexto = context.getString(R.string.defensa) + partida.getMinDefensa() + ") - (" + partida.getMaxDefensa() + ")";
 
         viewHolder.avatar.setImageBitmap(partida.getImagen());
         viewHolder.nombre.setText(partida.getNombre());

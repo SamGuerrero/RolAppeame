@@ -283,7 +283,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
         Bitmap imagen;
-        if (cambiofoto == false) {
+        if (!cambiofoto) {
             Toast.makeText(this, getString(R.string.errorfoto), Toast.LENGTH_SHORT).show();
             return;
         }else {

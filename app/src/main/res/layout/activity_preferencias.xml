@@ -9,7 +9,7 @@
         android:id="@+id/tvTitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Preferencias"
+        android:text="@string/preferencias"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <ImageView
@@ -22,19 +22,19 @@
         android:id="@+id/cbSonido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Silenciar movil" />
+        android:text="@string/silenciar_movil" />
 
     <CheckBox
         android:id="@+id/cbNoche"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Modo noche" />
+        android:text="@string/modo_noche" />
 
     <CheckBox
         android:id="@+id/cbIdioma"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Eng - Esp" />
+        android:text="@string/eng_esp" />
 
     <Button
         android:id="@+id/btVolver"

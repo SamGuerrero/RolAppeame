@@ -16,7 +16,7 @@
         android:layout_weight="1"
         android:background="@drawable/titulo_partida"
         android:paddingLeft="10dp"
-        android:text="Partida Master"
+        android:text="@string/partida_master"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="#6e2c00" />
 
@@ -58,7 +58,7 @@
                 android:id="@+id/TVenemigos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Enemigos"
+                android:text="@string/enemigos"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
             <TextView

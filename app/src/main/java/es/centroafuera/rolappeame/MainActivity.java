@@ -67,13 +67,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Tab
         tabHost = findViewById(R.id.tabhost);
         tabHost.setup();
-        TabHost.TabSpec spec = tabHost.newTabSpec("Personajes");
+        TabHost.TabSpec spec = tabHost.newTabSpec(getString(R.string.personajes));
         spec.setContent(R.id.personajes);
-        spec.setIndicator("Personajes");
+        spec.setIndicator(getString(R.string.personajes));
         tabHost.addTab(spec);
-        spec = tabHost.newTabSpec("Partidas");
+        spec = tabHost.newTabSpec(getString(R.string.partidas));
         spec.setContent(R.id.partidas);
-        spec.setIndicator("Partidas");
+        spec.setIndicator(getString(R.string.partidas));
         tabHost.addTab(spec);
 
         //añado los listeners
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (partidasMaster.size() == 0)
                         comentario.setText(getString(R.string.comentarioInicial));
                     else
-                        comentario.setText("Tus partidas");
+                        comentario.setText(getString(R.string.comentario));
 
                     adaptadorMaster = new PartidaAdapter(activity, partidasMaster);
                     lvPartidasMaster.setAdapter(adaptadorMaster);
@@ -257,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 //Elegir entre Master y Jugador
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("¿Cómo quieres jugar?")
-                        .setPositiveButton("Jugador",
+                builder.setMessage(getString(R.string.pregunta_partida))
+                        .setPositiveButton(getString(R.string.jugador),
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.imVer:
                 Intent intent;
 
-                if (tabHost.getCurrentTabTag().equals("Personajes")) {
+                if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
                     intent = new Intent(this, VistaPersonaje.class);
                     intent.putExtra("ID", partidas.get(pos).getIdT()); //Estoy pasando mal el Id
                 }else{
@@ -331,18 +331,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.imEliminar:
-                if (tabHost.getCurrentTabTag().equals("Personajes")) {
+                if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
                     Personaje temporal = partidas.get(pos);
                     DatabaseReference myRef = database.getReference("Personaje");
                     myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(MainActivity.this, "El personaje se ha eliminado correctamente", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "El personaje no se ha podido eliminar", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, R.string.eliminar_error, Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -353,12 +353,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     myRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(MainActivity.this, "La partida se ha eliminado correctamente", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, "La partida no se ha podido eliminar", Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, R.string.eliminar_error, Toast.LENGTH_LONG).show();
                         }
                     });
 

@@ -3,25 +3,32 @@ package es.centroafuera.rolappeame;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
     private GoogleMap mMap;
-    private ArrayList<Marker> markers;
+    private ArrayList<Sitio> sitios;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,59 +58,52 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void marcadores(GoogleMap googleMap){
         mMap = googleMap;
-        markers = new ArrayList<>();
+        sitios = new ArrayList<>();
         mMap.setOnMarkerClickListener(this);
         mMap.setOnInfoWindowClickListener(this);
 
-        final LatLng punto1 = new LatLng(	40.47960826297022, -3.665799020694628);
-        final LatLng punto2 = new LatLng(	40.43629956289038, 	-3.6504096146979457);
-        final LatLng punto3 = new LatLng(	40.38513183038149, -3.761911556533903);
-        final LatLng punto4 = new LatLng(	40.406792648617134, 	-3.7046086019457167);
-        final LatLng punto5 = new LatLng(	40.473402418562216, -3.5785233191070316);
-        final LatLng punto6 = new LatLng(	40.427538776051804, 	-3.732422725110936);
-        final LatLng punto7 = new LatLng(	40.49082275610172, -3.761911556533903);
-        final LatLng punto8 = new LatLng(	40.42027705095574, 	-3.621741078700336);
-        final LatLng punto9 = new LatLng(	40.45843103553325, -3.785855667139094);
-        final LatLng punto10 = new LatLng(	40.42996840999023, 	-3.622184001035289);
+        //Obtengo una lista de la base de datos
+        DatabaseReference myRef = database.getReference("Sitio"); //La clase en Java
 
-        Marker temporal = mMap.addMarker(new MarkerOptions().position(punto1).title("Auditorio Carmen Laforet"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto2).title("Auditorio al aire libre"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto3).title("Auditorio y sala de exposiciones Paco de Lucía"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto4).title("Centro Comunitario Casino de la Reina"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto5).title("Centro Cultural - Centro Socio Cultural Villa de Barajas"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto6).title("Centro Cultural Agustín Díaz (Moncloa - Aravaca)"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto7).title("Centro Cultural Alfredo Kraus"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto8).title("Centro Cultural Antonio Machado"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto9).title("Centro Cultural Aravaca"));
-        markers.add(temporal);
-        temporal = mMap.addMarker(new MarkerOptions().position(punto10).title("Centro Cultural Auditorio Parque El Paraíso"));
-        markers.add(temporal);
+        // Read from the database
+        myRef.child("sitios").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+                    sitios.clear();
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(punto1));
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.child("nombre").getValue().toString();
+                        String descripcion = ds.child("descripcion").getValue().toString();
+                        double latitud = Double.parseDouble(ds.child("latitud").getValue().toString());
+                        double longitud = Double.parseDouble(ds.child("longitud").getValue().toString());
+
+                        Sitio sitioT = new Sitio(nombre, descripcion, latitud, longitud);
+                        sitioT.setIdT(ds.getKey());
+                        sitios.add(sitioT);
+
+                        final LatLng punto = new LatLng(sitioT.getLatitud(), sitioT.getLongitud());
+                        mMap.addMarker(new MarkerOptions().position(punto).title(sitioT.getNombre()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        //Con esto guardaré los sitios donde quedar
 
-
-        for (Marker markerT : markers){
-            if (marker.equals(markerT)){
-                //Así veo qué marker me clickean
-                String lat, lng;
-
-                lat = String.valueOf(marker.getPosition().latitude);
-                lng = String.valueOf(marker.getPosition().longitude);
-
-                Toast.makeText(this, "Esto queda en " + lat + ", " + lng, Toast.LENGTH_LONG).show();
+        for (Sitio sitio : sitios){
+            if ((sitio.getLatitud() == marker.getPosition().latitude) && (sitio.getLongitud() == marker.getPosition().longitude)){
+                Toast.makeText(this, getString(R.string.loc) + sitio.getLatitud() + ", " + sitio.getLongitud(), Toast.LENGTH_LONG).show();
             }
         }
         return false;
@@ -111,7 +111,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        InformacionFragment.newInstance(marker.getTitle(), "Este sitio es ideal para hacer tus movidas roleras").show(getSupportFragmentManager(), null);
-
+        for (Sitio sitio : sitios){
+            if ((sitio.getLatitud() == marker.getPosition().latitude) && (sitio.getLongitud() == marker.getPosition().longitude)){
+                InformacionFragment.newInstance(marker.getTitle(), sitio.getDescripcion()).show(getSupportFragmentManager(), null);
+            }
+        }
     }
 }
