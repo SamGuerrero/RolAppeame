@@ -73,4 +73,5 @@ public class Sitio {
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+
 }

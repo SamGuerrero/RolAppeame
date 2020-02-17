@@ -1,12 +1,14 @@
 package es.centroafuera.rolappeame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,13 +25,21 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         Button btVolver = findViewById(R.id.btVolver);
         btVolver.setOnClickListener(this);
 
+        //Silenciar movil
         cbSonido = findViewById(R.id.cbSonido);
         cbSonido.setOnClickListener(this);
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
         cbNoche = findViewById(R.id.cbNoche);
         //TODO: Modo noche
+
+        //Idioma
         cbIdioma = findViewById(R.id.cbIdioma);
         cbIdioma.setOnClickListener(this);
-        //TODO: Poner los Strings como variables en StringValues para poder cambiarlo de idioma
+        TextView titulo = findViewById(R.id.tvTitulo);
+        if (titulo.getText().equals("Preferences")){
+            cbIdioma.setSelected(true);
+        }
 
     }
 
@@ -38,7 +48,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()){
             case R.id.btVolver:
-
+                activarIdioma();
                 onBackPressed();
                 break;
 
@@ -86,6 +96,10 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         Configuration config = new Configuration();
         config.locale = loc;
         getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
+        Intent refrescar = new Intent(this, MainActivity.class);
+        startActivity(refrescar);
+        finish();
 
     }
 }

@@ -88,7 +88,8 @@
     <string name="enemigo_info_crear">This enemies will fight your characters with random values between the numbers you chose</string>
     <string name="eliminar_mensaje">The character has been remove correctly</string>
     <string name="eliminar_error">The character hasn\'t been remove</string>
-    <string name="loc">This is in</string>
+    <string name="loc">This is in </string>
     <string name="guardado_mensaje">The character has been saved correctly</string>
     <string name="guardado_error">The character hasn\'t been saved</string>
+    <string name="ver_web">Go to web</string>
 </resources>

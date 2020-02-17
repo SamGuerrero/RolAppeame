@@ -30,6 +30,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
@@ -81,8 +82,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Relleno Spinner
         ArrayList<TipoPartida> tipos = new ArrayList<>();
         TipoPartida[] tiposArray = TipoPartida.values();
-        for(int i = 0; i < tiposArray.length; i++)
-            tipos.add(tiposArray[i]);
+        tipos.addAll(Arrays.asList(tiposArray));
         Spinner SPtipos = findViewById(R.id.SPtipos);
         ArrayAdapter<TipoPartida> adaptadorTipos = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, tipos);
         SPtipos.setAdapter(adaptadorTipos);
@@ -108,15 +108,15 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
 
             //Muestra información sobre los atributos
             case R.id.tvVida:
-                vistaInformacion(getString(R.string.desAgilidad));
+                vistaInformacion(getString(R.string.vida_info));
                 break;
 
             case R.id.tvAtaque:
-                vistaInformacion(getString(R.string.desCarisma));
+                vistaInformacion(getString(R.string.ataque_info));
                 break;
 
             case R.id.tvDefensa:
-                vistaInformacion(getString(R.string.desConstitucion));
+                vistaInformacion(getString(R.string.defensa_info));
                 break;
 
             //Cambia los puntos
@@ -253,7 +253,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
         Bitmap imagen;
-        if (cambiofoto == false) {
+        if (!cambiofoto) {
             Toast.makeText(this, getString(R.string.errorfoto), Toast.LENGTH_SHORT).show();
             return;
         }else {

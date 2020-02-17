@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //Obtengo los personajes y los muestro en su tabhost
         lvPartidas = findViewById(R.id.partidasLV);
-        getMensajesFromFirebase(this);
+        getPersonajesFromFirebase(this);
         registerForContextMenu(lvPartidas);
 
         //Obtengo las partidas y las muestro en su tabhost
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             comentario.setText(getString(R.string.comentario));
     }
 
-    public void getMensajesFromFirebase(final MainActivity activity){
+    public void getPersonajesFromFirebase(final MainActivity activity){
 
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference("Personaje"); //La clase en Java
@@ -346,7 +345,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
 
-                    //adaptador.notifyDataSetChanged();
                 }else{
                     Partida temporal = partidasMaster.get(pos);
                     DatabaseReference myRef = database.getReference("Partida");
@@ -362,7 +360,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                     });
 
-                    //adaptador.notifyDataSetChanged();
                 }
 
                 break;

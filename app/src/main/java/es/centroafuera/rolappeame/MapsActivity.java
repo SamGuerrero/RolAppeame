@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnInfoWindowClickListener {
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private GoogleMap mMap;
     private ArrayList<Sitio> sitios;

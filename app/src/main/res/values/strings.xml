@@ -87,8 +87,9 @@
     <string name="enemigo_info_crear">Estos enemigo se enfrentarán a tus personajes con valores aleatorios entre los mínimos y máximos que escojas</string>
     <string name="eliminar_mensaje">El personaje se ha eliminado correctamente</string>
     <string name="eliminar_error">El personaje no se ha podido eliminar</string>
-    <string name="loc">Esto queda en</string>
+    <string name="loc">Esto queda en </string>
     <string name="guardado_mensaje">El personaje se ha guardado correctamente</string>
     <string name="guardado_error">El personaje NO se ha guardado</string>
+    <string name="ver_web">Ver en web</string>
 
 </resources>
