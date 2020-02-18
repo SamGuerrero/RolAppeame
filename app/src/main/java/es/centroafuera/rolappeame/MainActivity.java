@@ -39,8 +39,6 @@ Este programa de momento sólo crea partidas como jugador:
 Puedes crear tus personajes, ver sus estadísiticas y cambiarlas
 
 ACCIONES FUTURAS:
-    - Crear partidas como máster
-    - Ver tus tiendas de rol más cercanas
     - Conectar partidas de varios personajes a uno de máster
     - Los personajes tendrán inventario
     - El máster podrá cambiar el inventario de los jugadores

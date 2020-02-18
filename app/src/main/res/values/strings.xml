@@ -91,5 +91,7 @@
     <string name="guardado_mensaje">El personaje se ha guardado correctamente</string>
     <string name="guardado_error">El personaje NO se ha guardado</string>
     <string name="ver_web">Ver en web</string>
+    <string name="sonido_bajado">Se ha bajado el sonido</string>
+    <string name="sonido_subido">Se ha subido el sonido</string>
 
 </resources>
