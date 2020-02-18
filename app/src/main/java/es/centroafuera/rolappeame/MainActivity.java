@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spec.setContent(R.id.personajes);
         spec.setIndicator(getString(R.string.personajes));
         tabHost.addTab(spec);
+
         spec = tabHost.newTabSpec(getString(R.string.partidas));
         spec.setContent(R.id.partidas);
         spec.setIndicator(getString(R.string.partidas));
