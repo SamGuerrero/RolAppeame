@@ -45,12 +45,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vistapersonaje);
 
-        Brillo brillo = new Brillo();
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
-
         //Recojo los datos del Intent para tener al personaje
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");

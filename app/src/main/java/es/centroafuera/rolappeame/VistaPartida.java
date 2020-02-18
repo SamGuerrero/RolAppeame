@@ -43,12 +43,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vistapartida);
 
-        Brillo brillo = new Brillo();
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
-
         //Recojo el id String que es la key de la base de datos
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");

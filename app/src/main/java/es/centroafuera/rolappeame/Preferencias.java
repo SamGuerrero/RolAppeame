@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -26,12 +27,6 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferencias);
 
-        Brillo brillo = new Brillo();
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
-
         Button btVolver = findViewById(R.id.btVolver);
         btVolver.setOnClickListener(this);
 
@@ -40,13 +35,14 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         cbSonido.setOnClickListener(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
-        //Bajar brillo pantalla
+        //Modo noche
         cbNoche = findViewById(R.id.cbNoche);
         cbNoche.setOnClickListener(this);
 
         //Idioma
         cbIdioma = findViewById(R.id.cbIdioma);
         cbIdioma.setOnClickListener(this);
+
 
     }
 
@@ -97,7 +93,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
     public void activarIdioma(){
         Locale loc;
 
-        if ((cbIdioma.isChecked()) && (cbSonido.getText().equals("Silenciar movil")) ){
+        if ((cbIdioma.isChecked()) && (cbSonido.getText().equals("Sonido del movil")) ){
             loc = new Locale(Locale.ENGLISH.getLanguage());
 
         }else{
@@ -116,21 +112,17 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
     }
 
     public void ajustarBrillo(){
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        float brightness;
 
-        if ((cbNoche.isChecked())){
-            brightness = 0.0f; //Brillo bajo
-            lp.screenBrightness = brightness;
+        if (cbNoche.isChecked() && (AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_YES)){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         }else{
-            brightness = 1.0f; //Brillo alto
-            lp.screenBrightness = brightness;
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
-        getWindow().setAttributes(lp);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Preferencia");
-        myRef.child("brillo").setValue(brightness);
+        Intent refrescar = new Intent(this, MainActivity.class);
+        startActivity(refrescar);
+        finish();
+
 
     }
 

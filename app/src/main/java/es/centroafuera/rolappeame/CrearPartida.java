@@ -38,7 +38,6 @@ import java.util.Arrays;
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
     private final int AVATAR = 1;
-    public static Brillo brillo = new Brillo();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,10 +96,6 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         Button continuar = findViewById(R.id.BTcontinuar);
         continuar.setOnClickListener(this);
 
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
     }
 
     @Override

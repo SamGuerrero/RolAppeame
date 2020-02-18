@@ -115,12 +115,6 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntos = findViewById(R.id.TVpuntos);
         TVpuntos.setText(getString(R.string.tienes) + " " + (puntosTotales-puntosActuales) + " " + getString(R.string.puntos));
 
-
-        Brillo brillo = new Brillo();
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
     }
 
     @Override

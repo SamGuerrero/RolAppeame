@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/LYbasico"
@@ -20,9 +22,9 @@
             android:contentDescription="Fondo de Partida"
             android:maxWidth="50dp"
             android:maxHeight="77dp"
+            android:onClick="ponerFoto"
             android:src="@mipmap/ic_launcher"
-            android:visibility="visible"
-            android:onClick="ponerFoto"/>
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -94,8 +96,9 @@
 
         <Button
             android:id="@+id/btMenosMinVida"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_resta"
             android:text="-" />
@@ -110,16 +113,18 @@
 
         <Button
             android:id="@+id/btMasMinVida"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_suma"
             android:text="+" />
 
         <Button
             android:id="@+id/btMenosMaxVida"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_resta"
             android:text="-" />
@@ -134,8 +139,9 @@
 
         <Button
             android:id="@+id/btMasMaxVida"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_suma"
             android:text="+" />
@@ -181,8 +187,9 @@
 
         <Button
             android:id="@+id/btMenosMinAtaque"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_resta"
             android:text="-" />
@@ -197,16 +204,18 @@
 
         <Button
             android:id="@+id/btMasMinAtaque"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_suma"
             android:text="+" />
 
         <Button
             android:id="@+id/btMenosMaxAtaque"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_resta"
             android:text="-" />
@@ -221,8 +230,9 @@
 
         <Button
             android:id="@+id/btMasMaxAtaque"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_suma"
             android:text="+" />
@@ -266,8 +276,9 @@
 
         <Button
             android:id="@+id/btMenosMinDefensa"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_resta"
             android:text="-" />
@@ -282,16 +293,18 @@
 
         <Button
             android:id="@+id/btMasMinDefensa"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_suma"
             android:text="+" />
 
         <Button
             android:id="@+id/btMenosMaxDefensa"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_resta"
             android:text="-" />
@@ -306,8 +319,9 @@
 
         <Button
             android:id="@+id/btMasMaxDefensa"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/borde_redondo_suma"
             android:text="+" />
@@ -315,13 +329,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/BTvolver"
-            android:layout_width="207dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/volver" />
 
@@ -329,6 +345,7 @@
             android:id="@+id/BTcontinuar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:text="@string/continuar" />
     </LinearLayout>

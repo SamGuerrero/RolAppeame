@@ -31,8 +31,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private GoogleMap mMap;
     private ArrayList<Sitio> sitios;
-    private static Brillo brillo = new Brillo();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,11 +89,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.addMarker(new MarkerOptions().position(punto).title(sitioT.getNombre()));
                     }
                 }
-
-                //Brillo Pantalla
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.screenBrightness = brillo.getBrillo();
-                getWindow().setAttributes(lp);
             }
 
             @Override

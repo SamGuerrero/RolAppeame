@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ListView lvPartidasMaster;
 
     TabHost tabHost;
-    Brillo brillo = new Brillo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +97,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             comentario.setText(getString(R.string.comentario));
 
-        Brillo brillo = new Brillo();
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
     }
 
     public void getPersonajesFromFirebase(final MainActivity activity){
@@ -251,12 +245,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Cuando vuelve de hacer el personaje
     public void onResume() {
         super.onResume();
-
-        //Brillo Pantalla
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.screenBrightness = brillo.getBrillo();
-        getWindow().setAttributes(lp);
-
     }
 
     //Si aprietas el float action button
