@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,6 +44,12 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vistapersonaje);
+
+        Brillo brillo = new Brillo();
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
 
         //Recojo los datos del Intent para tener al personaje
         Intent intent = getIntent();
@@ -359,12 +368,12 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         myRef.child("personajes").child(personaje.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(VistaPersonaje.this, R.string.guardado_mensaje, Toast.LENGTH_LONG);
+                Toast.makeText(VistaPersonaje.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(VistaPersonaje.this, R.string.guardado_error, Toast.LENGTH_LONG);
+                Toast.makeText(VistaPersonaje.this, R.string.guardado_error, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -389,5 +398,19 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         Toast toast = new Toast(getApplicationContext());
         toast.setView(v);
         toast.show();
+    }
+
+    //Infla el Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fijo, menu);
+        return true;
+    }
+
+    @Override //Dentro del Action Bar
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, Configuracion.class);
+        startActivity(intent);
+        return true;
     }
 }

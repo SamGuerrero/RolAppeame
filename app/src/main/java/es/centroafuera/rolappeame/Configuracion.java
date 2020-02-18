@@ -3,11 +3,13 @@ package es.centroafuera.rolappeame;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Configuracion extends AppCompatActivity implements View.OnClickListener {
+    public static Brillo brillo = new Brillo();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,20 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
         Button btVolver = findViewById(R.id.btVolver);
         btVolver.setOnClickListener(this);
 
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
     }
 
     @Override

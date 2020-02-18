@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Locale;
 
 public class Preferencias extends AppCompatActivity implements View.OnClickListener {
@@ -23,6 +26,12 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferencias);
 
+        Brillo brillo = new Brillo();
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
+
         Button btVolver = findViewById(R.id.btVolver);
         btVolver.setOnClickListener(this);
 
@@ -31,6 +40,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         cbSonido.setOnClickListener(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
+        //Bajar brillo pantalla
         cbNoche = findViewById(R.id.cbNoche);
         cbNoche.setOnClickListener(this);
 
@@ -45,6 +55,7 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
 
         switch (v.getId()){
             case R.id.btVolver:
+                ajustarBrillo();
                 onBackPressed();
                 break;
 
@@ -105,17 +116,22 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
     }
 
     public void ajustarBrillo(){
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        float brightness;
+
         if ((cbNoche.isChecked())){
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            float brightness = 0.0f; //Brillo bajo
+            brightness = 0.0f; //Brillo bajo
             lp.screenBrightness = brightness;
-            getWindow().setAttributes(lp);
         }else{
-            WindowManager.LayoutParams lp = getWindow().getAttributes();
-            float brightness = 1.0f; //Brillo alto
+            brightness = 1.0f; //Brillo alto
             lp.screenBrightness = brightness;
-            getWindow().setAttributes(lp);
         }
+        getWindow().setAttributes(lp);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("Preferencia");
+        myRef.child("brillo").setValue(brightness);
+
     }
 
 

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -30,6 +31,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private GoogleMap mMap;
     private ArrayList<Sitio> sitios;
+    private static Brillo brillo = new Brillo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +91,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         mMap.addMarker(new MarkerOptions().position(punto).title(sitioT.getNombre()));
                     }
                 }
+
+                //Brillo Pantalla
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.screenBrightness = brillo.getBrillo();
+                getWindow().setAttributes(lp);
             }
 
             @Override

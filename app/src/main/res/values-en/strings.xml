@@ -62,9 +62,9 @@
     <string name="title_activity_maps">Map</string>
     <string name="preferencias">Preferences</string>
     <string name="visita_mapa">Visit map</string>
-    <string name="silenciar_movil">Mute mobile</string>
+    <string name="silenciar_movil">Mobile sound</string>
     <string name="eng_esp">Eng - Esp</string>
-    <string name="modo_noche">Night mode</string>
+    <string name="modo_noche">Change brightness</string>
     <string name="personajes">Characters</string>
     <string name="partidas">Games</string>
     <string name="partida_master">Master Game</string>
@@ -92,4 +92,6 @@
     <string name="guardado_mensaje">The character has been saved correctly</string>
     <string name="guardado_error">The character hasn\'t been saved</string>
     <string name="ver_web">Go to web</string>
+    <string name="sonido_bajado">The sound has turn off</string>
+    <string name="sonido_subido">The sound has turn on</string>
 </resources>

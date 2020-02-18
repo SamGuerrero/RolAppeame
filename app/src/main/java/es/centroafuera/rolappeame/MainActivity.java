@@ -11,6 +11,7 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ListView lvPartidasMaster;
 
     TabHost tabHost;
+    Brillo brillo = new Brillo();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +97,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             comentario.setText(getString(R.string.comentarioInicial));
         else
             comentario.setText(getString(R.string.comentario));
+
+        Brillo brillo = new Brillo();
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
     }
 
     public void getPersonajesFromFirebase(final MainActivity activity){
@@ -152,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     adaptador = new PersonajeAdapter(activity, partidas);
                     lvPartidas.setAdapter(adaptador);
                 }
+
             }
 
             @Override
@@ -242,6 +251,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //Cuando vuelve de hacer el personaje
     public void onResume() {
         super.onResume();
+
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
 
     }
 

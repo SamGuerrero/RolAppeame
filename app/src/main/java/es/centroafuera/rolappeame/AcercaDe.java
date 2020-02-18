@@ -2,6 +2,7 @@ package es.centroafuera.rolappeame;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -12,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 
 public class AcercaDe extends AppCompatActivity implements View.OnClickListener {
+    public static Brillo brillo = new Brillo();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,11 @@ public class AcercaDe extends AppCompatActivity implements View.OnClickListener 
         ListView LVprincipal = findViewById(R.id.LVprincipal);
         TextoAdapter adaptador = new TextoAdapter(this, textos);
         LVprincipal.setAdapter(adaptador);
+
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
     }
 
 

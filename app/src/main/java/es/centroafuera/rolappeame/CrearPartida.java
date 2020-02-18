@@ -12,8 +12,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +38,7 @@ import java.util.Arrays;
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
     private final int AVATAR = 1;
+    public static Brillo brillo = new Brillo();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +96,11 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         volver.setOnClickListener(this);
         Button continuar = findViewById(R.id.BTcontinuar);
         continuar.setOnClickListener(this);
+
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
     }
 
     @Override
@@ -310,6 +319,20 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         byte [] b = ByteStream.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
+    }
+
+    //Infla el Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fijo, menu);
+        return true;
+    }
+
+    @Override //Dentro del Action Bar
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, Configuracion.class);
+        startActivity(intent);
+        return true;
     }
 
 }

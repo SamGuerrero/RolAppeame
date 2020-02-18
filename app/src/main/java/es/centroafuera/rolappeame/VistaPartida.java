@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +42,12 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vistapartida);
+
+        Brillo brillo = new Brillo();
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
 
         //Recojo el id String que es la key de la base de datos
         Intent intent = getIntent();
@@ -371,12 +380,12 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         myRef.child("partidas").child(partida.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                Toast.makeText(VistaPartida.this, R.string.guardado_mensaje, Toast.LENGTH_LONG);
+                Toast.makeText(VistaPartida.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(VistaPartida.this, R.string.guardado_error, Toast.LENGTH_LONG);
+                Toast.makeText(VistaPartida.this, R.string.guardado_error, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -388,6 +397,20 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         byte [] b = ByteStream.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
+    }
+
+    //Infla el Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fijo, menu);
+        return true;
+    }
+
+    @Override //Dentro del Action Bar
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, Configuracion.class);
+        startActivity(intent);
+        return true;
     }
 
 

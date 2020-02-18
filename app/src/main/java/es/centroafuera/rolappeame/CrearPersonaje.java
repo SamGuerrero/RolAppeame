@@ -13,8 +13,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +35,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
     //A futuro: set puntos obligatorios, que no se puedan reducir según las combinaciones
@@ -93,8 +97,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         //Rellenar Spinners
         ArrayList<Raza> razas = new ArrayList<>();
         Raza[] razasArray = Raza.values();
-        for(int i = 0; i < razasArray.length; i++)
-            razas.add(razasArray[i]);
+        razas.addAll(Arrays.asList(razasArray));
 
         Spinner Sraza = findViewById(R.id.Sraza);
         ArrayAdapter<Raza> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
@@ -102,8 +105,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         ArrayList<Oficio> oficios = new ArrayList<>();
         Oficio[] oArray = Oficio.values();
-        for(int i = 0; i < oArray.length; i++)
-            oficios.add(oArray[i]);
+        oficios.addAll(Arrays.asList(oArray));
 
         Spinner Soficio = findViewById(R.id.Soficio);
         ArrayAdapter<Oficio> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
@@ -114,6 +116,11 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TVpuntos.setText(getString(R.string.tienes) + " " + (puntosTotales-puntosActuales) + " " + getString(R.string.puntos));
 
 
+        Brillo brillo = new Brillo();
+        //Brillo Pantalla
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.screenBrightness = brillo.getBrillo();
+        getWindow().setAttributes(lp);
     }
 
     @Override
@@ -376,6 +383,20 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         Toast toast = new Toast(getApplicationContext());
         toast.setView(v);
         toast.show();
+    }
+
+    //Infla el Action Bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.fijo, menu);
+        return true;
+    }
+
+    @Override //Dentro del Action Bar
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = new Intent(this, Configuracion.class);
+        startActivity(intent);
+        return true;
     }
 
 }
