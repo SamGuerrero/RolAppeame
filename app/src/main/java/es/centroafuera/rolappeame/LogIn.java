@@ -1,5 +1,6 @@
 package es.centroafuera.rolappeame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,9 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.btEntrar: break;
+            case R.id.btEntrar:
+                entrar();
+                break;
             case R.id.btRegistrar:
                 registrarUsuario();
                 break;
@@ -52,7 +55,36 @@ public class LogIn extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void entrar(){
+        //Recogemos el email y la contraseña
+        final String email = etEmail.getText().toString().trim();
+        String contraseña = etContra.getText().toString().trim();
 
+        if (email.isEmpty()) {
+            Toast.makeText(this, "Debe ingresar un email", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        if (contraseña.isEmpty()) {
+            Toast.makeText(this, "Debe ingresar una contraseña", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        firebaseAuth.signInWithEmailAndPassword(email, contraseña)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        if (task.isSuccessful()) {
+
+                            Toast.makeText(LogIn.this, "Bienvenido " + email, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(LogIn.this, MainActivity.class);
+                            startActivity(intent);
+                        }else {
+                            Toast.makeText(LogIn.this, "Ha ocurrido un error. No se ha podido entrar", Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
     }
 
     private void registrarUsuario(){

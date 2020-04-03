@@ -39,7 +39,7 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".LogIn">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,6 +47,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".CrearPersonaje" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".AcercaDe" />
         <activity android:name=".VistaPersonaje" />
         <activity android:name=".CrearPartida" />

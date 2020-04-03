@@ -8,10 +8,16 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class Configuracion extends AppCompatActivity implements View.OnClickListener {
+    private FirebaseAuth firebaseAuth;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Button btPreferencias = findViewById(R.id.btPreferencias);
         btPreferencias.setOnClickListener(this);
@@ -21,6 +27,8 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
         btMapa.setOnClickListener(this);
         Button btVolver = findViewById(R.id.btVolver);
         btVolver.setOnClickListener(this);
+        Button btCerrarSesion = findViewById(R.id.btCerrarSesion);
+        btCerrarSesion.setOnClickListener(this);
 
     }
 
@@ -51,7 +59,18 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
             case R.id.btVolver:
                 onBackPressed();
                 break;
+
+            case R.id.btCerrarSesion:
+                cerrarSesion();
+                break;
         }
 
+    }
+
+    private void cerrarSesion() {
+        firebaseAuth.signOut();
+        Intent intent = new Intent(this, LogIn.class);
+        startActivity(intent);
+        finish();
     }
 }
