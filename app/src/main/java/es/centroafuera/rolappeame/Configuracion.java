@@ -3,11 +3,12 @@ package es.centroafuera.rolappeame;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Configuracion extends AppCompatActivity implements View.OnClickListener {
@@ -68,9 +69,18 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
     }
 
     private void cerrarSesion() {
-        firebaseAuth.signOut();
-        Intent intent = new Intent(this, LogIn.class);
+
+        //Si está con facebook
+        if (AccessToken.getCurrentAccessToken() == null){
+            LoginManager.getInstance().logOut();
+
+        }else {
+            firebaseAuth.signOut();
+        }
+
+        Intent intent = new Intent(this, LogInActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
-        finish();
+        //finish();
     }
 }
