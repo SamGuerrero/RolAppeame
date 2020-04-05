@@ -16,6 +16,12 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -25,13 +31,17 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 
-public class LogInActivity extends AppCompatActivity implements View.OnClickListener {
+public class LogInActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private FirebaseAuth firebaseAuth;
     private CallbackManager callbackManager;
     private LoginButton loginButton;
+    private SignInButton signInButton;
+    private GoogleApiClient googleApiClient;
     private EditText etEmail;
     private EditText etContra;
+
+    public static final int SGIN_IN_CODE = 777;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +55,14 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         firebaseAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        googleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+        .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+        .build();
+
         etEmail = (EditText) findViewById(R.id.etEmail);
         etContra = (EditText) findViewById(R.id.etContra);
 
@@ -54,7 +72,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
 
         loginButton = (LoginButton) findViewById(R.id.btEntrarFB);
-        loginButton.setReadPermissions("email");
+        //loginButton.setReadPermissions("email");
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -79,6 +97,9 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             }
         });
 
+        signInButton = (SignInButton) findViewById(R.id.btEntrarGoogle);
+
+        signInButton.setOnClickListener(this);
         btEntrar.setOnClickListener(this);
         btRegistrar.setOnClickListener(this);
 
@@ -91,11 +112,22 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btEntrar:
                 entrar();
                 break;
+
             case R.id.btRegistrar:
                 registrarUsuario();
                 break;
+
+            case R.id.btEntrarGoogle:
+                entrarConGoogle();
+                break;
+
             default: break;
         }
+    }
+
+    private void entrarConGoogle() {
+        Intent intent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient);
+        startActivityForResult(intent, SGIN_IN_CODE);
     }
 
     private void entrar(){
@@ -122,6 +154,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
                             Toast.makeText(LogInActivity.this, "Bienvenido " + email, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }else {
                             Toast.makeText(LogInActivity.this, "Ha ocurrido un error. No se ha podido entrar", Toast.LENGTH_LONG).show();
@@ -170,7 +203,32 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SGIN_IN_CODE){
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
+            
+        }else{
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()){
+            Toast.makeText(LogInActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }else{
+            Toast.makeText(LogInActivity.this, "Ha ocurrido un error", Toast.LENGTH_LONG).show();
+            return;
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast.makeText(LogInActivity.this, "Ha ocurrido algún error", Toast.LENGTH_LONG).show();
     }
 }
