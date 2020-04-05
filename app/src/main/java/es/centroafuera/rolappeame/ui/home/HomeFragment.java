@@ -18,11 +18,9 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -38,8 +36,6 @@ import java.util.ArrayList;
 
 import es.centroafuera.rolappeame.CrearPartida;
 import es.centroafuera.rolappeame.CrearPersonaje;
-import es.centroafuera.rolappeame.MainActivity;
-import es.centroafuera.rolappeame.MenuLateralActivity;
 import es.centroafuera.rolappeame.Oficio;
 import es.centroafuera.rolappeame.Partida;
 import es.centroafuera.rolappeame.PartidaAdapter;
@@ -305,10 +301,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         startActivity(intent);
     }
 
-    /*@Override //Infla el menú contextual
+    @Override //Infla el menú contextual
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getContext().getMenuInflater().inflate(R.menu.elige, menu);
+        getActivity().getMenuInflater().inflate(R.menu.elige, menu);
     }
 
     @Override//Dentro del menú contextual
@@ -321,10 +317,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent intent;
 
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
-                    intent = new Intent(this, VistaPersonaje.class);
+                    intent = new Intent(getContext(), VistaPersonaje.class);
                     intent.putExtra("ID", partidas.get(pos).getIdT()); //Estoy pasando mal el Id
                 }else{
-                    intent = new Intent(this, VistaPartida.class);
+                    intent = new Intent(getContext(), VistaPartida.class);
                     intent.putExtra("ID", partidasMaster.get(pos).getIdT()); //Estoy pasando mal el Id
                 }
 
@@ -338,12 +334,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(MainActivity.this, R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, R.string.eliminar_error, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.eliminar_error, Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -353,12 +349,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     myRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(MainActivity.this, R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(MainActivity.this, R.string.eliminar_error, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), R.string.eliminar_error, Toast.LENGTH_LONG).show();
                         }
                     });
 
@@ -370,5 +366,5 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
         return true;
-    }*/
+    }
 }

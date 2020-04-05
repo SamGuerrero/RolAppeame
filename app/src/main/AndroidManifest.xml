@@ -29,7 +29,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".MenuLateralActivity"
+            android:name=".MainActivity"
             android:label="@string/title_activity_menu_lateral"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <!--
@@ -76,7 +76,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".CrearPersonaje" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".VistaPersonaje" />
         <activity android:name=".CrearPartida" />
         <activity android:name=".VistaPartida" />

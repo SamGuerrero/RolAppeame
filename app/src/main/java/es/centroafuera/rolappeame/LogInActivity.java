@@ -3,7 +3,6 @@ package es.centroafuera.rolappeame;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -27,8 +26,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 
 
 public class LogInActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -79,7 +76,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Toast.makeText(LogInActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LogInActivity.this, MenuLateralActivity.class);
+                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -153,7 +150,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
 
                             Toast.makeText(LogInActivity.this, "Bienvenido " + email, Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(LogInActivity.this, MenuLateralActivity.class);
+                            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }else {
@@ -217,7 +214,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()){
             Toast.makeText(LogInActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(LogInActivity.this, MenuLateralActivity.class);
+            Intent intent = new Intent(LogInActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 
