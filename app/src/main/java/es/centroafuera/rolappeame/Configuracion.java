@@ -65,21 +65,9 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.btPreferencias:
-                Intent intentPreferencias = new Intent(this, Preferencias.class);
-                startActivity(intentPreferencias);
+            case R.id.btPreferencias: case R.id.btCondiciones: case R.id.btMapa:
                 break;
 
-            case R.id.btCondiciones:
-                Intent intentCondiciones = new Intent(this, AcercaDe.class);
-                startActivity(intentCondiciones);
-
-                break;
-            case R.id.btMapa:
-                Intent intentMapa = new Intent(this, MapsActivity.class);
-                startActivity(intentMapa);
-
-                break;
             case R.id.btVolver:
                 onBackPressed();
                 break;
@@ -127,6 +115,6 @@ public class Configuracion extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        
+
     }
 }

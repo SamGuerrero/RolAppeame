@@ -95,4 +95,17 @@
     <string name="ver_web">Go to web</string>
     <string name="sonido_bajado">The sound has turn off</string>
     <string name="sonido_subido">The sound has turn on</string>
+
+
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Preferencias</string>
+    <string name="menu_slideshow">Acerca de</string>
+    <string name="menu_tools">Visita Mapa</string>
+    <string name="menu_share">Cerrar Sesión</string>
+    <string name="menu_send">Send</string>
+    <string name="title_activity_menu_lateral">Menu</string>
 </resources>

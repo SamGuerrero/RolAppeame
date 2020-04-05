@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame;
+package es.centroafuera.rolappeame.ui.home;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,21 +8,23 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
-import com.facebook.AccessToken;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,20 +36,28 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import es.centroafuera.rolappeame.CrearPartida;
+import es.centroafuera.rolappeame.CrearPersonaje;
+import es.centroafuera.rolappeame.MainActivity;
+import es.centroafuera.rolappeame.MenuLateralActivity;
+import es.centroafuera.rolappeame.Oficio;
+import es.centroafuera.rolappeame.Partida;
+import es.centroafuera.rolappeame.PartidaAdapter;
+import es.centroafuera.rolappeame.Personaje;
+import es.centroafuera.rolappeame.PersonajeAdapter;
+import es.centroafuera.rolappeame.R;
+import es.centroafuera.rolappeame.Raza;
+import es.centroafuera.rolappeame.TipoPartida;
+import es.centroafuera.rolappeame.VistaPartida;
+import es.centroafuera.rolappeame.VistaPersonaje;
+
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-/*
-Este programa de momento sólo crea partidas como jugador:
-Puedes crear tus personajes, ver sus estadísiticas y cambiarlas
+public class HomeFragment extends Fragment implements View.OnClickListener {
 
-ACCIONES FUTURAS:
-    - Conectar partidas de varios personajes a uno de máster
-    - Los personajes tendrán inventario
-    - El máster podrá cambiar el inventario de los jugadores
-*/
+    private HomeViewModel homeViewModel;
+    View root;
 
-//TODO: Borrar esta Activity y los xml correspondientes
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     ArrayList<Personaje> partidas = new ArrayList<>();
     PersonajeAdapter adaptador;
@@ -59,13 +69,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TabHost tabHost;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+
 
         //Tab
-        tabHost = findViewById(R.id.tabhost);
+        tabHost = root.findViewById(R.id.tabhost);
         tabHost.setup();
         TabHost.TabSpec spec = tabHost.newTabSpec(getString(R.string.personajes));
         spec.setContent(R.id.personajes);
@@ -78,31 +89,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabHost.addTab(spec);
 
         //añado los listeners
-        FloatingActionButton anadirFAB = findViewById(R.id.anadirFAB);
+        FloatingActionButton anadirFAB = root.findViewById(R.id.anadirFAB);
         anadirFAB.setOnClickListener(this);
-        FloatingActionButton FABanadir = findViewById(R.id.FABanadir);
+        FloatingActionButton FABanadir = root.findViewById(R.id.FABanadir);
         FABanadir.setOnClickListener(this);
 
         //Obtengo los personajes y los muestro en su tabhost
-        lvPartidas = findViewById(R.id.partidasLV);
+        lvPartidas = root.findViewById(R.id.partidasLV);
         getPersonajesFromFirebase(this);
         registerForContextMenu(lvPartidas);
 
         //Obtengo las partidas y las muestro en su tabhost
-        lvPartidasMaster = findViewById(R.id.LVpartidas);
+        lvPartidasMaster = root.findViewById(R.id.LVpartidas);
         getPartidasFromFirebase(this);
         registerForContextMenu(lvPartidasMaster);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
-        TextView comentario = findViewById(R.id.comentarioTV);
+        TextView comentario = root.findViewById(R.id.comentarioTV);
         if (partidas.size() == 0)
             comentario.setText(getString(R.string.comentarioInicial));
         else
             comentario.setText(getString(R.string.comentario));
 
+
+        return root;
     }
 
-    public void getPersonajesFromFirebase(final MainActivity activity){
+    public void getPersonajesFromFirebase(final HomeFragment activity){
 
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference("Personaje"); //La clase en Java
@@ -148,13 +161,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
-                    TextView comentario = findViewById(R.id.comentarioTV);
+                    TextView comentario = root.findViewById(R.id.comentarioTV);
                     if (partidas.size() == 0)
                         comentario.setText(getString(R.string.comentarioInicial));
                     else
                         comentario.setText(getString(R.string.comentario));
 
-                    //adaptador = new PersonajeAdapter(activity, partidas);
+                    adaptador = new PersonajeAdapter(activity, partidas);
                     lvPartidas.setAdapter(adaptador);
                 }
 
@@ -169,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void getPartidasFromFirebase(final MainActivity activity){
+    public void getPartidasFromFirebase(final HomeFragment activity){
 
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference("Partida"); //La clase en Java
@@ -214,13 +227,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
-                    TextView comentario = findViewById(R.id.TVcomentario);
+                    TextView comentario = root.findViewById(R.id.TVcomentario);
                     if (partidasMaster.size() == 0)
                         comentario.setText(getString(R.string.comentarioInicial));
                     else
                         comentario.setText(getString(R.string.comentario));
 
-                    //adaptadorMaster = new PartidaAdapter(activity, partidasMaster);
+                    adaptadorMaster = new PartidaAdapter(activity, partidasMaster);
                     lvPartidasMaster.setAdapter(adaptadorMaster);
                 }
             }
@@ -258,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.anadirFAB: case R.id.FABanadir:
 
                 //Elegir entre Master y Jugador
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage(getString(R.string.pregunta_partida))
                         .setPositiveButton(getString(R.string.jugador),
                                 new DialogInterface.OnClickListener() {
@@ -283,33 +296,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void crearPersonaje(){
-        Intent intent = new Intent(this, CrearPersonaje.class);
+        Intent intent = new Intent(getContext(), CrearPersonaje.class);
         startActivity(intent);
     }
 
     public void crearPartida(){
-        Intent intent = new Intent(this, CrearPartida.class);
+        Intent intent = new Intent(getContext(), CrearPartida.class);
         startActivity(intent);
     }
 
-    //Infla el Action Bar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.fijo, menu);
-        return true;
-    }
-
-    @Override //Dentro del Action Bar
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, MenuLateralActivity.class);
-        startActivity(intent);
-        return true;
-    }
-
-    @Override //Infla el menú contextual
+    /*@Override //Infla el menú contextual
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        getMenuInflater().inflate(R.menu.elige, menu);
+        getContext().getMenuInflater().inflate(R.menu.elige, menu);
     }
 
     @Override//Dentro del menú contextual
@@ -371,5 +370,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         return true;
-    }
+    }*/
 }

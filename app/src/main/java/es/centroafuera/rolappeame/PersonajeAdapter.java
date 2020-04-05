@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 
 public class PersonajeAdapter extends BaseAdapter {
@@ -21,10 +23,10 @@ public class PersonajeAdapter extends BaseAdapter {
         return personajes.size();
     }
 
-    public PersonajeAdapter(Activity context, ArrayList<Personaje> personajes) {
-        this.context = context;
+    public PersonajeAdapter(Fragment context, ArrayList<Personaje> personajes) {
+        this.context = context.getContext();
         this.personajes = personajes;
-        layoutInflater = LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context.getContext());
     }
 
     @Override

@@ -1,59 +1,62 @@
-package es.centroafuera.rolappeame;
+package es.centroafuera.rolappeame.ui.gallery;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import java.util.Locale;
 
-public class Preferencias extends AppCompatActivity implements View.OnClickListener {
+import es.centroafuera.rolappeame.MainActivity;
+import es.centroafuera.rolappeame.MenuLateralActivity;
+import es.centroafuera.rolappeame.R;
+
+public class GalleryFragment extends Fragment implements View.OnClickListener {
+
+    private GalleryViewModel galleryViewModel;
     CheckBox cbSonido, cbNoche, cbIdioma;
     AudioManager audioManager;
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferencias);
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-        Button btVolver = findViewById(R.id.btVolver);
-        btVolver.setOnClickListener(this);
-
+        //TODO: Cambiar esta función que de todas formas es algo cutre
         //Silenciar movil
-        cbSonido = findViewById(R.id.cbSonido);
+        cbSonido = root.findViewById(R.id.cbSonido);
         cbSonido.setOnClickListener(this);
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         //Modo noche
-        cbNoche = findViewById(R.id.cbNoche);
+        cbNoche = root.findViewById(R.id.cbNoche);
         cbNoche.setOnClickListener(this);
 
         //Idioma
-        cbIdioma = findViewById(R.id.cbIdioma);
+        cbIdioma = root.findViewById(R.id.cbIdioma);
         cbIdioma.setOnClickListener(this);
 
 
+        return root;
     }
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
-            case R.id.btVolver:
-                ajustarBrillo();
-                onBackPressed();
-                break;
 
             case R.id.cbSonido:
                 activarSonido();
@@ -67,25 +70,24 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
                 ajustarBrillo();
                 break;
         }
-
     }
 
     public void activarSonido(){
-        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        //audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
 
         if (cbSonido.isChecked()){
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 0, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 0, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_RING, 0, 0);
-            Toast.makeText(this, R.string.sonido_bajado, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.sonido_bajado, Toast.LENGTH_SHORT).show();
 
         }else{
             audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 100, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_SYSTEM, 100, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_NOTIFICATION, 100, 0);
             audioManager.setStreamVolume(AudioManager.STREAM_RING, 100, 0);
-            Toast.makeText(this, R.string.sonido_subido, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.sonido_subido, Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -103,11 +105,12 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
         Locale.setDefault(loc);
         Configuration config = new Configuration();
         config.locale = loc;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        //TODO: Arreglar lo del getContext desde Fragment
+        //getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
-        Intent refrescar = new Intent(this, MainActivity.class);
+        Intent refrescar = new Intent(getContext(), MenuLateralActivity.class);
+        refrescar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(refrescar);
-        finish();
 
     }
 
@@ -119,12 +122,10 @@ public class Preferencias extends AppCompatActivity implements View.OnClickListe
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        Intent refrescar = new Intent(this, MainActivity.class);
+        Intent refrescar = new Intent(getContext(), MenuLateralActivity.class);
+        refrescar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(refrescar);
-        finish();
 
 
     }
-
-
 }

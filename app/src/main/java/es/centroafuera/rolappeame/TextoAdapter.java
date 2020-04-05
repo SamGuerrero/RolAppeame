@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 
 public class TextoAdapter extends BaseAdapter {
@@ -15,10 +17,10 @@ public class TextoAdapter extends BaseAdapter {
     private ArrayList<Texto> textos;
     private LayoutInflater layoutInflater;
 
-    public TextoAdapter(Activity context, ArrayList<Texto> textos) {
-        this.context = context;
+    public TextoAdapter(Fragment context, ArrayList<Texto> textos) {
+        this.context = context.getContext();
         this.textos = textos;
-        layoutInflater = LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context.getContext());
     }
 
     @Override

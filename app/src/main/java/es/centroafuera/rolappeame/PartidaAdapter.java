@@ -9,6 +9,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 
 public class PartidaAdapter extends BaseAdapter {
@@ -21,10 +23,10 @@ public class PartidaAdapter extends BaseAdapter {
         return partidas.size();
     }
 
-    public PartidaAdapter(Activity context, ArrayList<Partida> partidas) {
-        this.context = context;
+    public PartidaAdapter(Fragment context, ArrayList<Partida> partidas) {
+        this.context = context.getContext();
         this.partidas = partidas;
-        layoutInflater = LayoutInflater.from(context);
+        layoutInflater = LayoutInflater.from(context.getContext());
     }
 
     @Override
