@@ -53,7 +53,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         DatabaseReference myRef = database.getReference();
 
         // Read from the database
-        myRef.child("Personaje").child("personajes").child(id).addValueEventListener(new ValueEventListener() {
+        myRef.child("Personaje").child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                 // This method is called once with the initial value and again
@@ -359,7 +359,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Personaje > personajes > id > Todos los datos del personaje
         DatabaseReference myRef = database.getReference("Personaje");
-        myRef.child("personajes").child(personaje.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
+        myRef.child(personaje.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(VistaPersonaje.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();

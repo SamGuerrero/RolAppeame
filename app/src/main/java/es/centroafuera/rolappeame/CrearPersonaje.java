@@ -30,6 +30,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -317,13 +319,14 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
 
         Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-
+        //FIXME: No está guardando el personaje
+        //Personaje > ID > Cada dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Personaje"); //Referencia a la clase Java
-        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("nombre").setValue(personaje.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
-        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("imagen").setValue(BitMapToString(personaje.getImagen()));
-        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("oficio").setValue(personaje.getOficio());
-        myRef.child("personajes").child(String.valueOf(personaje.getId())).child("raza").setValue(personaje.getRaza());
+        myRef.child(String.valueOf(personaje.getId())).child("nombre").setValue(personaje.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
+        myRef.child(String.valueOf(personaje.getId())).child("imagen").setValue(BitMapToString(personaje.getImagen()));
+        myRef.child(String.valueOf(personaje.getId())).child("oficio").setValue(personaje.getOficio());
+        myRef.child(String.valueOf(personaje.getId())).child("raza").setValue(personaje.getRaza());
 
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("agilidad").setValue(personaje.getAgilidad());
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("carisma").setValue(personaje.getCarisma());
@@ -332,6 +335,13 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("fuerza").setValue(personaje.getFuerza());
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("inteligencia").setValue(personaje.getInteligencia());
         myRef.child("personajes").child(String.valueOf(personaje.getId())).child("percepcion").setValue(personaje.getPercepcion());
+
+        //Usuario > email > personajes > id_Personaje
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //String email = user.getEmail();
+        myRef = database.getReference("Usuario");
+        myRef.child("sam").child("personajes").push().child("id_personaje").setValue(personaje.getId()); //TODO: Sam es prueba
+
 
         onBackPressed();
     }

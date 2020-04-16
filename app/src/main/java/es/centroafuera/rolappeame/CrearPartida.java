@@ -28,6 +28,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -289,21 +291,28 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
 
         Partida partida = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
 
-
+        //Partida > ID > Cada Dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Partida"); //Referencia a la clase Java
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("nombre").setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("imagen").setValue(BitMapToString(partida.getImagen()));
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("tipoPartida").setValue(partida.getTipoPartida());
+        myRef.child(String.valueOf(partida.getId())).child("nombre").setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
+        myRef.child(String.valueOf(partida.getId())).child("imagen").setValue(BitMapToString(partida.getImagen()));
+        myRef.child(String.valueOf(partida.getId())).child("tipoPartida").setValue(partida.getTipoPartida());
 
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("minVida").setValue(partida.getMinVida());
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("maxVida").setValue(partida.getMaxVida());
+        myRef.child(String.valueOf(partida.getId())).child("minVida").setValue(partida.getMinVida());
+        myRef.child(String.valueOf(partida.getId())).child("maxVida").setValue(partida.getMaxVida());
 
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("minAtaque").setValue(partida.getMinAtaque());
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("maxAtaque").setValue(partida.getMaxAtaque());
+        myRef.child(String.valueOf(partida.getId())).child("minAtaque").setValue(partida.getMinAtaque());
+        myRef.child(String.valueOf(partida.getId())).child("maxAtaque").setValue(partida.getMaxAtaque());
 
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("minDefensa").setValue(partida.getMinDefensa());
-        myRef.child("partidas").child(String.valueOf(partida.getId())).child("maxDefensa").setValue(partida.getMaxDefensa());
+        myRef.child(String.valueOf(partida.getId())).child("minDefensa").setValue(partida.getMinDefensa());
+        myRef.child(String.valueOf(partida.getId())).child("maxDefensa").setValue(partida.getMaxDefensa());
+
+        //FIXME: No está guardando todos los datos de la partida, ni está guardando el id en Usuario
+        //Usuario > email > personajes > id_Personaje
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //String email = user.getEmail();
+        myRef = database.getReference("Usuario");
+        myRef.child("sam").child("partidas").push().child("id_partida").setValue(partida.getId()); //TODO: Sam es de prueba
 
         onBackPressed();
     }

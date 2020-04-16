@@ -51,7 +51,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         DatabaseReference myRef = database.getReference();
 
         // Read from the database
-        myRef.child("Partida").child("partidas").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("Partida").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                 // This method is called once with the initial value and again

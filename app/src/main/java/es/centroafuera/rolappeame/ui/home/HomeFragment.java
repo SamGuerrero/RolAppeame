@@ -26,6 +26,8 @@ import androidx.lifecycle.ViewModelProviders;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +46,7 @@ import es.centroafuera.rolappeame.PersonajeAdapter;
 import es.centroafuera.rolappeame.R;
 import es.centroafuera.rolappeame.Raza;
 import es.centroafuera.rolappeame.TipoPartida;
+import es.centroafuera.rolappeame.Usuario;
 import es.centroafuera.rolappeame.VistaPartida;
 import es.centroafuera.rolappeame.VistaPersonaje;
 
@@ -64,11 +67,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ListView lvPartidasMaster;
 
     TabHost tabHost;
+    Usuario usuario;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
 
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        //String email = user.getEmail();
+        usuario = new Usuario("sam"); //TODO: Cambiar esto
 
 
         //Tab
@@ -113,11 +121,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     public void getPersonajesFromFirebase(final HomeFragment activity){
 
+        //FIXME: No está leyendo los personajes correspondientes
         //Obtengo una lista de la base de datos
-        DatabaseReference myRef = database.getReference("Personaje"); //La clase en Java
+        DatabaseReference myRef = database.getReference("Usuario"); //La clase en Java
 
-        // Read from the database
-        myRef.child("personajes").addValueEventListener(new ValueEventListener() {
+        // Read from the database             //Usuarios > email > personajes
+
+        myRef.child(usuario.getEmail()).child("personajes").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -125,35 +135,52 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (dataSnapshot.exists()){
                     partidas.clear();
 
-                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
-                        String nombre = (String) ds.child("nombre").getValue();
-                        Bitmap imagen = null;
-                        Raza raza = Raza.DRACÓNIDO;
-                        Oficio oficio = Oficio.BARDO;
-                        int fuerza = 0;
-                        int agilidad = 0;
-                        int percepcion = 0;
-                        int constitucion = 0;
-                        int inteligencia = 0;
-                        int carisma = 0;
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Para cada id pedimos una subquery que nos lleve a la partida correspondiente
+                        DatabaseReference subRef = database.getReference("Personaje");
+                        subRef.child(ds.child("id_personaje").getValue().toString()).addValueEventListener(
+                                new ValueEventListener() {
+                                   @Override
+                                   public void onDataChange(@NonNull DataSnapshot subDS) {
+                                       if (subDS.exists()){
+                                           String nombre = (String) subDS.child("nombre").getValue();
+                                           Bitmap imagen = null;
+                                           Raza raza = Raza.DRACÓNIDO;
+                                           Oficio oficio = Oficio.BARDO;
+                                           int fuerza = 0;
+                                           int agilidad = 0;
+                                           int percepcion = 0;
+                                           int constitucion = 0;
+                                           int inteligencia = 0;
+                                           int carisma = 0;
 
-                        try {
-                            imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+                                           try {
+                                               imagen = StringToBitMap(subDS.child("imagen").getValue().toString());
 
-                            raza = Raza.valueOf(ds.child("raza").getValue().toString());
-                            oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
-                            fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
-                            agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
-                            percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
-                            constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
-                            inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
-                            carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
+                                               raza = Raza.valueOf(subDS.child("raza").getValue().toString());
+                                               oficio =  Oficio.valueOf(subDS.child("oficio").getValue().toString());
+                                               fuerza = Integer.parseInt(subDS.child("fuerza").getValue().toString());
+                                               agilidad = Integer.parseInt(subDS.child("agilidad").getValue().toString());
+                                               percepcion = Integer.parseInt(subDS.child("percepcion").getValue().toString());
+                                               constitucion = Integer.parseInt(subDS.child("constitucion").getValue().toString());
+                                               inteligencia = Integer.parseInt(subDS.child("inteligencia").getValue().toString());
+                                               carisma = Integer.parseInt(subDS.child("carisma").getValue().toString());
 
-                        }catch (NullPointerException e){}
+                                           }catch (NullPointerException e){}
 
-                        Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-                        personajeT.setIdT(ds.getKey());
-                        partidas.add(personajeT);
+                                           Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+                                           personajeT.setIdT(subDS.getKey()); //Se guarda el ID real, donde se encuentra en la BDD
+                                           partidas.add(personajeT);
+                                       }
+                                   }
+
+                                   @Override
+                                   public void onCancelled(@NonNull DatabaseError error) {
+                                       Log.w(TAG, "Failed to read value.", error.toException());
+                                   }
+                               });
+
+                        usuario.addPersonajes(ds.getKey()); //Añadimos la ID en la que se encuentra este personaje en concreto, así a la hora de borrarlo sabremos a donde ir
+
                     }
 
                     //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
@@ -179,12 +206,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getPartidasFromFirebase(final HomeFragment activity){
-
+        //FIXME: No está leyendo las partidas correspondientes
         //Obtengo una lista de la base de datos
-        DatabaseReference myRef = database.getReference("Partida"); //La clase en Java
+        DatabaseReference myRef = database.getReference("Usuario"); //La clase en Java
 
-        // Read from the database
-        myRef.child("partidas").addValueEventListener(new ValueEventListener() {
+        // Read from the database             //Usuarios > email > partidas
+
+        myRef.child(usuario.getEmail()).child("partidas").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -192,34 +220,50 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (dataSnapshot.exists()){
                     partidasMaster.clear();
 
-                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
-                        String nombre = (String) ds.child("nombre").getValue();
-                        Bitmap imagen = null;
-                        TipoPartida tipoPartida = TipoPartida.Akelarre;
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Buscamos en partida cada id dentro de Usuario
 
-                        int minVida = 0;
-                        int maxVida = 0;
-                        int minAtaque = 0;
-                        int maxAtaque = 0;
-                        int minDefensa = 0;
-                        int maxDefensa = 0;
+                        DatabaseReference subRef = database.getReference("Partida");
+                        subRef.child(ds.child("id_partida").getValue().toString()).addValueEventListener(
+                                new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot subDS) {
+                                        String nombre = (String) subDS.child("nombre").getValue();
+                                        Bitmap imagen = null;
+                                        TipoPartida tipoPartida = TipoPartida.Akelarre;
 
-                        try {
-                            imagen = StringToBitMap(ds.child("imagen").getValue().toString());
-                            tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
+                                        int minVida = 0;
+                                        int maxVida = 0;
+                                        int minAtaque = 0;
+                                        int maxAtaque = 0;
+                                        int minDefensa = 0;
+                                        int maxDefensa = 0;
 
-                            minVida = Integer.parseInt(ds.child("minVida").getValue().toString());
-                            maxVida = Integer.parseInt(ds.child("maxVida").getValue().toString());
-                            minAtaque = Integer.parseInt(ds.child("minAtaque").getValue().toString());
-                            maxAtaque = Integer.parseInt(ds.child("maxAtaque").getValue().toString());
-                            minDefensa = Integer.parseInt(ds.child("minDefensa").getValue().toString());
-                            maxDefensa = Integer.parseInt(ds.child("maxDefensa").getValue().toString());
+                                        try {
+                                            imagen = StringToBitMap(subDS.child("imagen").getValue().toString());
+                                            tipoPartida = TipoPartida.valueOf(subDS.child("tipoPartida").getValue().toString());
 
-                        }catch (NullPointerException e){}
+                                            minVida = Integer.parseInt(subDS.child("minVida").getValue().toString());
+                                            maxVida = Integer.parseInt(subDS.child("maxVida").getValue().toString());
+                                            minAtaque = Integer.parseInt(subDS.child("minAtaque").getValue().toString());
+                                            maxAtaque = Integer.parseInt(subDS.child("maxAtaque").getValue().toString());
+                                            minDefensa = Integer.parseInt(subDS.child("minDefensa").getValue().toString());
+                                            maxDefensa = Integer.parseInt(subDS.child("maxDefensa").getValue().toString());
 
-                        Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
-                        partidaT.setIdT(ds.getKey());
-                        partidasMaster.add(partidaT);
+                                        }catch (NullPointerException e){}
+
+                                        Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
+                                        partidaT.setIdT(subDS.getKey());
+                                        partidasMaster.add(partidaT);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Log.w(TAG, "Failed to read value.", error.toException());
+                                    }
+                                });
+
+                        usuario.addPartidas(ds.getKey()); //Añadimos la ID en la que se encuentra este personaje en concreto, así a la hora de borrarlo sabremos a donde ir
+
                     }
 
                     //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
@@ -329,9 +373,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.imEliminar:
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
+
+                    //Se elimina de Usuario
+                    DatabaseReference myRef = database.getReference("Usuario");
+                    myRef.child(usuario.getEmail()).child("personajes").child(usuario.getPersonajes().get(pos)).removeValue();
+
                     Personaje temporal = partidas.get(pos);
-                    DatabaseReference myRef = database.getReference("Personaje");
-                    myRef.child("personajes").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+
+                    //Se elimina de Personaje
+                    myRef = database.getReference("Personaje");
+                    myRef.child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
@@ -343,9 +394,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         }
                     });
 
+
+
                 }else{
+                    //Se elimina de Usuario
+                    DatabaseReference myRef = database.getReference("Usuario");
+                    myRef.child(usuario.getEmail()).child("partidas").child(usuario.getPartidas().get(pos)).removeValue();
+
+                    //Se elimina de Partida
                     Partida temporal = partidasMaster.get(pos);
-                    DatabaseReference myRef = database.getReference("Partida");
+                    myRef = database.getReference("Partida");
                     myRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
