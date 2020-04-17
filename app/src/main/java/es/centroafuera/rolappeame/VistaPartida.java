@@ -402,8 +402,10 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
     @Override //Dentro del Action Bar
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, Configuracion.class);
-        startActivity(intent);
+
+        //TODO: Eliminar esto
+        //Intent intent = new Intent(this, Configuracion.class);
+        //startActivity(intent);
         return true;
     }
 

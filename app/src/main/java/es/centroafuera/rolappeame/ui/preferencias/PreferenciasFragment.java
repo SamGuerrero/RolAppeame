@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame.ui.gallery;
+package es.centroafuera.rolappeame.ui.preferencias;
 
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -20,15 +20,15 @@ import java.util.Locale;
 import es.centroafuera.rolappeame.MainActivity;
 import es.centroafuera.rolappeame.R;
 
-public class GalleryFragment extends Fragment implements View.OnClickListener {
+public class PreferenciasFragment extends Fragment implements View.OnClickListener {
 
-    private GalleryViewModel galleryViewModel;
+    private PreferenciasViewModel galleryViewModel;
     CheckBox cbSonido, cbNoche, cbIdioma;
     AudioManager audioManager;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel = ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        galleryViewModel = ViewModelProviders.of(this).get(PreferenciasViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_preferencias, container, false);
 
         //TODO: Cambiar esta función que de todas formas es algo cutre
         //Silenciar movil

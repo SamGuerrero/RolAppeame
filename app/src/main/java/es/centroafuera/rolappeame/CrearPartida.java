@@ -307,7 +307,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         myRef.child(String.valueOf(partida.getId())).child("minDefensa").setValue(partida.getMinDefensa());
         myRef.child(String.valueOf(partida.getId())).child("maxDefensa").setValue(partida.getMaxDefensa());
 
-        //FIXME: No está guardando todos los datos de la partida, ni está guardando el id en Usuario
+
         //Usuario > email > personajes > id_Personaje
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //String email = user.getEmail();
@@ -334,8 +334,10 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
 
     @Override //Dentro del Action Bar
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, Configuracion.class);
-        startActivity(intent);
+
+        //TODO: Eliminar esto
+        //Intent intent = new Intent(this, Configuracion.class);
+        //startActivity(intent);
         return true;
     }
 

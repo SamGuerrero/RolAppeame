@@ -319,7 +319,8 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
 
         Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-        //FIXME: No está guardando el personaje
+
+
         //Personaje > ID > Cada dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Personaje"); //Referencia a la clase Java
@@ -398,8 +399,10 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
     @Override //Dentro del Action Bar
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, Configuracion.class);
-        startActivity(intent);
+
+        //TODO: Eliminar esto
+        //Intent intent = new Intent(this, Configuracion.class);
+        //startActivity(intent);
         return true;
     }
 

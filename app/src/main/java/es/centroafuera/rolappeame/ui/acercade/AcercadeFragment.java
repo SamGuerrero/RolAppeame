@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame.ui.slideshow;
+package es.centroafuera.rolappeame.ui.acercade;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,14 +16,14 @@ import es.centroafuera.rolappeame.R;
 import es.centroafuera.rolappeame.Texto;
 import es.centroafuera.rolappeame.TextoAdapter;
 
-public class SlideshowFragment extends Fragment {
+public class AcercadeFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private AcercadeViewModel slideshowViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel = ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        slideshowViewModel = ViewModelProviders.of(this).get(AcercadeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_acercade, container, false);
 
         //TODO: Cambiar las condiciones legales por algo con más sentido
         Texto acercaDe = new Texto(getString(R.string.About), getString(R.string.contenido_about));

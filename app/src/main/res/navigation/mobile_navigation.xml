@@ -13,15 +13,15 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="es.centroafuera.rolappeame.ui.gallery.GalleryFragment"
+        android:name="es.centroafuera.rolappeame.ui.preferencias.PreferenciasFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_preferencias" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="es.centroafuera.rolappeame.ui.slideshow.SlideshowFragment"
+        android:name="es.centroafuera.rolappeame.ui.acercade.AcercadeFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_acercade" />
 
     <fragment
         android:id="@+id/nav_tools"
@@ -31,8 +31,8 @@
 
     <fragment
         android:id="@+id/nav_share"
-        android:name="es.centroafuera.rolappeame.ui.share.ShareFragment"
+        android:name="es.centroafuera.rolappeame.ui.cerrarsesion.CerrarsesionFragment"
         android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        tools:layout="@layout/fragment_cerrarsesion" />
 
 </navigation>

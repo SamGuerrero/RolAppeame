@@ -206,7 +206,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getPartidasFromFirebase(final HomeFragment activity){
-        //FIXME: No está leyendo las partidas correspondientes
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference("Usuario"); //La clase en Java
 
@@ -403,8 +402,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     //Se elimina de Partida
                     Partida temporal = partidasMaster.get(pos);
-                    myRef = database.getReference("Partida");
-                    myRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    DatabaseReference secRef = database.getReference("Partida");
+                    secRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();

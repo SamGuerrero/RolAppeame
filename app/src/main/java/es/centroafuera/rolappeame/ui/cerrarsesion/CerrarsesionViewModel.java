@@ -1,14 +1,14 @@
-package es.centroafuera.rolappeame.ui.share;
+package es.centroafuera.rolappeame.ui.cerrarsesion;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ShareViewModel extends ViewModel {
+public class CerrarsesionViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShareViewModel() {
+    public CerrarsesionViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is share fragment");
     }

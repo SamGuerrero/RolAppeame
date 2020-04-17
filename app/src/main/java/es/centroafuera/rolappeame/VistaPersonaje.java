@@ -403,8 +403,10 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
     @Override //Dentro del Action Bar
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this, Configuracion.class);
-        startActivity(intent);
+
+        //TODO: Eliminar esto
+        //Intent intent = new Intent(this, Configuracion.class);
+        //startActivity(intent);
         return true;
     }
 }

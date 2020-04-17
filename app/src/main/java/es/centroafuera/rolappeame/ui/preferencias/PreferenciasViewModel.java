@@ -1,14 +1,14 @@
-package es.centroafuera.rolappeame.ui.gallery;
+package es.centroafuera.rolappeame.ui.preferencias;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class PreferenciasViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public PreferenciasViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is gallery fragment");
     }
