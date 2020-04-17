@@ -13,10 +13,8 @@ import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -292,10 +290,11 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         Partida partida = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
 
         //Partida > ID > Cada Dato
+        //TODO: Cuando cree las condiciones todo lo que se añada a la base de datos deberá ser mediante constantes
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Partida"); //Referencia a la clase Java
-        myRef.child(String.valueOf(partida.getId())).child("nombre").setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
-        myRef.child(String.valueOf(partida.getId())).child("imagen").setValue(BitMapToString(partida.getImagen()));
+        DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS); //Referencia a la clase Java
+        myRef.child(String.valueOf(partida.getId())).child(Utils.NOMBRE_PARTIDA).setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
+        myRef.child(String.valueOf(partida.getId())).child(Utils.IMAGEN_PARTIDA).setValue(Utils.BitMapToString(partida.getImagen()));
         myRef.child(String.valueOf(partida.getId())).child("tipoPartida").setValue(partida.getTipoPartida());
 
         myRef.child(String.valueOf(partida.getId())).child("minVida").setValue(partida.getMinVida());
@@ -311,33 +310,16 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Usuario > email > personajes > id_Personaje
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //String email = user.getEmail();
-        myRef = database.getReference("Usuario");
-        myRef.child("sam").child("partidas").push().child("id_partida").setValue(partida.getId()); //TODO: Sam es de prueba
+        myRef = database.getReference(Utils.TABLA_USUARIOS);
+        myRef.child("sam").child(Utils.PARTIDAS_USUARIO).push().child(Utils.ID_PARTIDA).setValue(partida.getId()); //TODO: Sam es de prueba
 
         onBackPressed();
-    }
-
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
-        byte [] b = ByteStream.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
     }
 
     //Infla el Action Bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.fijo, menu);
-        return true;
-    }
-
-    @Override //Dentro del Action Bar
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //TODO: Eliminar esto
-        //Intent intent = new Intent(this, Configuracion.class);
-        //startActivity(intent);
         return true;
     }
 

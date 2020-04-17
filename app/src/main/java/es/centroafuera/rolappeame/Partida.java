@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Partida {
     private static final AtomicInteger count = new AtomicInteger(0);
     private long id;
-    private String idT;
+    private String idReal; //Aquí se guardará el Id que tiene realmente en la base de datos
     private String nombre;
     private Bitmap imagen;
     private TipoPartida tipoPartida;
@@ -18,7 +18,7 @@ public class Partida {
     private int maxAtaque;
     private int minDefensa;
     private int maxDefensa;
-    private ArrayList<Personaje> personajes;
+    private ArrayList<String> personajes; //Guardará los id de cada personaje
 
     //Constructores
     public Partida() {
@@ -38,7 +38,7 @@ public class Partida {
         this.personajes = new ArrayList<>();
     }
 
-    public Partida(String nombre, Bitmap imagen, TipoPartida tipoPartida, int minVida, int maxVida, int minAtaque, int maxAtaque, int minDefensa, int maxDefensa, ArrayList<Personaje> personajes) {
+    public Partida(String nombre, Bitmap imagen, TipoPartida tipoPartida, int minVida, int maxVida, int minAtaque, int maxAtaque, int minDefensa, int maxDefensa, ArrayList<String> personajes) {
         this.nombre = nombre;
         this.imagen = imagen;
         this.tipoPartida = tipoPartida;
@@ -122,11 +122,11 @@ public class Partida {
         this.maxDefensa = maxDefensa;
     }
 
-    public ArrayList<Personaje> getPersonajes() {
+    public ArrayList<String> getPersonajes() {
         return personajes;
     }
 
-    public void setPersonajes(ArrayList<Personaje> personajes) {
+    public void setPersonajes(ArrayList<String> personajes) {
         this.personajes = personajes;
     }
 
@@ -146,16 +146,16 @@ public class Partida {
         this.imagen = imagen;
     }
 
-    public String getIdT() {
-        return idT;
+    public String getIdReal() {
+        return idReal;
     }
 
-    public void setIdT(String idT) {
-        this.idT = idT;
+    public void setIdReal(String idReal) {
+        this.idReal = idReal;
     }
 
     //Métodos propios de Partida
-    public void addPersonaje(Personaje personaje){
+    public void addPersonaje(String personaje){
         this.personajes.add(personaje);
     }
 

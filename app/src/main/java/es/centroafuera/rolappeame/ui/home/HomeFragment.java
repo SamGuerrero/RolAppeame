@@ -36,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import es.centroafuera.rolappeame.Utils;
 import es.centroafuera.rolappeame.CrearPartida;
 import es.centroafuera.rolappeame.CrearPersonaje;
 import es.centroafuera.rolappeame.Oficio;
@@ -108,26 +109,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         getPartidasFromFirebase(this);
         registerForContextMenu(lvPartidasMaster);
 
-        //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
-        TextView comentario = root.findViewById(R.id.comentarioTV);
-        if (partidas.size() == 0)
-            comentario.setText(getString(R.string.comentarioInicial));
-        else
-            comentario.setText(getString(R.string.comentario));
-
-
         return root;
     }
 
     public void getPersonajesFromFirebase(final HomeFragment activity){
 
-        //FIXME: No está leyendo los personajes correspondientes
         //Obtengo una lista de la base de datos
-        DatabaseReference myRef = database.getReference("Usuario"); //La clase en Java
+        DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS); //La clase en Java
 
         // Read from the database             //Usuarios > email > personajes
 
-        myRef.child(usuario.getEmail()).child("personajes").addValueEventListener(new ValueEventListener() {
+        myRef.child(usuario.getEmail()).child(Utils.PERSONAJES_USUARIO).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -136,13 +128,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     partidas.clear();
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Para cada id pedimos una subquery que nos lleve a la partida correspondiente
-                        DatabaseReference subRef = database.getReference("Personaje");
-                        subRef.child(ds.child("id_personaje").getValue().toString()).addValueEventListener(
+                        DatabaseReference subRef = database.getReference(Utils.TABLA_PERSONAJES);
+                        subRef.child(ds.child(Utils.ID_PERSONAJE).getValue().toString()).addValueEventListener(
                                 new ValueEventListener() {
                                    @Override
                                    public void onDataChange(@NonNull DataSnapshot subDS) {
                                        if (subDS.exists()){
-                                           String nombre = (String) subDS.child("nombre").getValue();
+                                           String nombre = (String) subDS.child(Utils.NOMBRE_PERSONAJE).getValue();
                                            Bitmap imagen = null;
                                            Raza raza = Raza.DRACÓNIDO;
                                            Oficio oficio = Oficio.BARDO;
@@ -154,7 +146,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                            int carisma = 0;
 
                                            try {
-                                               imagen = StringToBitMap(subDS.child("imagen").getValue().toString());
+                                               imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
 
                                                raza = Raza.valueOf(subDS.child("raza").getValue().toString());
                                                oficio =  Oficio.valueOf(subDS.child("oficio").getValue().toString());
@@ -168,7 +160,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                            }catch (NullPointerException e){}
 
                                            Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-                                           personajeT.setIdT(subDS.getKey()); //Se guarda el ID real, donde se encuentra en la BDD
+                                           personajeT.setIdReal(subDS.getKey()); //Se guarda el ID real, donde se encuentra en la BDD
                                            partidas.add(personajeT);
                                        }
                                    }
@@ -207,11 +199,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     public void getPartidasFromFirebase(final HomeFragment activity){
         //Obtengo una lista de la base de datos
-        DatabaseReference myRef = database.getReference("Usuario"); //La clase en Java
+        DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS); //La clase en Java
 
         // Read from the database             //Usuarios > email > partidas
 
-        myRef.child(usuario.getEmail()).child("partidas").addValueEventListener(new ValueEventListener() {
+        myRef.child(usuario.getEmail()).child(Utils.PARTIDAS_USUARIO).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -221,12 +213,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Buscamos en partida cada id dentro de Usuario
 
-                        DatabaseReference subRef = database.getReference("Partida");
-                        subRef.child(ds.child("id_partida").getValue().toString()).addValueEventListener(
+                        DatabaseReference subRef = database.getReference(Utils.TABLA_PARTIDAS);
+                        subRef.child(ds.child(Utils.ID_PARTIDA).getValue().toString()).addValueEventListener(
                                 new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot subDS) {
-                                        String nombre = (String) subDS.child("nombre").getValue();
+                                        String nombre = (String) subDS.child(Utils.NOMBRE_PARTIDA).getValue();
                                         Bitmap imagen = null;
                                         TipoPartida tipoPartida = TipoPartida.Akelarre;
 
@@ -238,7 +230,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         int maxDefensa = 0;
 
                                         try {
-                                            imagen = StringToBitMap(subDS.child("imagen").getValue().toString());
+                                            imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PARTIDA).getValue().toString());
                                             tipoPartida = TipoPartida.valueOf(subDS.child("tipoPartida").getValue().toString());
 
                                             minVida = Integer.parseInt(subDS.child("minVida").getValue().toString());
@@ -251,7 +243,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                         }catch (NullPointerException e){}
 
                                         Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
-                                        partidaT.setIdT(subDS.getKey());
+                                        partidaT.setIdReal(subDS.getKey());
                                         partidasMaster.add(partidaT);
                                     }
 
@@ -284,17 +276,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-    }
-
-    public Bitmap StringToBitMap(String encodedString){
-        try{
-            byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        }catch(Exception e){
-            e.getMessage();
-            return null;
-        }
     }
 
     //Cuando vuelve de hacer el personaje
@@ -361,10 +342,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
                     intent = new Intent(getContext(), VistaPersonaje.class);
-                    intent.putExtra("ID", partidas.get(pos).getIdT()); //Estoy pasando mal el Id
+                    intent.putExtra("ID", partidas.get(pos).getIdReal()); //Estoy pasando mal el Id
                 }else{
                     intent = new Intent(getContext(), VistaPartida.class);
-                    intent.putExtra("ID", partidasMaster.get(pos).getIdT()); //Estoy pasando mal el Id
+                    intent.putExtra("ID", partidasMaster.get(pos).getIdReal()); //Estoy pasando mal el Id
                 }
 
                 startActivity(intent);
@@ -374,14 +355,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
 
                     //Se elimina de Usuario
-                    DatabaseReference myRef = database.getReference("Usuario");
-                    myRef.child(usuario.getEmail()).child("personajes").child(usuario.getPersonajes().get(pos)).removeValue();
+                    DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS);
+                    myRef.child(usuario.getEmail()).child(Utils.PERSONAJES_USUARIO).child(usuario.getPersonajes().get(pos)).removeValue();
 
                     Personaje temporal = partidas.get(pos);
 
                     //Se elimina de Personaje
-                    myRef = database.getReference("Personaje");
-                    myRef.child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    myRef = database.getReference(Utils.TABLA_PERSONAJES);
+                    myRef.child(temporal.getIdReal()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
@@ -397,13 +378,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                 }else{
                     //Se elimina de Usuario
-                    DatabaseReference myRef = database.getReference("Usuario");
-                    myRef.child(usuario.getEmail()).child("partidas").child(usuario.getPartidas().get(pos)).removeValue();
+                    DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS);
+                    myRef.child(usuario.getEmail()).child(Utils.PARTIDAS_USUARIO).child(usuario.getPartidas().get(pos)).removeValue();
 
                     //Se elimina de Partida
                     Partida temporal = partidasMaster.get(pos);
-                    DatabaseReference secRef = database.getReference("Partida");
-                    secRef.child("partidas").child(temporal.getIdT()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    DatabaseReference secRef = database.getReference(Utils.TABLA_PARTIDAS);
+                    secRef.child(temporal.getIdReal()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();

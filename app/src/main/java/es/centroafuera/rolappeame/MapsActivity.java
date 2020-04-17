@@ -65,10 +65,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setOnInfoWindowClickListener(this);
 
         //Obtengo una lista de la base de datos
-        DatabaseReference myRef = database.getReference("Sitio"); //La clase en Java
+        DatabaseReference myRef = database.getReference(Utils.TABLA_SITIOS); //La clase en Java
 
         // Read from the database
-        myRef.child("sitios").addValueEventListener(new ValueEventListener() {
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -77,10 +77,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     sitios.clear();
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
-                        String nombre = ds.child("nombre").getValue().toString();
-                        String descripcion = ds.child("descripcion").getValue().toString();
-                        double latitud = Double.parseDouble(ds.child("latitud").getValue().toString());
-                        double longitud = Double.parseDouble(ds.child("longitud").getValue().toString());
+                        String nombre = ds.child(Utils.NOMBRE_SITIO).getValue().toString();
+                        String descripcion = ds.child(Utils.DESCRIPCION_SITIO).getValue().toString();
+                        double latitud = Double.parseDouble(ds.child(Utils.LATITUD_SITIO).getValue().toString());
+                        double longitud = Double.parseDouble(ds.child(Utils.LONGITUD_SITIO).getValue().toString());
 
                         Sitio sitioT = new Sitio(nombre, descripcion, latitud, longitud);
                         sitioT.setIdT(ds.getKey());

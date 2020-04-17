@@ -22,7 +22,7 @@ public class Personaje {
     private int inteligencia;
     private int carisma;
 
-    private String idT;
+    private String idReal; //Aquí se guardará el Id que tiene realmente en la base de datos
 
     //Constructores
     public Personaje() {
@@ -119,11 +119,11 @@ public class Personaje {
     }
     public void setImagen(Bitmap imagen) { this.imagen = imagen; }
 
-    public String getIdT() {
-        return idT;
+    public String getIdReal() {
+        return idReal;
     }
 
-    public void setIdT(String idT) {
-        this.idT = idT;
+    public void setIdReal(String idReal) {
+        this.idReal = idReal;
     }
 }

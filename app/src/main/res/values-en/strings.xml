@@ -108,4 +108,6 @@
     <string name="menu_share">Cerrar Sesión</string>
     <string name="menu_send">Send</string>
     <string name="title_activity_menu_lateral">Menu</string>
+
+    <string name="error_general">Something failed</string>
 </resources>

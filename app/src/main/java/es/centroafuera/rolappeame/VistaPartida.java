@@ -8,10 +8,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,17 +49,17 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         DatabaseReference myRef = database.getReference();
 
         // Read from the database
-        myRef.child("Partida").child(id).addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child(Utils.TABLA_PARTIDAS).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 if (ds.exists()) {
-                    String nombre = ds.child("nombre").getValue().toString();
+                    String nombre = ds.child(Utils.NOMBRE_PARTIDA).getValue().toString();
 
                     int minVida,maxVida, minAtaque, maxAtaque ,minDefensa, maxDefensa;
 
-                    Bitmap imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+                    Bitmap imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PARTIDA).getValue().toString());
                     TipoPartida tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
 
                     minVida = Integer.parseInt(ds.child("minVida").getValue().toString());
@@ -72,7 +70,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                     maxDefensa = Integer.parseInt(ds.child("maxDefensa").getValue().toString());
 
                     partida = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
-                    partida.setIdT(ds.getKey());
+                    partida.setIdReal(ds.getKey());
 
                     //Muestro los datos por pantalla
                     ImageView ivAvatar = findViewById(R.id.IVavatar);
@@ -107,9 +105,8 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                     tvmaxDefensa.setText(String.valueOf(partida.getMaxDefensa()));
 
 
-
                 } else {
-                    Toast.makeText(VistaPartida.this, "Something failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(VistaPartida.this, R.string.error_general, Toast.LENGTH_LONG).show();
                     partida = new Partida();
                 }
             }
@@ -164,17 +161,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         generar.setOnClickListener(this);
         Button continuar = findViewById(R.id.BTcontinuar);
         continuar.setOnClickListener(this);
-    }
-
-    public Bitmap StringToBitMap(String encodedString){
-        try{
-            byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        }catch(Exception e){
-            e.getMessage();
-            return null;
-        }
     }
 
     @Override
@@ -358,7 +344,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
         //Guardo los datos en un HashMap que luego guardaré
         Map<String, Object> personajeT = new HashMap<>();
-        personajeT.put("nombre", partida.getNombre());
+        personajeT.put(Utils.NOMBRE_PARTIDA, partida.getNombre());
         personajeT.put("tipoPartida", partida.getTipoPartida());
         personajeT.put("minVida", partida.getMinVida());
         personajeT.put("maxVida", partida.getMaxVida());
@@ -366,12 +352,12 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         personajeT.put("maxAtaque", partida.getMaxAtaque());
         personajeT.put("minDefensa", partida.getMinDefensa());
         personajeT.put("maxDefensa", partida.getMaxDefensa());
-        personajeT.put("imagen", BitMapToString(partida.getImagen()));
+        personajeT.put(Utils.IMAGEN_PARTIDA, Utils.BitMapToString(partida.getImagen()));
 
 
-        //Personaje > personajes > id > Todos los datos del personaje
-        DatabaseReference myRef = database.getReference("Partida");
-        myRef.child("partidas").child(partida.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
+        //Personaje > id > Todos los datos del personaje
+        DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS);
+        myRef.child(partida.getIdReal()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(VistaPartida.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
@@ -385,27 +371,10 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
-        byte [] b = ByteStream.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
-    }
-
     //Infla el Action Bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.fijo, menu);
-        return true;
-    }
-
-    @Override //Dentro del Action Bar
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //TODO: Eliminar esto
-        //Intent intent = new Intent(this, Configuracion.class);
-        //startActivity(intent);
         return true;
     }
 

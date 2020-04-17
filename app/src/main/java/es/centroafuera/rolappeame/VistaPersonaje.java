@@ -9,10 +9,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,13 +51,13 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         DatabaseReference myRef = database.getReference();
 
         // Read from the database
-        myRef.child("Personaje").child(id).addValueEventListener(new ValueEventListener() {
+        myRef.child(Utils.TABLA_PERSONAJES).child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 if (ds.exists()) {
-                    String nombre = (String) ds.child("nombre").getValue();
+                    String nombre = (String) ds.child(Utils.NOMBRE_PERSONAJE).getValue();
                     Bitmap imagen = null;
                     Raza raza = Raza.DRACÓNIDO;
                     Oficio oficio = Oficio.BARDO;
@@ -71,7 +69,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                     int carisma = 0;
 
                     try {
-                        imagen = StringToBitMap(ds.child("imagen").getValue().toString());
+                        imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
 
                         raza = Raza.valueOf(ds.child("raza").getValue().toString());
                         oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
@@ -85,7 +83,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                     }catch (NullPointerException e){}
 
                     personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-                    personaje.setIdT(ds.getKey());
+                    personaje.setIdReal(ds.getKey());
 
                     try {
                         //Muestro los datos por pantalla
@@ -116,7 +114,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
 
                 } else {
-                    Toast.makeText(VistaPersonaje.this, "Something failed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(VistaPersonaje.this, R.string.error_general, Toast.LENGTH_LONG).show();
                     personaje = new Personaje();
                 }
             }
@@ -177,17 +175,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         TextView tvComentario = findViewById(R.id.TVpuntos);
         tvComentario.setText(R.string.suerte);
-    }
-
-    public Bitmap StringToBitMap(String encodedString){
-        try{
-            byte [] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            return bitmap;
-        }catch(Exception e){
-            e.getMessage();
-            return null;
-        }
     }
 
     @Override
@@ -345,7 +332,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Guardo los datos en un HashMap que luego guardaré
         Map<String, Object> personajeT = new HashMap<>();
-        personajeT.put("nombre", personaje.getNombre());
+        personajeT.put(Utils.NOMBRE_PERSONAJE, personaje.getNombre());
         personajeT.put("raza", personaje.getRaza());
         personajeT.put("oficio", personaje.getOficio());
         personajeT.put("fuerza", personaje.getFuerza());
@@ -354,12 +341,12 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         personajeT.put("constitucion", personaje.getConstitucion());
         personajeT.put("inteligencia", personaje.getInteligencia());
         personajeT.put("carisma", personaje.getCarisma());
-        personajeT.put("imagen", BitMapToString(personaje.getImagen()));
+        personajeT.put(Utils.IMAGEN_PERSONAJE, Utils.BitMapToString(personaje.getImagen()));
 
 
         //Personaje > personajes > id > Todos los datos del personaje
-        DatabaseReference myRef = database.getReference("Personaje");
-        myRef.child(personaje.getIdT()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DatabaseReference myRef = database.getReference(Utils.TABLA_PERSONAJES);
+        myRef.child(personaje.getIdReal()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Toast.makeText(VistaPersonaje.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
@@ -372,14 +359,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         });
 
         onBackPressed();
-    }
-
-    public String BitMapToString(Bitmap bitmap){
-        ByteArrayOutputStream ByteStream=new  ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG,100, ByteStream);
-        byte [] b = ByteStream.toByteArray();
-        String temp = Base64.encodeToString(b, Base64.DEFAULT);
-        return temp;
     }
 
     public void vistaInformacion(String descripcion){
@@ -401,12 +380,4 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         return true;
     }
 
-    @Override //Dentro del Action Bar
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        //TODO: Eliminar esto
-        //Intent intent = new Intent(this, Configuracion.class);
-        //startActivity(intent);
-        return true;
-    }
 }
