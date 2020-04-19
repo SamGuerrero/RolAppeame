@@ -1,11 +1,10 @@
 package es.centroafuera.rolappeame.ui.home;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -36,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import es.centroafuera.rolappeame.Utils;
 import es.centroafuera.rolappeame.CrearPartida;
 import es.centroafuera.rolappeame.CrearPersonaje;
 import es.centroafuera.rolappeame.Oficio;
@@ -48,6 +46,7 @@ import es.centroafuera.rolappeame.R;
 import es.centroafuera.rolappeame.Raza;
 import es.centroafuera.rolappeame.TipoPartida;
 import es.centroafuera.rolappeame.Usuario;
+import es.centroafuera.rolappeame.Utils;
 import es.centroafuera.rolappeame.VistaPartida;
 import es.centroafuera.rolappeame.VistaPersonaje;
 
@@ -69,10 +68,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     TabHost tabHost;
     Usuario usuario;
+    ViewGroup container;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        this.container = container;
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getPersonajesFromFirebase(final HomeFragment activity){
-
+        getFragmentManager().beginTransaction().replace(container.getId(), this).commit();
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS); //La clase en Java
 
@@ -178,7 +178,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
                     TextView comentario = root.findViewById(R.id.comentarioTV);
                     if (partidas.size() == 0)
-                        comentario.setText(getString(R.string.comentarioInicial));
+                        comentario.setText("Aquí se mostrarán tus personajes cuando guardes alguno");
                     else
                         comentario.setText(getString(R.string.comentario));
 
@@ -198,6 +198,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getPartidasFromFirebase(final HomeFragment activity){
+        getFragmentManager().beginTransaction().replace(container.getId(), this).commit();
         //Obtengo una lista de la base de datos
         DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS); //La clase en Java
 
@@ -262,7 +263,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     if (partidasMaster.size() == 0)
                         comentario.setText(getString(R.string.comentarioInicial));
                     else
-                        comentario.setText(getString(R.string.comentario));
+                        comentario.setText("Tus partidas:");
 
                     adaptadorMaster = new PartidaAdapter(activity, partidasMaster);
                     lvPartidasMaster.setAdapter(adaptadorMaster);
@@ -281,6 +282,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //Cuando vuelve de hacer el personaje
     public void onResume() {
         super.onResume();
+    }
+
+    public void onPause() {
+        super.onPause();
     }
 
     //Si aprietas el float action button
@@ -404,5 +409,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
         return true;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
     }
 }

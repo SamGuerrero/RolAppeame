@@ -1,11 +1,7 @@
 package es.centroafuera.rolappeame;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.view.View;
+import android.view.Menu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,8 +15,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import android.view.Menu;
-
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -31,8 +25,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu_lateral);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -61,12 +53,6 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
+
 }
-
-/*
-
-<string name="title_activity_prueba">prueba</string>
-<string name="navigation_drawer_open">Open navigation drawer</string>
-<string name="navigation_drawer_close">Close navigation drawer</string>
-<string name="nav_header_title">Android Studio</string>
-    */
