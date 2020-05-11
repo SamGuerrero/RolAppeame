@@ -3,52 +3,60 @@ package es.centroafuera.rolappeame;
 import android.graphics.Bitmap;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Partida {
+    //Básico
     private static final AtomicInteger count = new AtomicInteger(0);
     private long id;
     private String idReal; //Aquí se guardará el Id que tiene realmente en la base de datos
+
+    //Caracteristicas
     private String nombre;
     private Bitmap imagen;
     private TipoPartida tipoPartida;
-    private int minVida;
-    private int maxVida;
-    private int minAtaque;
-    private int maxAtaque;
-    private int minDefensa;
-    private int maxDefensa;
+
+    //Reglas
+    private LinkedHashMap<Raza, Boolean> razas;
+    private LinkedHashMap<Oficio, Boolean> clases;
+    /*
+    private LinkedHashMap<Hechizo, Boolean> hechizos;
+    private LinkedHashMap<Rasgo, Boolean> rasgos;
+    private LinkedHashMap<Habilidad, Boolean> habilidades;
+    private LinkedHashMap<Equipo, Boolean> inventario;
+    private LinkedHashMap<Bestia, Boolean> bestias;
+
+    private LinkedHashMap<Competencia, Boolean> competencias;
+    private LinkedHashMap<Paquete, Boolean> paquete;
+    */
+
     private ArrayList<String> personajes; //Guardará los id de cada personaje
 
     //Constructores
     public Partida() {
     }
 
-    public Partida(String nombre, Bitmap imagen, TipoPartida tipoPartida, int minVida, int maxVida, int minAtaque, int maxAtaque, int minDefensa, int maxDefensa) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<Raza, Boolean> razas, LinkedHashMap<Oficio, Boolean> clases, TipoPartida tipoPartida) {
+        this.id = id;
+        this.idReal = idReal;
         this.nombre = nombre;
         this.imagen = imagen;
+        this.razas = razas;
+        this.clases = clases;
         this.tipoPartida = tipoPartida;
-        this.minVida = minVida;
-        this.maxVida = maxVida;
-        this.minAtaque = minAtaque;
-        this.maxAtaque = maxAtaque;
-        this.minDefensa = minDefensa;
-        this.maxDefensa = maxDefensa;
-        this.id = count.incrementAndGet();
         this.personajes = new ArrayList<>();
     }
 
-    public Partida(String nombre, Bitmap imagen, TipoPartida tipoPartida, int minVida, int maxVida, int minAtaque, int maxAtaque, int minDefensa, int maxDefensa, ArrayList<String> personajes) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Raza, Boolean> razas, LinkedHashMap<Oficio, Boolean> clases, ArrayList<String> personajes) {
+        this.id = id;
+        this.idReal = idReal;
         this.nombre = nombre;
         this.imagen = imagen;
         this.tipoPartida = tipoPartida;
-        this.minVida = minVida;
-        this.maxVida = maxVida;
-        this.minAtaque = minAtaque;
-        this.maxAtaque = maxAtaque;
-        this.minDefensa = minDefensa;
-        this.maxDefensa = maxDefensa;
-        this.id = count.incrementAndGet();
+        this.razas = razas;
+        this.clases = clases;
         this.personajes = personajes;
     }
 
@@ -66,68 +74,12 @@ public class Partida {
         this.id = id;
     }
 
-    public TipoPartida getTipoPartida() {
-        return tipoPartida;
+    public String getIdReal() {
+        return idReal;
     }
 
-    public void setTipoPartida(TipoPartida tipoPartida) {
-        this.tipoPartida = tipoPartida;
-    }
-
-    public int getMinVida() {
-        return minVida;
-    }
-
-    public void setMinVida(int minVida) {
-        this.minVida = minVida;
-    }
-
-    public int getMaxVida() {
-        return maxVida;
-    }
-
-    public void setMaxVida(int maxVida) {
-        this.maxVida = maxVida;
-    }
-
-    public int getMinAtaque() {
-        return minAtaque;
-    }
-
-    public void setMinAtaque(int minAtaque) {
-        this.minAtaque = minAtaque;
-    }
-
-    public int getMaxAtaque() {
-        return maxAtaque;
-    }
-
-    public void setMaxAtaque(int maxAtaque) {
-        this.maxAtaque = maxAtaque;
-    }
-
-    public int getMinDefensa() {
-        return minDefensa;
-    }
-
-    public void setMinDefensa(int minDefensa) {
-        this.minDefensa = minDefensa;
-    }
-
-    public int getMaxDefensa() {
-        return maxDefensa;
-    }
-
-    public void setMaxDefensa(int maxDefensa) {
-        this.maxDefensa = maxDefensa;
-    }
-
-    public ArrayList<String> getPersonajes() {
-        return personajes;
-    }
-
-    public void setPersonajes(ArrayList<String> personajes) {
-        this.personajes = personajes;
+    public void setIdReal(String idReal) {
+        this.idReal = idReal;
     }
 
     public String getNombre() {
@@ -146,31 +98,37 @@ public class Partida {
         this.imagen = imagen;
     }
 
-    public String getIdReal() {
-        return idReal;
+    public TipoPartida getTipoPartida() {
+        return tipoPartida;
     }
 
-    public void setIdReal(String idReal) {
-        this.idReal = idReal;
+    public void setTipoPartida(TipoPartida tipoPartida) {
+        this.tipoPartida = tipoPartida;
     }
 
-    //Métodos propios de Partida
-    public void addPersonaje(String personaje){
-        this.personajes.add(personaje);
+    public LinkedHashMap<Raza, Boolean> getRazas() {
+        return razas;
     }
 
-    public int sacarVida(){
-        return (int) Math.round(Math.random()*(maxVida-minVida) + minVida);
+    public void setRazas(LinkedHashMap<Raza, Boolean> razas) {
+        this.razas = razas;
     }
 
-    public int sacarAtaque(){
-        return (int) Math.round(Math.random()*(maxAtaque-minAtaque) + minAtaque);
+    public LinkedHashMap<Oficio, Boolean> getClases() {
+        return clases;
     }
 
-    public int sacarDefensa(){
-        return (int) Math.round(Math.random()*(maxDefensa-minDefensa) + minDefensa);
+    public void setClases(LinkedHashMap<Oficio, Boolean> clases) {
+        this.clases = clases;
     }
 
+    public ArrayList<String> getPersonajes() {
+        return personajes;
+    }
+
+    public void setPersonajes(ArrayList<String> personajes) {
+        this.personajes = personajes;
+    }
 }
 
 

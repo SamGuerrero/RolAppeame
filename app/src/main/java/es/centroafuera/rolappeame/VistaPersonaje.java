@@ -127,7 +127,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Añado listeners a los botones
         //Coger y añadir ClickListener en botones
-        Button BTvolver = findViewById(R.id.BTvolver);
+        Button BTvolver = findViewById(R.id.btVolver);
         BTvolver.setOnClickListener(this);
         Button BTguardar = findViewById(R.id.BTguardar);
         BTguardar.setOnClickListener(this);
@@ -178,7 +178,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
 
         switch (v.getId()){
-            case R.id.BTvolver:
+            case R.id.btVolver:
                 onBackPressed();
                 break;
 

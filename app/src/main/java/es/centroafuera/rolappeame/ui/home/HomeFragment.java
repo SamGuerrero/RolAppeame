@@ -243,9 +243,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
                                         }catch (NullPointerException e){}
 
-                                        Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
+                                        /*Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
                                         partidaT.setIdReal(subDS.getKey());
-                                        partidasMaster.add(partidaT);
+                                        partidasMaster.add(partidaT);*/
                                     }
 
                                     @Override

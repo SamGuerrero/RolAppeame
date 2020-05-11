@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -48,305 +49,28 @@
         </LinearLayout>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvEnemigo"
+    <ExpandableListView
+        android:id="@+id/ELVcaracteristicas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawableRight="@android:drawable/ic_menu_info_details"
-        android:text="@string/enemigos"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvVida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/vida_mostrar"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/lyMinMaxVida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvMinVida"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m_nimo" />
-
-        <TextView
-            android:id="@+id/tvMaxVida"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m_ximo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lyBotonesVida"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btMenosMinVida"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_resta"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/minVida"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btMasMinVida"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_suma"
-            android:text="+" />
-
-        <Button
-            android:id="@+id/btMenosMaxVida"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_resta"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/maxVida"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btMasMaxVida"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_suma"
-            android:text="+" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvAtaque"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/ataque_mostrar"
-        android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/lyMinMaxAtaque"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvMinAtaque"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m_nimo" />
-
-        <TextView
-            android:id="@+id/tvMaxAtaque"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m_ximo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lyBotonesAtaque"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btMenosMinAtaque"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_resta"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/minAtaque"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btMasMinAtaque"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_suma"
-            android:text="+" />
-
-        <Button
-            android:id="@+id/btMenosMaxAtaque"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_resta"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/maxAtaque"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btMasMaxAtaque"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_suma"
-            android:text="+" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvDefensa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="@string/defensa_mostrar"
-        android:textStyle="bold" />
+        android:layout_height="400dp"
+        android:layout_marginBottom="10dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvMinDefensa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m_nimo" />
-
-        <TextView
-            android:id="@+id/tvMaxDefensa"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/m_ximo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btMenosMinDefensa"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_resta"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/minDefensa"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btMasMinDefensa"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_suma"
-            android:text="+" />
-
-        <Button
-            android:id="@+id/btMenosMaxDefensa"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_resta"
-            android:text="-" />
-
-        <TextView
-            android:id="@+id/maxDefensa"
-            android:layout_width="20dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/btMasMaxDefensa"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/borde_redondo_suma"
-            android:text="+" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/BTvolver"
+            android:id="@+id/btVolver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="@string/volver" />
 
         <Button
-            android:id="@+id/BTcontinuar"
+            android:id="@+id/btContinuar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:text="@string/continuar" />
     </LinearLayout>

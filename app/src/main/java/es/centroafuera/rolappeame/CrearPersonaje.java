@@ -47,7 +47,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_crearpersonaje);
 
         //Coger y añadir ClickListener en botones
-        Button BTvolver = findViewById(R.id.BTvolver);
+        Button BTvolver = findViewById(R.id.btVolver);
         BTvolver.setOnClickListener(this);
         Button BTcontinuar = findViewById(R.id.BTcontinuar);
         BTcontinuar.setOnClickListener(this);
@@ -118,7 +118,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.BTvolver:
+            case R.id.btVolver:
                 onBackPressed();
                 break;
 
@@ -344,11 +344,12 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if ((requestCode == AVATAR) && (resultCode == RESULT_OK) && (data != null)) {
             // Obtiene el Uri de la imagen seleccionada por el usuario
             Uri imagenSeleccionada = data.getData();
-            String[] ruta = {MediaStore.Images.Media.DATA };
+            String[] ruta = {MediaStore.Images.Media.DATA};
 
             // Realiza una consulta a la galería de imágenes solicitando la imagen seleccionada
             Cursor cursor = getContentResolver().query(imagenSeleccionada, ruta, null, null, null);
@@ -364,6 +365,8 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             ImageView imageView = findViewById(R.id.IVavatar);
             imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public void vistaInformacion(String descripcion){

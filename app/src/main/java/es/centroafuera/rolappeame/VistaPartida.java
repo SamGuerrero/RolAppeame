@@ -45,6 +45,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         //Cojo el personaje de la base de datos
         DatabaseReference myRef = database.getReference();
 
+        /*
         // Read from the database
         myRef.child(Utils.TABLA_PARTIDAS).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -52,6 +53,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 if (ds.exists()) {
+
                     String nombre = ds.child(Utils.NOMBRE_PARTIDA).getValue().toString();
 
                     int minVida,maxVida, minAtaque, maxAtaque ,minDefensa, maxDefensa;
@@ -152,19 +154,21 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         TextView BTinfoEnemigos = findViewById(R.id.tvEnemigo);
         BTinfoEnemigos.setOnClickListener(this);
         
-        Button volver = findViewById(R.id.BTvolver);
+        Button volver = findViewById(R.id.button2);
         volver.setOnClickListener(this);
         Button generar = findViewById(R.id.BTgenerar);
         generar.setOnClickListener(this);
         Button continuar = findViewById(R.id.BTcontinuar);
         continuar.setOnClickListener(this);
+
+         */
     }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()){
-            case R.id.BTvolver:
+            case R.id.btVolver:
                 onBackPressed();
                 break;
 
@@ -173,141 +177,15 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
                 break;
 
-            case R.id.BTgenerar:
-                String vidaActual = getString(R.string.vida_vista) + partida.sacarVida();
-                String ataqueActual = getString(R.string.ataque_vista) + partida.sacarAtaque();
-                String defensaActual = getString(R.string.defensa_vista) + partida.sacarDefensa();
-                TextView tvVida = findViewById(R.id.tvVida);
-                tvVida.setText(vidaActual);
-                TextView tvAtaque = findViewById(R.id.tvAtaque);
-                tvAtaque.setText(ataqueActual);
-                TextView tvDefensa = findViewById(R.id.tvDefensa);
-                tvDefensa.setText(defensaActual);
-
-                break;
-
-            //Muestra información sobre los atributos
-            case R.id.tvVida:
-                vistaInformacion(getString(R.string.vida_info));
-                break;
-
-            case R.id.tvAtaque:
-                vistaInformacion(getString(R.string.ataque_info));
-                break;
-
-            case R.id.tvDefensa:
-                vistaInformacion(getString(R.string.defensa_info));
-                break;
-
-            //Cambia los puntos
-            case R.id.btMenosMinVida:
-                TextView minVida = findViewById(R.id.minVida);
-                restarPuntos(minVida);
-
-                break;
-            case R.id.btMasMinVida:
-                TextView minVida2 = findViewById(R.id.minVida);
-                sumarPuntos(minVida2);
-
-                break;
-            case R.id.btMenosMaxVida:
-                TextView maxVida = findViewById(R.id.maxVida);
-                restarPuntos(maxVida);
-
-                break;
-            case R.id.btMasMaxVida:
-                TextView maxVida2 = findViewById(R.id.maxVida);
-                sumarPuntos(maxVida2);
-
-                break;
-
-            case R.id.btMenosMinAtaque:
-                TextView minAtaque = findViewById(R.id.minAtaque);
-                restarPuntos(minAtaque);
-
-                break;
-            case R.id.btMasMinAtaque:
-                TextView minAtaque2 = findViewById(R.id.minAtaque);
-                sumarPuntos(minAtaque2);
-
-                break;
-            case R.id.btMenosMaxAtaque:
-                TextView maxAtaque = findViewById(R.id.maxAtaque);
-                restarPuntos(maxAtaque);
-
-                break;
-            case R.id.btMasMaxAtaque:
-                TextView maxAtaque2 = findViewById(R.id.maxAtaque);
-                sumarPuntos(maxAtaque2);
-
-                break;
-
-            case R.id.btMenosMinDefensa:
-                TextView minDefensa = findViewById(R.id.minDefensa);
-                restarPuntos(minDefensa);
-
-                break;
-            case R.id.btMasMinDefensa:
-                TextView minDefensa2 = findViewById(R.id.minDefensa);
-                sumarPuntos(minDefensa2);
-
-                break;
-            case R.id.btMenosMaxDefensa:
-                TextView maxDefensa = findViewById(R.id.maxDefensa);
-                restarPuntos(maxDefensa);
-
-                break;
-            case R.id.btMasMaxDefensa:
-                TextView maxDefensa2 = findViewById(R.id.maxDefensa);
-                sumarPuntos(maxDefensa2);
-
-                break;
-
-            case R.id.tvEnemigo:
-                vistaInformacion(getString(R.string.generar_info));
-
             default: break;
         }
     }
 
+    //TODO: Mirar si utilizo estas funciones para algo
     public void sumarPuntos(TextView pantalla){
-        int puntos = Integer.parseInt(pantalla.getText().toString());
-        puntos++;
-        pantalla.setText(String.valueOf(puntos));
-
-        TextView TvminVida = findViewById(R.id.minVida);
-        TextView TVmaxVida = findViewById(R.id.maxVida);
-        TextView TVminAtaque = findViewById(R.id.minAtaque);
-        TextView TVmaxAtaque = findViewById(R.id.maxAtaque);
-        TextView TVminDefensa = findViewById(R.id.minDefensa);
-        TextView TVmaxDefensa = findViewById(R.id.maxDefensa);
-
-        partida.setMinVida(Integer.parseInt(TvminVida.getText().toString()));
-        partida.setMaxVida(Integer.parseInt(TVmaxVida.getText().toString()));
-        partida.setMinAtaque(Integer.parseInt(TVminAtaque.getText().toString()));
-        partida.setMaxAtaque(Integer.parseInt(TVmaxAtaque.getText().toString()));
-        partida.setMinDefensa(Integer.parseInt(TVminDefensa.getText().toString()));
-        partida.setMaxDefensa(Integer.parseInt(TVmaxDefensa.getText().toString()));
     }
 
     public void restarPuntos(TextView pantalla){
-        int puntos = Integer.parseInt(pantalla.getText().toString());
-        puntos--;
-        pantalla.setText(String.valueOf(puntos));
-
-        TextView TvminVida = findViewById(R.id.minVida);
-        TextView TVmaxVida = findViewById(R.id.maxVida);
-        TextView TVminAtaque = findViewById(R.id.minAtaque);
-        TextView TVmaxAtaque = findViewById(R.id.maxAtaque);
-        TextView TVminDefensa = findViewById(R.id.minDefensa);
-        TextView TVmaxDefensa = findViewById(R.id.maxDefensa);
-
-        partida.setMinVida(Integer.parseInt(TvminVida.getText().toString()));
-        partida.setMaxVida(Integer.parseInt(TVmaxVida.getText().toString()));
-        partida.setMinAtaque(Integer.parseInt(TVminAtaque.getText().toString()));
-        partida.setMaxAtaque(Integer.parseInt(TVmaxAtaque.getText().toString()));
-        partida.setMinDefensa(Integer.parseInt(TVminDefensa.getText().toString()));
-        partida.setMaxDefensa(Integer.parseInt(TVmaxDefensa.getText().toString()));
     }
 
     public void vistaInformacion(String descripcion){
@@ -324,6 +202,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
 
     public void guardarPartida(){
+        /*
         //Estadisticas
         TextView TvminVida = findViewById(R.id.minVida);
         TextView TVmaxVida = findViewById(R.id.maxVida);
@@ -366,6 +245,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        */
     }
 
     //Infla el Action Bar
