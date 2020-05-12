@@ -27,13 +27,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
     //A futuro: set puntos obligatorios, que no se puedan reducir según las combinaciones
@@ -93,20 +87,14 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         BTmenosPercepcion.setOnClickListener(this);
 
         //Rellenar Spinners
-        ArrayList<Raza> razas = new ArrayList<>();
-        Raza[] razasArray = Raza.values();
-        razas.addAll(Arrays.asList(razasArray));
-
+        ArrayList<String> razas = (ArrayList<String>) Utils.getClasesFromDatabase();
         Spinner Sraza = findViewById(R.id.Sraza);
-        ArrayAdapter<Raza> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
+        ArrayAdapter<String> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
         Sraza.setAdapter(adaptadorRaza);
 
-        ArrayList<Oficio> oficios = new ArrayList<>();
-        Oficio[] oArray = Oficio.values();
-        oficios.addAll(Arrays.asList(oArray));
-
+        ArrayList<String> oficios = (ArrayList<String>) Utils.getRazasFromDatabase();
         Spinner Soficio = findViewById(R.id.Soficio);
-        ArrayAdapter<Oficio> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
+        ArrayAdapter<String> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
         Soficio.setAdapter(adaptadorOficio);
 
         //Inicializar mensaje de los puntos
@@ -304,8 +292,8 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
 
         String nombre = ETnombre.getText().toString();
-        Raza raza = Raza.valueOf(Sraza.getSelectedItem().toString());
-        Oficio oficio = Oficio.valueOf(Soficio.getSelectedItem().toString());
+        String raza = Sraza.getSelectedItem().toString();
+        String oficio = Soficio.getSelectedItem().toString();
 
         int agilidad = Integer.parseInt(TVpuntosAgilidad.getText().toString());
         int carisma = Integer.parseInt(TVpuntoscarisma.getText().toString());
@@ -315,30 +303,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
 
         Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-
-
-        //Personaje > ID > Cada dato
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(Utils.TABLA_PERSONAJES); //Referencia a la clase Java
-        myRef.child(String.valueOf(personaje.getId())).child(Utils.NOMBRE_PERSONAJE).setValue(personaje.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
-        myRef.child(String.valueOf(personaje.getId())).child(Utils.IMAGEN_PERSONAJE).setValue(Utils.BitMapToString(personaje.getImagen()));
-        myRef.child(String.valueOf(personaje.getId())).child("oficio").setValue(personaje.getOficio());
-        myRef.child(String.valueOf(personaje.getId())).child("raza").setValue(personaje.getRaza());
-
-        myRef.child(String.valueOf(personaje.getId())).child("agilidad").setValue(personaje.getAgilidad());
-        myRef.child(String.valueOf(personaje.getId())).child("carisma").setValue(personaje.getCarisma());
-        myRef.child(String.valueOf(personaje.getId())).child("constitucion").setValue(personaje.getConstitucion());
-
-        myRef.child(String.valueOf(personaje.getId())).child("fuerza").setValue(personaje.getFuerza());
-        myRef.child(String.valueOf(personaje.getId())).child("inteligencia").setValue(personaje.getInteligencia());
-        myRef.child(String.valueOf(personaje.getId())).child("percepcion").setValue(personaje.getPercepcion());
-
-        //Usuario > email > personajes > id_Personaje
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //String email = user.getEmail();
-        myRef = database.getReference(Utils.TABLA_USUARIOS);
-        myRef.child("sam").child(Utils.PERSONAJES_USUARIO).push().child(Utils.ID_PERSONAJE).setValue(personaje.getId()); //TODO: Sam es prueba
-
+        Utils.insertarPersonaje(personaje);
 
         onBackPressed();
     }

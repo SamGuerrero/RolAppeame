@@ -2,9 +2,7 @@ package es.centroafuera.rolappeame;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -14,26 +12,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static androidx.constraintlayout.widget.Constraints.TAG;
-
 public class VistaPersonaje extends AppCompatActivity implements View.OnClickListener{
     Personaje personaje;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
     String id;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,86 +30,33 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
 
-        //Cojo el personaje de la base de datos
-        DatabaseReference myRef = database.getReference();
+        personaje = Utils.getPersonajeId(id, VistaPersonaje.this);
 
-        // Read from the database
-        myRef.child(Utils.TABLA_PERSONAJES).child(id).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot ds) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (ds.exists()) {
-                    String nombre = (String) ds.child(Utils.NOMBRE_PERSONAJE).getValue();
-                    Bitmap imagen = null;
-                    Raza raza = Raza.DRACÓNIDO;
-                    Oficio oficio = Oficio.BARDO;
-                    int fuerza = 0;
-                    int agilidad = 0;
-                    int percepcion = 0;
-                    int constitucion = 0;
-                    int inteligencia = 0;
-                    int carisma = 0;
+        //Muestro los datos por pantalla
+        try {
+            ImageView ivAvatar = findViewById(R.id.IVavatar);
+            ivAvatar.setImageBitmap(personaje.getImagen());
 
-                    try {
-                        imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
+            TextView tvNombre = findViewById(R.id.TVnombre);
+            tvNombre.setText(personaje.getNombre());
+            TextView tvRaza = findViewById(R.id.TVraza);
+            tvRaza.setText(personaje.getRaza());
+            TextView tvOficio = findViewById(R.id.TVoficio);
+            tvOficio.setText(personaje.getOficio());
 
-                        raza = Raza.valueOf(ds.child("raza").getValue().toString());
-                        oficio =  Oficio.valueOf(ds.child("oficio").getValue().toString());
-                        fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
-                        agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
-                        percepcion = Integer.parseInt(ds.child("percepcion").getValue().toString());
-                        constitucion = Integer.parseInt(ds.child("constitucion").getValue().toString());
-                        inteligencia = Integer.parseInt(ds.child("inteligencia").getValue().toString());
-                        carisma = Integer.parseInt(ds.child("carisma").getValue().toString());
-
-                    }catch (NullPointerException e){}
-
-                    personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-                    personaje.setIdReal(ds.getKey());
-
-                    try {
-                        //Muestro los datos por pantalla
-                        ImageView ivAvatar = findViewById(R.id.IVavatar);
-                        ivAvatar.setImageBitmap(personaje.getImagen());
-
-                        TextView tvNombre = findViewById(R.id.TVnombre);
-                        tvNombre.setText(personaje.getNombre());
-                        TextView tvRaza = findViewById(R.id.TVraza);
-                        tvRaza.setText(personaje.getRaza().toString());
-                        TextView tvOficio = findViewById(R.id.TVoficio);
-                        tvOficio.setText(personaje.getOficio().toString());
-
-
-                        TextView tvFuerza = findViewById(R.id.puntosFuerza);
-                        tvFuerza.setText(Integer.toString(personaje.getFuerza()));
-                        TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
-                        tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
-                        TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
-                        tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
-                        TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
-                        tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
-                        TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
-                        tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
-                        TextView tvCarisma = findViewById(R.id.puntosCarisma);
-                        tvCarisma.setText(Integer.toString(personaje.getCarisma()));
-                    }catch (NullPointerException e){}
-
-
-                } else {
-                    Toast.makeText(VistaPersonaje.this, R.string.error_general, Toast.LENGTH_LONG).show();
-                    personaje = new Personaje();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-
+            TextView tvFuerza = findViewById(R.id.puntosFuerza);
+            tvFuerza.setText(Integer.toString(personaje.getFuerza()));
+            TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
+            tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
+            TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
+            tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
+            TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
+            tvConstitucion.setText(Integer.toString(personaje.getConstitucion()));
+            TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
+            tvInteligencia.setText(Integer.toString(personaje.getInteligencia()));
+            TextView tvCarisma = findViewById(R.id.puntosCarisma);
+            tvCarisma.setText(Integer.toString(personaje.getCarisma()));
+        }catch (NullPointerException e){}
 
         //Añado listeners a los botones
         //Coger y añadir ClickListener en botones
@@ -341,19 +274,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         personajeT.put(Utils.IMAGEN_PERSONAJE, Utils.BitMapToString(personaje.getImagen()));
 
 
-        //Personaje > personajes > id > Todos los datos del personaje
-        DatabaseReference myRef = database.getReference(Utils.TABLA_PERSONAJES);
-        myRef.child(personaje.getIdReal()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(VistaPersonaje.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(VistaPersonaje.this, R.string.guardado_error, Toast.LENGTH_LONG).show();
-            }
-        });
+        Utils.actualizarPersonaje(personajeT, personaje, VistaPersonaje.this);
 
         onBackPressed();
     }

@@ -11,8 +11,8 @@ public class Personaje {
     private String nombre;
     private Bitmap imagen;
     //private String ubicacion; //FUTURO: Lugar donde se encuentra. Lo decidirá el máster
-    private Raza raza;
-    private Oficio oficio;
+    private String raza;
+    private String oficio;
 
     //Stats del personaje
     private int fuerza;
@@ -29,7 +29,7 @@ public class Personaje {
         this.id = count.incrementAndGet();
     }
 
-    public Personaje(String nombre, Raza raza, Oficio oficio, int fuerza, int agilidad, int percepcion, int constitucion, int inteligencia, int carisma, Bitmap imagen) {
+    public Personaje(String nombre, String raza, String oficio, int fuerza, int agilidad, int percepcion, int constitucion, int inteligencia, int carisma, Bitmap imagen) {
         this.nombre = nombre;
         this.raza = raza;
         this.oficio = oficio;
@@ -58,17 +58,17 @@ public class Personaje {
         this.nombre = nombre;
     }
 
-    public Raza getRaza() {
+    public String getRaza() {
         return raza;
     }
-    public void setRaza(Raza raza) {
+    public void setRaza(String raza) {
         this.raza = raza;
     }
 
-    public Oficio getOficio() {
+    public String getOficio() {
         return oficio;
     }
-    public void setOficio(Oficio oficio) {
+    public void setOficio(String oficio) {
         this.oficio = oficio;
     }
 

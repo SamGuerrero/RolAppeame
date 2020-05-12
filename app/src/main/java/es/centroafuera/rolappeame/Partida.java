@@ -19,8 +19,8 @@ public class Partida {
     private TipoPartida tipoPartida;
 
     //Reglas
-    private LinkedHashMap<Raza, Boolean> razas;
-    private LinkedHashMap<Oficio, Boolean> clases;
+    private LinkedHashMap<String, Boolean> razas;
+    private LinkedHashMap<String, Boolean> clases;
     /*
     private LinkedHashMap<Hechizo, Boolean> hechizos;
     private LinkedHashMap<Rasgo, Boolean> rasgos;
@@ -38,7 +38,7 @@ public class Partida {
     public Partida() {
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<Raza, Boolean> razas, LinkedHashMap<Oficio, Boolean> clases, TipoPartida tipoPartida) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, TipoPartida tipoPartida) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -49,7 +49,7 @@ public class Partida {
         this.personajes = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Raza, Boolean> razas, LinkedHashMap<Oficio, Boolean> clases, ArrayList<String> personajes) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, ArrayList<String> personajes) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -106,19 +106,19 @@ public class Partida {
         this.tipoPartida = tipoPartida;
     }
 
-    public LinkedHashMap<Raza, Boolean> getRazas() {
+    public LinkedHashMap<String, Boolean> getRazas() {
         return razas;
     }
 
-    public void setRazas(LinkedHashMap<Raza, Boolean> razas) {
+    public void setRazas(LinkedHashMap<String, Boolean> razas) {
         this.razas = razas;
     }
 
-    public LinkedHashMap<Oficio, Boolean> getClases() {
+    public LinkedHashMap<String, Boolean> getClases() {
         return clases;
     }
 
-    public void setClases(LinkedHashMap<Oficio, Boolean> clases) {
+    public void setClases(LinkedHashMap<String, Boolean> clases) {
         this.clases = clases;
     }
 

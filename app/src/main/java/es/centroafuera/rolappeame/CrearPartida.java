@@ -10,7 +10,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -24,30 +23,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
@@ -93,47 +75,11 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         grupoExpandible.add("Razas");
         grupoExpandible.add("Clase");
 
-        List<String> listaRazas= getRazasFromDatabase();
-
-        List<Oficio> oficios = Arrays.asList(Oficio.values());
-        List<String> listaOficios = new ArrayList<>();
-        for (Oficio item : oficios)
-            listaOficios.add(String.valueOf(item));
+        List<String> listaRazas = Utils.getRazasFromDatabase();
+        List<String> listaOficios = Utils.getClasesFromDatabase();
 
         itemExpandible.put(grupoExpandible.get(0), listaRazas);
         itemExpandible.put(grupoExpandible.get(1), listaOficios);
-    }
-
-    private List<String> getRazasFromDatabase() {
-        final List<String> razas = new ArrayList<>();
-
-        //Obtengo una lista de la base de datos
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("Reglas"); //La clase en Java
-
-        // Read from the database
-        myRef.child("Razas").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (dataSnapshot.exists()){
-
-                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
-                        String nombre = ds.getKey();
-                        razas.add(nombre);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-        return razas;
     }
 
     @Override
@@ -221,21 +167,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         TipoPartida tipoPartida = TipoPartida.valueOf(SPtipos.getSelectedItem().toString());
 
         Partida partida = new Partida();
-
-        //Partida > ID > Cada Dato
-        //TODO: Cuando cree las condiciones todo lo que se añada a la base de datos deberá ser mediante constantes
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS); //Referencia a la clase Java
-        myRef.child(String.valueOf(partida.getId())).child(Utils.NOMBRE_PARTIDA).setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
-        myRef.child(String.valueOf(partida.getId())).child(Utils.IMAGEN_PARTIDA).setValue(Utils.BitMapToString(partida.getImagen()));
-        myRef.child(String.valueOf(partida.getId())).child("tipoPartida").setValue(partida.getTipoPartida());
-
-
-        //Usuario > email > personajes > id_Personaje
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //String email = user.getEmail();
-        myRef = database.getReference(Utils.TABLA_USUARIOS);
-        myRef.child("sam").child(Utils.PARTIDAS_USUARIO).push().child(Utils.ID_PARTIDA).setValue(partida.getId()); //TODO: Sam es de prueba
+        Utils.insertarPartida(partida);
 
         onBackPressed();
     }

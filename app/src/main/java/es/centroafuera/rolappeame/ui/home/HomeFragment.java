@@ -15,15 +15,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -37,13 +34,11 @@ import java.util.ArrayList;
 
 import es.centroafuera.rolappeame.CrearPartida;
 import es.centroafuera.rolappeame.CrearPersonaje;
-import es.centroafuera.rolappeame.Oficio;
 import es.centroafuera.rolappeame.Partida;
 import es.centroafuera.rolappeame.PartidaAdapter;
 import es.centroafuera.rolappeame.Personaje;
 import es.centroafuera.rolappeame.PersonajeAdapter;
 import es.centroafuera.rolappeame.R;
-import es.centroafuera.rolappeame.Raza;
 import es.centroafuera.rolappeame.TipoPartida;
 import es.centroafuera.rolappeame.Usuario;
 import es.centroafuera.rolappeame.Utils;
@@ -136,8 +131,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                        if (subDS.exists()){
                                            String nombre = (String) subDS.child(Utils.NOMBRE_PERSONAJE).getValue();
                                            Bitmap imagen = null;
-                                           Raza raza = Raza.DRACÓNIDO;
-                                           Oficio oficio = Oficio.BARDO;
+                                           String raza = "";
+                                           String oficio = "";
                                            int fuerza = 0;
                                            int agilidad = 0;
                                            int percepcion = 0;
@@ -148,8 +143,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                                            try {
                                                imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
 
-                                               raza = Raza.valueOf(subDS.child("raza").getValue().toString());
-                                               oficio =  Oficio.valueOf(subDS.child("oficio").getValue().toString());
+                                               raza = subDS.child("raza").getValue().toString();
+                                               oficio =  subDS.child("oficio").getValue().toString();
                                                fuerza = Integer.parseInt(subDS.child("fuerza").getValue().toString());
                                                agilidad = Integer.parseInt(subDS.child("agilidad").getValue().toString());
                                                percepcion = Integer.parseInt(subDS.child("percepcion").getValue().toString());
@@ -358,48 +353,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.imEliminar:
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
-
-                    //Se elimina de Usuario
-                    DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS);
-                    myRef.child(usuario.getEmail()).child(Utils.PERSONAJES_USUARIO).child(usuario.getPersonajes().get(pos)).removeValue();
-
-                    Personaje temporal = partidas.get(pos);
-
-                    //Se elimina de Personaje
-                    myRef = database.getReference(Utils.TABLA_PERSONAJES);
-                    myRef.child(temporal.getIdReal()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), R.string.eliminar_error, Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-
+                    Utils.eliminarPersonaje(pos, getContext(), partidas);
 
                 }else{
-                    //Se elimina de Usuario
-                    DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS);
-                    myRef.child(usuario.getEmail()).child(Utils.PARTIDAS_USUARIO).child(usuario.getPartidas().get(pos)).removeValue();
-
-                    //Se elimina de Partida
-                    Partida temporal = partidasMaster.get(pos);
-                    DatabaseReference secRef = database.getReference(Utils.TABLA_PARTIDAS);
-                    secRef.child(temporal.getIdReal()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(getContext(), R.string.eliminar_mensaje, Toast.LENGTH_LONG).show();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), R.string.eliminar_error, Toast.LENGTH_LONG).show();
-                        }
-                    });
+                    Utils.eliminarPartida(pos, getContext(), partidasMaster);
 
                 }
 
