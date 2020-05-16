@@ -20,9 +20,10 @@ public class Partida {
     //Reglas
     private LinkedHashMap<String, Boolean> razas;
     private LinkedHashMap<String, Boolean> clases;
+    private LinkedHashMap<String, Boolean> rasgos;
+
     /*
     private LinkedHashMap<Hechizo, Boolean> hechizos;
-    private LinkedHashMap<Rasgo, Boolean> rasgos;
     private LinkedHashMap<Habilidad, Boolean> habilidades;
     private LinkedHashMap<Equipo, Boolean> inventario;
     private LinkedHashMap<Bestia, Boolean> bestias;
@@ -135,6 +136,14 @@ public class Partida {
 
     public void setJugadores(ArrayList<String> jugadores) {
         this.jugadores = jugadores;
+    }
+
+    public LinkedHashMap<String, Boolean> getRasgos() {
+        return rasgos;
+    }
+
+    public void setRasgos(LinkedHashMap<String, Boolean> rasgos) {
+        this.rasgos = rasgos;
     }
 }
 

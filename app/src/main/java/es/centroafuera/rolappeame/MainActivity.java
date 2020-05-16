@@ -1,7 +1,10 @@
 package es.centroafuera.rolappeame;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -38,6 +41,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String usuario = prefs.getString("Usuario", "John Doe");
+        String email = prefs.getString("Email", "JohnDoe@hotmail.com");
+
+        //TODO: Averiguar donde poner esto
+        /*TextView tvUsuario = findViewById(R.id.tvUsuario);
+        TextView tvEmail = findViewById(R.id.tvEmail);
+        tvUsuario.setText(usuario);
+        tvEmail.setText(email);*/
     }
 
     //Infla el Action Bar

@@ -1,7 +1,9 @@
 package es.centroafuera.rolappeame;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +38,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     private LoginButton loginButton;
     private SignInButton signInButton;
     private GoogleApiClient googleApiClient;
+    private EditText etUsuario;
     private EditText etEmail;
     private EditText etContra;
 
@@ -61,6 +64,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
         .build();
 
+        etUsuario = (EditText) findViewById(R.id.etUsuario);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etContra = (EditText) findViewById(R.id.etContra);
 
@@ -129,9 +133,15 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void entrar(){
-        //Recogemos el email y la contraseña
+        //Recogemos el usuario, email y la contraseña
+        String usuario = etUsuario.getText().toString().trim();
         final String email = etEmail.getText().toString().trim();
         String contraseña = etContra.getText().toString().trim();
+
+        if (usuario.isEmpty()) {
+            Toast.makeText(this, "Debe ingresar un nombre de Usuario", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         if (email.isEmpty()) {
             Toast.makeText(this, "Debe ingresar un email", Toast.LENGTH_LONG).show();
@@ -142,6 +152,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Debe ingresar una contraseña", Toast.LENGTH_LONG).show();
             return;
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("Usuario", usuario);
+        editor.putString("Email", email);
 
         firebaseAuth.signInWithEmailAndPassword(email, contraseña)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -163,7 +178,8 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void registrarUsuario(){
-        //Recogemos el email y la contraseña
+        //Recogemos el usuario, email y la contraseña
+        String usuario = etUsuario.getText().toString().trim();
         final String email = etEmail.getText().toString().trim();
         String contraseña = etContra.getText().toString().trim();
 
@@ -176,6 +192,11 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
             Toast.makeText(this, "Debe ingresar una contraseña", Toast.LENGTH_LONG).show();
             return;
         }
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("Usuario", usuario);
+        editor.putString("Email", email);
 
         firebaseAuth.createUserWithEmailAndPassword(email, contraseña)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {

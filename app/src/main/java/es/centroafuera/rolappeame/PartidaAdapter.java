@@ -78,7 +78,7 @@ public class PartidaAdapter extends BaseAdapter {
         if (partida.getJugadores().size() > 0) {
             for (String jugador : partida.getJugadores())
                 listaJugadores = listaJugadores + jugador + ", ";
-            listaJugadores = listaJugadores.substring(0, listaJugadores.length() - 2);
+            listaJugadores = listaJugadores.substring(0, listaJugadores.length() - 2); //Esta línea quita el ", "
         }
         viewHolder.jugadores.setText(listaJugadores);
 

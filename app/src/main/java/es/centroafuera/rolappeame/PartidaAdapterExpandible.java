@@ -88,7 +88,7 @@ class PartidaAdapterExpandible extends BaseExpandableListAdapter {
         TextView tvNombre = convertView.findViewById(R.id.tvNombre);
         tvNombre.setText(String.valueOf(child.getKey()));
         final CheckBox cbIncluido = convertView.findViewById(R.id.cbIncluido);
-        cbIncluido.setChecked((Boolean) child.getValue());
+        cbIncluido.setChecked((Boolean) child.getValue()); //FIXME:Esto no funciona adecuadamente
         cbIncluido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -77,22 +77,16 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
     private void rellenarLista() {
         grupoExpandible.add(Utils.TABLA_RAZAS);
         grupoExpandible.add(Utils.TABLA_CLASES);
+        grupoExpandible.add(Utils.TABLA_RASGOS);
 
         partida = Utils.getPartidaDefecto();
         LinkedHashMap<String, Boolean> listaRazas = partida.getRazas();
         LinkedHashMap<String, Boolean> listaClases = partida.getClases();
-
-        //Para probar, porque no tengo buena conexión y no me muestra las razas
-        /*LinkedHashMap<String, Boolean> listaRazas = new LinkedHashMap<>();
-        listaRazas.put("Orco", true);
-        listaRazas.put("Elfo", true);
-
-        LinkedHashMap<String, Boolean> listaClases = new LinkedHashMap<>();
-        listaClases.put("Guerrero", true);
-        listaClases.put("Mago", true);*/
+        LinkedHashMap<String, Boolean> listaRasgos = partida.getRasgos();
 
         itemExpandible.put(grupoExpandible.get(0), listaRazas);
         itemExpandible.put(grupoExpandible.get(1), listaClases);
+        itemExpandible.put(grupoExpandible.get(2), listaRasgos);
     }
 
     @Override
@@ -173,13 +167,14 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Básico
         EditText ETnombre = findViewById(R.id.ETnombre);
         Spinner SPtipos = findViewById(R.id.SPtipos);
-        HashMap<String, LinkedHashMap<String, Boolean>> datosVarios = adapter.itemExpandible;
+        HashMap<String, LinkedHashMap<String, Boolean>> datosVarios = adapter.itemExpandible; //La lista con todos los datos y sus checkbox
 
         partida.setNombre(ETnombre.getText().toString());
         partida.setTipoPartida(TipoPartida.valueOf(SPtipos.getSelectedItem().toString()));
         partida.setImagen(imagen);
         partida.setRazas(datosVarios.get(Utils.TABLA_RAZAS));
         partida.setClases(datosVarios.get(Utils.TABLA_CLASES));
+        partida.setRasgos(datosVarios.get(Utils.TABLA_RASGOS));
 
         Utils.insertarPartida(partida);
         onBackPressed();

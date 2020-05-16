@@ -61,6 +61,7 @@ public class Utils {
     //Dentro de Reglas
     public static String TABLA_RAZAS = "Razas";
     public static String TABLA_CLASES = "Clases";
+    public static String TABLA_RASGOS = "Rasgos";
 
     //Convierte de String a Imagen
     public static Bitmap StringToBitMap(String encodedString){
@@ -147,6 +148,39 @@ public class Utils {
         });
 
         return clases;
+    }
+
+    /**Devuelve un ArrayList con los Rasgos existentes*/
+    public static List<String> getRasgosFromDatabase(){
+        final ArrayList<String> rasgos = new ArrayList<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(TABLA_RASGOS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        rasgos.add(nombre);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return rasgos;
     }
 
     /**Inserta un personaje*/
@@ -433,9 +467,29 @@ public class Utils {
         for (String clase: stringClases)
             clases.put(clase, true);
 
+        //Rasgos
+        List<String> stringRasgos = getRasgosFromDatabase();
+        LinkedHashMap<String, Boolean> rasgos = new LinkedHashMap<>();
+        for (String rasgo: stringRasgos)
+            rasgos.put(rasgo, true);
+
+        //Para probar, porque no tengo buena conexión y no me muestra las cosas
+        /*LinkedHashMap<String, Boolean> razas = new LinkedHashMap<>();
+        razas.put("Orco", true);
+        razas.put("Elfo", true);
+
+        LinkedHashMap<String, Boolean> clases = new LinkedHashMap<>();
+        clases.put("Guerrero", true);
+        clases.put("Mago", true);
+
+        LinkedHashMap<String, Boolean> rasgos = new LinkedHashMap<>();
+        rasgos.put("Fortaleza Enana", true);
+        rasgos.put("Visión nocturna", true);*/
+
         //Guardo y devuelvo partida
         partida.setRazas(razas);
         partida.setClases(clases);
+        partida.setRasgos(rasgos);
 
         return partida;
 
