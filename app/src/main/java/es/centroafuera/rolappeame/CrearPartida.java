@@ -29,14 +29,17 @@ import androidx.core.app.ActivityCompat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
     private final int AVATAR = 1;
     List<String> grupoExpandible;
-    HashMap<String, List<String>> itemExpandible;
+    HashMap<String, LinkedHashMap<String, Boolean>> itemExpandible;
     PartidaAdapterExpandible adapter;
+    Partida partida;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,14 +75,24 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
     }
 
     private void rellenarLista() {
-        grupoExpandible.add("Razas");
-        grupoExpandible.add("Clase");
+        grupoExpandible.add(Utils.TABLA_RAZAS);
+        grupoExpandible.add(Utils.TABLA_CLASES);
 
-        List<String> listaRazas = Utils.getRazasFromDatabase();
-        List<String> listaOficios = Utils.getClasesFromDatabase();
+        partida = Utils.getPartidaDefecto();
+        LinkedHashMap<String, Boolean> listaRazas = partida.getRazas();
+        LinkedHashMap<String, Boolean> listaClases = partida.getClases();
+
+        //Para probar, porque no tengo buena conexión y no me muestra las razas
+        /*LinkedHashMap<String, Boolean> listaRazas = new LinkedHashMap<>();
+        listaRazas.put("Orco", true);
+        listaRazas.put("Elfo", true);
+
+        LinkedHashMap<String, Boolean> listaClases = new LinkedHashMap<>();
+        listaClases.put("Guerrero", true);
+        listaClases.put("Mago", true);*/
 
         itemExpandible.put(grupoExpandible.get(0), listaRazas);
-        itemExpandible.put(grupoExpandible.get(1), listaOficios);
+        itemExpandible.put(grupoExpandible.get(1), listaClases);
     }
 
     @Override
@@ -98,7 +111,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    //TODO: Mirar si utiliz esta función para algo
+    //TODO: Mirar si utilizo esta función para algo
     public void vistaInformacion(String descripcion){
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.toast_info, (ViewGroup) findViewById(R.id.lyToastInfo));
@@ -146,7 +159,6 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     public void guardarPartida(){
         //Imagen
         ImageView IVavatar = findViewById(R.id.IVavatar);
@@ -161,15 +173,17 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Básico
         EditText ETnombre = findViewById(R.id.ETnombre);
         Spinner SPtipos = findViewById(R.id.SPtipos);
+        HashMap<String, LinkedHashMap<String, Boolean>> datosVarios = adapter.itemExpandible;
 
+        partida.setNombre(ETnombre.getText().toString());
+        partida.setTipoPartida(TipoPartida.valueOf(SPtipos.getSelectedItem().toString()));
+        partida.setImagen(imagen);
+        partida.setRazas(datosVarios.get(Utils.TABLA_RAZAS));
+        partida.setClases(datosVarios.get(Utils.TABLA_CLASES));
 
-        String nombre = ETnombre.getText().toString();
-        TipoPartida tipoPartida = TipoPartida.valueOf(SPtipos.getSelectedItem().toString());
-
-        Partida partida = new Partida();
         Utils.insertarPartida(partida);
-
         onBackPressed();
+
     }
 
     //Infla el Action Bar

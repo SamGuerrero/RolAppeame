@@ -45,10 +45,7 @@ public class PartidaAdapter extends BaseAdapter {
         TextView nombre;
         TextView tipoPartida;
 
-        //A un lado saldrá el nombre y al otro los números
-        TextView vida;
-        TextView ataque;
-        TextView defensa;
+        TextView jugadores;
 
         //FUTURO: la ubicación
     }
@@ -63,9 +60,7 @@ public class PartidaAdapter extends BaseAdapter {
             viewHolder.avatar = (ImageView) convertView.findViewById(R.id.IVavatar);
             viewHolder.nombre = (TextView) convertView.findViewById(R.id.TVnombre);
             viewHolder.tipoPartida = (TextView) convertView.findViewById(R.id.TVtipoPartida);
-            viewHolder.vida = (TextView) convertView.findViewById(R.id.TVvida);
-            viewHolder.ataque =(TextView)  convertView.findViewById(R.id.TVataque);
-            viewHolder.defensa = (TextView) convertView.findViewById(R.id.TVdefensa);
+            viewHolder.jugadores = (TextView) convertView.findViewById(R.id.tvJugadores);
 
             convertView.setTag(viewHolder);
 
@@ -78,6 +73,14 @@ public class PartidaAdapter extends BaseAdapter {
         viewHolder.avatar.setImageBitmap(partida.getImagen());
         viewHolder.nombre.setText(partida.getNombre());
         viewHolder.tipoPartida.setText(partida.getTipoPartida().toString());
+
+        String listaJugadores = "Jugadores: ";
+        if (partida.getJugadores().size() > 0) {
+            for (String jugador : partida.getJugadores())
+                listaJugadores = listaJugadores + jugador + ", ";
+            listaJugadores = listaJugadores.substring(0, listaJugadores.length() - 2);
+        }
+        viewHolder.jugadores.setText(listaJugadores);
 
         return convertView;
     }

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Partida {
@@ -32,10 +31,18 @@ public class Partida {
     private LinkedHashMap<Paquete, Boolean> paquete;
     */
 
-    private ArrayList<String> personajes; //Guardará los id de cada personaje
+    private ArrayList<String> jugadores; //Guardará los id de cada personaje
 
     //Constructores
     public Partida() {
+        this.id = 0;
+        this.idReal = "";
+        this.nombre = "";
+        this.imagen = null;
+        this.razas = new LinkedHashMap<>();
+        this.clases = new LinkedHashMap<>();
+        this.tipoPartida = TipoPartida.DnD;
+        this.jugadores = new ArrayList<>();
     }
 
     public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, TipoPartida tipoPartida) {
@@ -46,10 +53,10 @@ public class Partida {
         this.razas = razas;
         this.clases = clases;
         this.tipoPartida = tipoPartida;
-        this.personajes = new ArrayList<>();
+        this.jugadores = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, ArrayList<String> personajes) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, ArrayList<String> jugadores) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -57,7 +64,7 @@ public class Partida {
         this.tipoPartida = tipoPartida;
         this.razas = razas;
         this.clases = clases;
-        this.personajes = personajes;
+        this.jugadores = jugadores;
     }
 
     //Getters y Setters
@@ -122,12 +129,12 @@ public class Partida {
         this.clases = clases;
     }
 
-    public ArrayList<String> getPersonajes() {
-        return personajes;
+    public ArrayList<String> getJugadores() {
+        return jugadores;
     }
 
-    public void setPersonajes(ArrayList<String> personajes) {
-        this.personajes = personajes;
+    public void setJugadores(ArrayList<String> jugadores) {
+        this.jugadores = jugadores;
     }
 }
 

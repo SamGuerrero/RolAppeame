@@ -1,38 +1,20 @@
 package es.centroafuera.rolappeame;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class VistaPartida extends AppCompatActivity implements View.OnClickListener {
     Partida partida;
     String id;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,127 +23,13 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         //Recojo el id String que es la key de la base de datos
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
+        partida = Utils.getPartidaId(id, VistaPartida.this);
 
-        //Cojo el personaje de la base de datos
-        DatabaseReference myRef = database.getReference();
+        //Muestro datos
 
-        /*
-        // Read from the database
-        myRef.child(Utils.TABLA_PARTIDAS).child(id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot ds) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                if (ds.exists()) {
-
-                    String nombre = ds.child(Utils.NOMBRE_PARTIDA).getValue().toString();
-
-                    int minVida,maxVida, minAtaque, maxAtaque ,minDefensa, maxDefensa;
-
-                    Bitmap imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PARTIDA).getValue().toString());
-                    TipoPartida tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
-
-                    minVida = Integer.parseInt(ds.child("minVida").getValue().toString());
-                    maxVida = Integer.parseInt(ds.child("maxVida").getValue().toString());
-                    minAtaque = Integer.parseInt(ds.child("minAtaque").getValue().toString());
-                    maxAtaque = Integer.parseInt(ds.child("maxAtaque").getValue().toString());
-                    minDefensa = Integer.parseInt(ds.child("minDefensa").getValue().toString());
-                    maxDefensa = Integer.parseInt(ds.child("maxDefensa").getValue().toString());
-
-                    partida = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
-                    partida.setIdReal(ds.getKey());
-
-                    //Muestro los datos por pantalla
-                    ImageView ivAvatar = findViewById(R.id.IVavatar);
-                    ivAvatar.setImageBitmap(partida.getImagen());
-
-                    TextView tvNombre = findViewById(R.id.TVnombre);
-                    tvNombre.setText(partida.getNombre());
-                    TextView tvTipoPartida = findViewById(R.id.TVtipoPartida);
-                    tvTipoPartida.setText(partida.getTipoPartida().toString());
-
-                    String vidaActual = getString(R.string.vida_vista) + partida.sacarVida();
-                    String ataqueActual = getString(R.string.ataque_vista) + partida.sacarAtaque();
-                    String defensaActual = getString(R.string.defensa_vista) + partida.sacarDefensa();
-                    TextView tvVida = findViewById(R.id.tvVida);
-                    tvVida.setText(vidaActual);
-                    TextView tvAtaque = findViewById(R.id.tvAtaque);
-                    tvAtaque.setText(ataqueActual);
-                    TextView tvDefensa = findViewById(R.id.tvDefensa);
-                    tvDefensa.setText(defensaActual);
-
-                    TextView tvminVida = findViewById(R.id.minVida);
-                    tvminVida.setText(String.valueOf(partida.getMinVida()));
-                    TextView tvmaxVida = findViewById(R.id.maxVida);
-                    tvmaxVida.setText(String.valueOf(partida.getMaxVida()));
-                    TextView tvminAtaque = findViewById(R.id.minAtaque);
-                    tvminAtaque.setText(String.valueOf(partida.getMinAtaque()));
-                    TextView tvmaxAtaque = findViewById(R.id.maxAtaque);
-                    tvmaxAtaque.setText(String.valueOf(partida.getMaxAtaque()));
-                    TextView tvminDefensa = findViewById(R.id.minDefensa);
-                    tvminDefensa.setText(String.valueOf(partida.getMinDefensa()));
-                    TextView tvmaxDefensa = findViewById(R.id.maxDefensa);
-                    tvmaxDefensa.setText(String.valueOf(partida.getMaxDefensa()));
-
-
-                } else {
-                    Toast.makeText(VistaPartida.this, R.string.error_general, Toast.LENGTH_LONG).show();
-                    partida = new Partida();
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-
-        //Botones
-        Button btMenosMinVida = findViewById(R.id.btMenosMinVida);
-        btMenosMinVida.setOnClickListener(this);
-        Button btMasMinVida = findViewById(R.id.btMasMinVida);
-        btMasMinVida.setOnClickListener(this);
-        Button btMenosMaxVida = findViewById(R.id.btMenosMaxVida);
-        btMenosMaxVida.setOnClickListener(this);
-        Button btMasMaxVida = findViewById(R.id.btMasMaxVida);
-        btMasMaxVida.setOnClickListener(this);
-        Button btMenosMinAtaque = findViewById(R.id.btMenosMinAtaque);
-        btMenosMinAtaque.setOnClickListener(this);
-        Button btMasMinAtaque = findViewById(R.id.btMasMinAtaque);
-        btMasMinAtaque.setOnClickListener(this);
-        Button btMenosMaxAtaque = findViewById(R.id.btMenosMaxAtaque);
-        btMenosMaxAtaque.setOnClickListener(this);
-        Button btMasMaxAtaque = findViewById(R.id.btMasMaxAtaque);
-        btMasMaxAtaque.setOnClickListener(this);
-        Button btMenosMinDefensa = findViewById(R.id.btMenosMinDefensa);
-        btMenosMinDefensa.setOnClickListener(this);
-        Button btMasMinDefensa = findViewById(R.id.btMasMinDefensa);
-        btMasMinDefensa.setOnClickListener(this);
-        Button btMenosMaxDefensa = findViewById(R.id.btMenosMaxDefensa);
-        btMenosMaxDefensa.setOnClickListener(this);
-        Button btMasMaxDefensa = findViewById(R.id.btMasMaxDefensa);
-        btMasMaxDefensa.setOnClickListener(this);
-
-        //TextViews
-        TextView tvVida = findViewById(R.id.tvVida);
-        tvVida.setOnClickListener(this);
-        TextView tvAtaque = findViewById(R.id.tvAtaque);
-        tvAtaque.setOnClickListener(this);
-        TextView tvDefensa = findViewById(R.id.tvDefensa);
-        tvDefensa.setOnClickListener(this);
-
-        TextView BTinfoEnemigos = findViewById(R.id.tvEnemigo);
-        BTinfoEnemigos.setOnClickListener(this);
         
-        Button volver = findViewById(R.id.button2);
+        Button volver = findViewById(R.id.btVolver);
         volver.setOnClickListener(this);
-        Button generar = findViewById(R.id.BTgenerar);
-        generar.setOnClickListener(this);
-        Button continuar = findViewById(R.id.BTcontinuar);
-        continuar.setOnClickListener(this);
-
-         */
     }
 
     @Override
@@ -169,11 +37,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
         switch (view.getId()){
             case R.id.btVolver:
-                onBackPressed();
-                break;
-
-            case R.id.BTcontinuar:
-                guardarPartida();
                 onBackPressed();
                 break;
 
@@ -231,19 +94,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         personajeT.put(Utils.IMAGEN_PARTIDA, Utils.BitMapToString(partida.getImagen()));
 
 
-        //Personaje > id > Todos los datos del personaje
-        DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS);
-        myRef.child(partida.getIdReal()).updateChildren(personajeT).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Toast.makeText(VistaPartida.this, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(VistaPartida.this, R.string.guardado_error, Toast.LENGTH_LONG).show();
-            }
-        });
+        Utils.actualizaPartida(partidaT, partida, VistaPartida.this);
 
         */
     }

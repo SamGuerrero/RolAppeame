@@ -5,6 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,9 +83,7 @@ public class Utils {
         return temp;
     }
 
-    /*
-    Devuelve un ArrayList con las Razas existentes
-     */
+    /**Devuelve un ArrayList con las Razas existentes */
     public static List<String> getRazasFromDatabase() {
         final ArrayList<String> razas = new ArrayList<>();
 
@@ -113,9 +116,7 @@ public class Utils {
         return razas;
     }
 
-    /*
-    Devuelve un ArrayList con las Clases existentes
-     */
+    /**Devuelve un ArrayList con las Clases existentes*/
     public static List<String> getClasesFromDatabase() {
         final ArrayList<String> clases = new ArrayList<>();
 
@@ -148,9 +149,7 @@ public class Utils {
         return clases;
     }
 
-    /*
-    Inserta un personaje
-     */
+    /**Inserta un personaje*/
     public static void insertarPersonaje(Personaje personaje){
         //Personaje > ID > Cada dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -176,9 +175,7 @@ public class Utils {
 
     }
 
-    /*
-    Actualiza un personaje
-     */
+    /**Actualiza un personaje*/
     public static void actualizarPersonaje(Map<String, Object> personajeT, Personaje personaje, final Context context){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -197,9 +194,7 @@ public class Utils {
         });
     }
 
-    /*
-    Devuelve un personaje concreto
-     */
+    /**Devuelve un personaje concreto*/
     static Personaje personaje;
     public static Personaje getPersonajeId(String id, final Context context){
 
@@ -259,9 +254,86 @@ public class Utils {
         return personaje;
     }
 
-    /*
-    Elimina un personaje
-     */
+    /**Devuelve la lista de personajes**/
+    public static ArrayList<Personaje> getPersonajes(final Usuario usuario){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final ArrayList<Personaje> personajes = new ArrayList<>();
+
+        //Obtengo una lista de la base de datos
+        DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS); //La clase en Java
+
+        // Read from the database             //Usuarios > email > personajes
+
+        myRef.child(usuario.getEmail()).child(Utils.PERSONAJES_USUARIO).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Para cada id pedimos una subquery que nos lleve a la partida correspondiente
+                        DatabaseReference subRef = database.getReference(Utils.TABLA_PERSONAJES);
+                        subRef.child(ds.child(Utils.ID_PERSONAJE).getValue().toString()).addValueEventListener(
+                                new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot subDS) {
+                                        if (subDS.exists()){
+                                            String nombre = (String) subDS.child(Utils.NOMBRE_PERSONAJE).getValue();
+                                            Bitmap imagen = null;
+                                            String raza = "";
+                                            String oficio = "";
+                                            int fuerza = 0;
+                                            int agilidad = 0;
+                                            int percepcion = 0;
+                                            int constitucion = 0;
+                                            int inteligencia = 0;
+                                            int carisma = 0;
+
+                                            try {
+                                                imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
+
+                                                raza = subDS.child("raza").getValue().toString();
+                                                oficio =  subDS.child("oficio").getValue().toString();
+                                                fuerza = Integer.parseInt(subDS.child("fuerza").getValue().toString());
+                                                agilidad = Integer.parseInt(subDS.child("agilidad").getValue().toString());
+                                                percepcion = Integer.parseInt(subDS.child("percepcion").getValue().toString());
+                                                constitucion = Integer.parseInt(subDS.child("constitucion").getValue().toString());
+                                                inteligencia = Integer.parseInt(subDS.child("inteligencia").getValue().toString());
+                                                carisma = Integer.parseInt(subDS.child("carisma").getValue().toString());
+
+                                            }catch (NullPointerException e){}
+
+                                            Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+                                            personajeT.setIdReal(subDS.getKey()); //Se guarda el ID real, donde se encuentra en la BDD
+                                            personajes.add(personajeT);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Log.w(TAG, "Failed to read value.", error.toException());
+                                    }
+                                });
+
+                        usuario.addPersonajes(ds.getKey()); //Añadimos la ID en la que se encuentra este personaje en concreto, así a la hora de borrarlo sabremos a donde ir
+
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return personajes;
+    }
+
+    /**Elimina un personaje*/
     public static void eliminarPersonaje(int pos, final Context context, ArrayList<Personaje> personajes){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Usuario usuario = new Usuario("sam"); //TODO: Sam es de prueba
@@ -286,17 +358,28 @@ public class Utils {
         });
     }
 
-    /*
-    Inserta una partida
-     */
+    /**Inserta una partida*/
     public static void insertarPartida(Partida partida){
         //Partida > ID > Cada Dato
-        //TODO: Cuando cree las condiciones todo lo que se añada a la base de datos deberá ser mediante constantes
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS); //Referencia a la clase Java
         myRef.child(String.valueOf(partida.getId())).child(Utils.NOMBRE_PARTIDA).setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
         myRef.child(String.valueOf(partida.getId())).child(Utils.IMAGEN_PARTIDA).setValue(Utils.BitMapToString(partida.getImagen()));
         myRef.child(String.valueOf(partida.getId())).child("tipoPartida").setValue(partida.getTipoPartida());
+
+        ArrayList razasIncluidas = new ArrayList();
+        for (Map.Entry m : partida.getRazas().entrySet()) {
+            if (m.getValue().equals(true))
+                razasIncluidas.add(m.getKey());
+        }
+        myRef.child(String.valueOf(partida.getId())).child(TABLA_RAZAS).setValue(razasIncluidas);
+
+        ArrayList clasesIncluidas = new ArrayList();
+        for (Map.Entry m : partida.getClases().entrySet()) {
+            if (m.getValue().equals(true))
+                clasesIncluidas.add(m.getKey());
+        }
+        myRef.child(String.valueOf(partida.getId())).child(TABLA_CLASES).setValue(clasesIncluidas);
 
 
         //Usuario > email > personajes > id_Personaje
@@ -306,9 +389,136 @@ public class Utils {
         myRef.child("sam").child(Utils.PARTIDAS_USUARIO).push().child(Utils.ID_PARTIDA).setValue(partida.getId()); //TODO: Sam es de prueba
     }
 
-    /*
-    Elimina una partida
-     */
+    /**Actualiza una partida*/
+    public static void actualizarPartida(Map<String, Object> partidaT, Partida partida, final Context context){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Personaje > id > Todos los datos del personaje
+        DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS);
+        myRef.child(partida.getIdReal()).updateChildren(partidaT).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(context, R.string.guardado_mensaje, Toast.LENGTH_LONG).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, R.string.guardado_error, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    /**Devuelve una partida concreta*/
+    static Partida partida;
+    public static Partida getPartidaId(String id, final Context context){
+        partida = new Partida();
+
+        return partida;
+    }
+
+    /**Devuelve una partida por defecto**/
+    public static Partida getPartidaDefecto(){
+        partida = new Partida();
+
+        //Inicializo todos los datos a True
+        //Razas
+        List<String> stringRazas = getRazasFromDatabase();
+        LinkedHashMap<String, Boolean> razas = new LinkedHashMap<>();
+        for (String raza: stringRazas)
+            razas.put(raza, true);
+
+        //Clases
+        List<String> stringClases = getClasesFromDatabase();
+        LinkedHashMap<String, Boolean> clases = new LinkedHashMap<>();
+        for (String clase: stringClases)
+            clases.put(clase, true);
+
+        //Guardo y devuelvo partida
+        partida.setRazas(razas);
+        partida.setClases(clases);
+
+        return partida;
+
+    }
+
+    /**DEvuelve una lista de partidas por Usuario**/
+    public static ArrayList<Partida> getPartidas(final Usuario usuario){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final ArrayList<Partida> partidas = new ArrayList<>();
+
+        //Obtengo una lista de la base de datos
+        DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS); //La clase en Java
+
+        // Read from the database             //Usuarios > email > partidas
+
+        myRef.child(usuario.getEmail()).child(Utils.PARTIDAS_USUARIO).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Buscamos en partida cada id dentro de Usuario
+
+                        DatabaseReference subRef = database.getReference(Utils.TABLA_PARTIDAS);
+                        subRef.child(ds.child(Utils.ID_PARTIDA).getValue().toString()).addValueEventListener(
+                                new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot subDS) {
+                                        String nombre = (String) subDS.child(Utils.NOMBRE_PARTIDA).getValue();
+                                        Bitmap imagen = null;
+                                        TipoPartida tipoPartida = TipoPartida.DnD;
+
+                                        int minVida = 0;
+                                        int maxVida = 0;
+                                        int minAtaque = 0;
+                                        int maxAtaque = 0;
+                                        int minDefensa = 0;
+                                        int maxDefensa = 0;
+
+                                        try {
+                                            imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PARTIDA).getValue().toString());
+                                            tipoPartida = TipoPartida.valueOf(subDS.child("tipoPartida").getValue().toString());
+
+                                            minVida = Integer.parseInt(subDS.child("minVida").getValue().toString());
+                                            maxVida = Integer.parseInt(subDS.child("maxVida").getValue().toString());
+                                            minAtaque = Integer.parseInt(subDS.child("minAtaque").getValue().toString());
+                                            maxAtaque = Integer.parseInt(subDS.child("maxAtaque").getValue().toString());
+                                            minDefensa = Integer.parseInt(subDS.child("minDefensa").getValue().toString());
+                                            maxDefensa = Integer.parseInt(subDS.child("maxDefensa").getValue().toString());
+
+                                        }catch (NullPointerException e){}
+
+                                        //TODO: Cómo mostrar una patida
+                                        /*Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
+                                        partidaT.setIdReal(subDS.getKey());
+                                        partidas.add(partidaT);*/
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+                                        Log.w(TAG, "Failed to read value.", error.toException());
+                                    }
+                                });
+
+                        usuario.addPartidas(ds.getKey()); //Añadimos la ID en la que se encuentra este personaje en concreto, así a la hora de borrarlo sabremos a donde ir
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return partidas;
+    }
+
+    /**Elimina una partida*/
     public static void eliminarPartida(int pos, final Context context, ArrayList<Partida> partidas){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         Usuario usuario = new Usuario("sam"); //TODO: Sam es de prueba
