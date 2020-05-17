@@ -5,10 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -184,7 +180,7 @@ public class Utils {
     }
 
     /**Inserta un personaje*/
-    public static void insertarPersonaje(Personaje personaje){
+    public static void insertarPersonaje(Personaje personaje, Usuario usuario){
         //Personaje > ID > Cada dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_PERSONAJES); //Referencia a la clase Java
@@ -205,7 +201,7 @@ public class Utils {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //String email = user.getEmail();
         myRef = database.getReference(Utils.TABLA_USUARIOS);
-        myRef.child("sam").child(Utils.PERSONAJES_USUARIO).push().child(Utils.ID_PERSONAJE).setValue(personaje.getId()); //TODO: Sam es prueba
+        myRef.child(usuario.getNombre()).child(Utils.PERSONAJES_USUARIO).push().child(Utils.ID_PERSONAJE).setValue(personaje.getId());
 
     }
 
@@ -298,7 +294,7 @@ public class Utils {
 
         // Read from the database             //Usuarios > email > personajes
 
-        myRef.child(usuario.getEmail()).child(Utils.PERSONAJES_USUARIO).addValueEventListener(new ValueEventListener() {
+        myRef.child(usuario.getNombre()).child(Utils.PERSONAJES_USUARIO).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -368,12 +364,11 @@ public class Utils {
     }
 
     /**Elimina un personaje*/
-    public static void eliminarPersonaje(int pos, final Context context, ArrayList<Personaje> personajes){
+    public static void eliminarPersonaje(int pos, final Context context, ArrayList<Personaje> personajes, Usuario usuario){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Usuario usuario = new Usuario("sam"); //TODO: Sam es de prueba
         //Se elimina de Usuario
         DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS);
-        myRef.child(usuario.getEmail()).child(Utils.PERSONAJES_USUARIO).child(usuario.getPersonajes().get(pos)).removeValue();
+        myRef.child(usuario.getNombre()).child(Utils.PERSONAJES_USUARIO).child(usuario.getPersonajes().get(pos)).removeValue();
 
         Personaje temporal = personajes.get(pos);
 
@@ -393,7 +388,7 @@ public class Utils {
     }
 
     /**Inserta una partida*/
-    public static void insertarPartida(Partida partida){
+    public static void insertarPartida(Partida partida, Usuario usuario){
         //Partida > ID > Cada Dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS); //Referencia a la clase Java
@@ -420,7 +415,7 @@ public class Utils {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         //String email = user.getEmail();
         myRef = database.getReference(Utils.TABLA_USUARIOS);
-        myRef.child("sam").child(Utils.PARTIDAS_USUARIO).push().child(Utils.ID_PARTIDA).setValue(partida.getId()); //TODO: Sam es de prueba
+        myRef.child(usuario.getNombre()).child(Utils.PARTIDAS_USUARIO).push().child(Utils.ID_PARTIDA).setValue(partida.getId());
     }
 
     /**Actualiza una partida*/
@@ -454,6 +449,7 @@ public class Utils {
     public static Partida getPartidaDefecto(){
         partida = new Partida();
 
+        //FIXME: Aquí pasa algo raro pero no sé el qué
         //Inicializo todos los datos a True
         //Razas
         List<String> stringRazas = getRazasFromDatabase();
@@ -495,7 +491,7 @@ public class Utils {
 
     }
 
-    /**DEvuelve una lista de partidas por Usuario**/
+    /**Devuelve una lista de partidas por Usuario**/
     public static ArrayList<Partida> getPartidas(final Usuario usuario){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final ArrayList<Partida> partidas = new ArrayList<>();
@@ -505,7 +501,7 @@ public class Utils {
 
         // Read from the database             //Usuarios > email > partidas
 
-        myRef.child(usuario.getEmail()).child(Utils.PARTIDAS_USUARIO).addValueEventListener(new ValueEventListener() {
+        myRef.child(usuario.getNombre()).child(Utils.PARTIDAS_USUARIO).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -573,12 +569,11 @@ public class Utils {
     }
 
     /**Elimina una partida*/
-    public static void eliminarPartida(int pos, final Context context, ArrayList<Partida> partidas){
+    public static void eliminarPartida(int pos, final Context context, ArrayList<Partida> partidas, Usuario usuario){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        Usuario usuario = new Usuario("sam"); //TODO: Sam es de prueba
         //Se elimina de Usuario
         DatabaseReference myRef = database.getReference(Utils.TABLA_USUARIOS);
-        myRef.child(usuario.getEmail()).child(Utils.PARTIDAS_USUARIO).child(usuario.getPartidas().get(pos)).removeValue();
+        myRef.child(usuario.getNombre()).child(Utils.PARTIDAS_USUARIO).child(usuario.getPartidas().get(pos)).removeValue();
 
         //Se elimina de Partida
         Partida temporal = partidas.get(pos);

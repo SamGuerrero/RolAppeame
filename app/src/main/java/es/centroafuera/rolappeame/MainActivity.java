@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,15 +43,16 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
+        //Obtengo el nombre de Usuario y el email y lo guardo en el menú lateral
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String usuario = prefs.getString("Usuario", "John Doe");
         String email = prefs.getString("Email", "JohnDoe@hotmail.com");
-
-        //TODO: Averiguar donde poner esto
-        /*TextView tvUsuario = findViewById(R.id.tvUsuario);
-        TextView tvEmail = findViewById(R.id.tvEmail);
+        
+        View view = navigationView.getHeaderView(0);
+        TextView tvUsuario = view.findViewById(R.id.tvUsuario);
+        TextView tvEmail = view.findViewById(R.id.tvEmail);
         tvUsuario.setText(usuario);
-        tvEmail.setText(email);*/
+        tvEmail.setText(email);
     }
 
     //Infla el Action Bar

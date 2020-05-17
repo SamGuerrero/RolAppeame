@@ -2,6 +2,7 @@ package es.centroafuera.rolappeame;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -176,7 +178,10 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         partida.setClases(datosVarios.get(Utils.TABLA_CLASES));
         partida.setRasgos(datosVarios.get(Utils.TABLA_RASGOS));
 
-        Utils.insertarPartida(partida);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombreUser = prefs.getString("Usuario", "John Doe");
+        Usuario usuario = new Usuario(nombreUser);
+        Utils.insertarPartida(partida, usuario);
         onBackPressed();
 
     }

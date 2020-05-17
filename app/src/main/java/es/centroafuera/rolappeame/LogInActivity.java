@@ -134,7 +134,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
     private void entrar(){
         //Recogemos el usuario, email y la contraseña
-        String usuario = etUsuario.getText().toString().trim();
+        final String usuario = etUsuario.getText().toString().trim();
         final String email = etEmail.getText().toString().trim();
         String contraseña = etContra.getText().toString().trim();
 
@@ -157,6 +157,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("Usuario", usuario);
         editor.putString("Email", email);
+        editor.commit();
 
         firebaseAuth.signInWithEmailAndPassword(email, contraseña)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -165,7 +166,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(LogInActivity.this, "Bienvenido " + email, Toast.LENGTH_LONG).show();
+                            Toast.makeText(LogInActivity.this, "Bienvenido " + usuario, Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);

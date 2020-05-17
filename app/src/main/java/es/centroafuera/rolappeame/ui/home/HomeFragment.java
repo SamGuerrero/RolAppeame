@@ -3,7 +3,9 @@ package es.centroafuera.rolappeame.ui.home;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -64,9 +66,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         this.container = container;
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //String email = user.getEmail();
-        usuario = new Usuario("sam"); //TODO: Cambiar esto
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
+        String nombre = prefs.getString("Usuario", "John Doe");
+        usuario = new Usuario(nombre);
 
 
         //Tab
@@ -215,10 +217,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
             case R.id.imEliminar:
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
-                    Utils.eliminarPersonaje(pos, getContext(), personajes);
+                    Utils.eliminarPersonaje(pos, getContext(), personajes, usuario);
 
                 }else{
-                    Utils.eliminarPartida(pos, getContext(), partidas);
+                    Utils.eliminarPartida(pos, getContext(), partidas, usuario);
 
                 }
 

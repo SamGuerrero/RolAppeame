@@ -4,31 +4,31 @@ import java.util.ArrayList;
 
 public class Usuario {
 
-    private String email;
+    private String nombre;
     private ArrayList<String> partidas; //Guarda los IDs de las pertidas
     private ArrayList<String> personajes; //Guarda los IDs de los personajes
 
     //Constructores
-    public Usuario(String email) {
-        this.email = email;
+    public Usuario(String nombre) {
+        this.nombre = nombre;
         this.partidas = new ArrayList<>();
         this.personajes = new ArrayList<>();
     }
 
-    public Usuario(String email, ArrayList<String> partidas, ArrayList<String> personajes) {
-        this.email = email;
+    public Usuario(String nombre, ArrayList<String> partidas, ArrayList<String> personajes) {
+        this.nombre = nombre;
         this.partidas = partidas;
         this.personajes = personajes;
     }
 
     //Getters y Setters
 
-    public String getEmail() {
-        return email;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public ArrayList<String> getPartidas() {

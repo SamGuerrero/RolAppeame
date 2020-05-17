@@ -3,6 +3,7 @@ package es.centroafuera.rolappeame;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -87,12 +89,12 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         BTmenosPercepcion.setOnClickListener(this);
 
         //Rellenar Spinners
-        ArrayList<String> razas = (ArrayList<String>) Utils.getClasesFromDatabase();
+        ArrayList<String> razas = (ArrayList<String>) Utils.getRazasFromDatabase();
         Spinner Sraza = findViewById(R.id.Sraza);
         ArrayAdapter<String> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
         Sraza.setAdapter(adaptadorRaza);
 
-        ArrayList<String> oficios = (ArrayList<String>) Utils.getRazasFromDatabase();
+        ArrayList<String> oficios = (ArrayList<String>) Utils.getClasesFromDatabase();
         Spinner Soficio = findViewById(R.id.Soficio);
         ArrayAdapter<String> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
         Soficio.setAdapter(adaptadorOficio);
@@ -303,7 +305,10 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
 
         Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
-        Utils.insertarPersonaje(personaje);
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String nombreUser = prefs.getString("Usuario", "John Doe");
+        Usuario usuario = new Usuario(nombreUser);
+        Utils.insertarPersonaje(personaje, usuario);
 
         onBackPressed();
     }
