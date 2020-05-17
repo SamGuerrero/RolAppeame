@@ -80,15 +80,18 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         grupoExpandible.add(Utils.TABLA_RAZAS);
         grupoExpandible.add(Utils.TABLA_CLASES);
         grupoExpandible.add(Utils.TABLA_RASGOS);
+        grupoExpandible.add(Utils.TABLA_CONJUROS);
 
         partida = Utils.getPartidaDefecto();
         LinkedHashMap<Texto, Boolean> listaRazas = partida.getRazas();
         LinkedHashMap<Texto, Boolean> listaClases = partida.getClases();
         LinkedHashMap<Texto, Boolean> listaRasgos = partida.getRasgos();
+        LinkedHashMap<Texto, Boolean> listaConjuros = partida.getConjuros();
 
         itemExpandible.put(grupoExpandible.get(0), listaRazas);
         itemExpandible.put(grupoExpandible.get(1), listaClases);
         itemExpandible.put(grupoExpandible.get(2), listaRasgos);
+        itemExpandible.put(grupoExpandible.get(3), listaConjuros);
     }
 
     @Override
@@ -177,6 +180,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         partida.setRazas(datosVarios.get(Utils.TABLA_RAZAS));
         partida.setClases(datosVarios.get(Utils.TABLA_CLASES));
         partida.setRasgos(datosVarios.get(Utils.TABLA_RASGOS));
+        partida.setConjuros(datosVarios.get(Utils.TABLA_CONJUROS));
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String nombreUser = prefs.getString("Usuario", "John Doe");

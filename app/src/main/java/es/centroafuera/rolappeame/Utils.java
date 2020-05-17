@@ -58,6 +58,13 @@ public class Utils {
     public static String TABLA_RAZAS = "Razas";
     public static String TABLA_CLASES = "Clases";
     public static String TABLA_RASGOS = "Rasgos";
+    public static String TABLA_CONJUROS = "Conjuros";
+
+    //Dentro de Razas
+    public static String RAZA_DESCRIPCION = "descripcion";
+
+    //Dentro de Clases
+    public static String CLASE_DESCRIPCION = "descripcion";
 
     //Convierte de String a Imagen
     public static Bitmap StringToBitMap(String encodedString){
@@ -98,7 +105,7 @@ public class Utils {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
                         String nombre = ds.getKey();
-                        String descripcion = "Sin información"; //TODO:Guardar descripciones
+                        String descripcion = String.valueOf(ds.child(RAZA_DESCRIPCION).getValue());
                         razas.add(new Texto(nombre, descripcion));
                     }
                 }
@@ -132,7 +139,7 @@ public class Utils {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
                         String nombre = ds.getKey();
-                        String descripcion = "Sin info de Clases"; //TODO:Guardar descripciones
+                        String descripcion = String.valueOf(ds.child(CLASE_DESCRIPCION).getValue());
                         clases.add(new Texto(nombre, descripcion));
                     }
                 }
@@ -180,6 +187,40 @@ public class Utils {
         });
 
         return rasgos;
+    }
+
+    /**Devuelve un ArrayList con los Conjuros existentes*/
+    public static List<Texto> getConjurosFromDatabase(){
+        final ArrayList<Texto> conjuros = new ArrayList<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(TABLA_CONJUROS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        String descripcion = String.valueOf(ds.getValue());
+                        conjuros.add(new Texto(nombre, descripcion));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return conjuros;
     }
 
     /**Inserta un personaje*/
@@ -392,7 +433,7 @@ public class Utils {
 
     /**Inserta una partida*/
     public static void insertarPartida(Partida partida, Usuario usuario){
-        //Partida > ID > Cada Dato
+        //Partida > ID > Cada Dato //FIXME: No debería cogerlo por partida.getId sino por un push automatico, guardar luego el código push para meter el resto de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS); //Referencia a la clase Java
         myRef.child(String.valueOf(partida.getId())).child(Utils.NOMBRE_PARTIDA).setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
@@ -413,10 +454,22 @@ public class Utils {
         }
         myRef.child(String.valueOf(partida.getId())).child(TABLA_CLASES).setValue(clasesIncluidas);
 
+        ArrayList rasgosIncluidos = new ArrayList();
+        for (Map.Entry m : partida.getRasgos().entrySet()) {
+            if (m.getValue().equals(true))
+                rasgosIncluidos.add(m.getKey());
+        }
+        myRef.child(String.valueOf(partida.getId())).child(TABLA_RASGOS).setValue(rasgosIncluidos);
+
+        ArrayList conjurosIncluidos = new ArrayList();
+        for (Map.Entry m : partida.getConjuros().entrySet()) {
+            if (m.getValue().equals(true))
+                conjurosIncluidos.add(m.getKey());
+        }
+        myRef.child(String.valueOf(partida.getId())).child(TABLA_CONJUROS).setValue(conjurosIncluidos);
+
 
         //Usuario > email > personajes > id_Personaje
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        //String email = user.getEmail();
         myRef = database.getReference(Utils.TABLA_USUARIOS);
         myRef.child(usuario.getNombre()).child(Utils.PARTIDAS_USUARIO).push().child(Utils.ID_PARTIDA).setValue(partida.getId());
     }
@@ -455,7 +508,7 @@ public class Utils {
         //FIXME: Aquí pasa algo raro pero no sé el qué
         //Inicializo todos los datos a True
         //Razas
-        /*List<Texto> stringRazas = getRazasFromDatabase();
+        List<Texto> stringRazas = getRazasFromDatabase();
         LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
         for (Texto raza: stringRazas)
             razas.put(raza, true);
@@ -470,10 +523,16 @@ public class Utils {
         List<Texto> stringRasgos = getRasgosFromDatabase();
         LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
         for (Texto rasgo: stringRasgos)
-            rasgos.put(rasgo, true);*/
+            rasgos.put(rasgo, true);
+
+        //Conjuros
+        List<Texto> stringConjuros = getConjurosFromDatabase();
+        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
+        for (Texto conjuro: stringConjuros)
+            conjuros.put(conjuro, true);
 
         //Para probar, porque no tengo buena conexión y no me muestra las cosas
-        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+        /*LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
         razas.put(new Texto("Orco", "Grande y feo"), true);
         razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
 
@@ -485,10 +544,15 @@ public class Utils {
         rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
         rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
 
+        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
+        conjuros.put(new Texto("Predigistacion", "Básicamente tus manos son un mechero"), true);
+        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);*/
+
         //Guardo y devuelvo partida
         partida.setRazas(razas);
         partida.setClases(clases);
         partida.setRasgos(rasgos);
+        partida.setConjuros(conjuros);
 
         return partida;
 

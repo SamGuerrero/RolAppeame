@@ -21,9 +21,9 @@ public class Partida {
     private LinkedHashMap<Texto, Boolean> razas;
     private LinkedHashMap<Texto, Boolean> clases;
     private LinkedHashMap<Texto, Boolean> rasgos;
-
+    private LinkedHashMap<Texto, Boolean> conjuros;
     /*
-    private LinkedHashMap<Hechizo, Boolean> hechizos;
+
     private LinkedHashMap<Habilidad, Boolean> habilidades;
     private LinkedHashMap<Equipo, Boolean> inventario;
     private LinkedHashMap<Bestia, Boolean> bestias;
@@ -42,11 +42,12 @@ public class Partida {
         this.imagen = null;
         this.razas = new LinkedHashMap<>();
         this.clases = new LinkedHashMap<>();
+        this.conjuros = new LinkedHashMap<>();
         this.tipoPartida = TipoPartida.DnD;
         this.jugadores = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos,TipoPartida tipoPartida) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, TipoPartida tipoPartida) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -54,11 +55,12 @@ public class Partida {
         this.razas = razas;
         this.clases = clases;
         this.rasgos = rasgos;
+        this.conjuros = conjuros;
         this.tipoPartida = tipoPartida;
         this.jugadores = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, ArrayList<String> jugadores) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, ArrayList<String> jugadores) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -67,6 +69,7 @@ public class Partida {
         this.razas = razas;
         this.clases = clases;
         this.rasgos = rasgos;
+        this.conjuros = conjuros;
         this.jugadores = jugadores;
     }
 
@@ -146,6 +149,14 @@ public class Partida {
 
     public void setRasgos(LinkedHashMap<Texto, Boolean> rasgos) {
         this.rasgos = rasgos;
+    }
+
+    public LinkedHashMap<Texto, Boolean> getConjuros() {
+        return conjuros;
+    }
+
+    public void setConjuros(LinkedHashMap<Texto, Boolean> conjuros) {
+        this.conjuros = conjuros;
     }
 }
 
