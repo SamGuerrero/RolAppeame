@@ -18,9 +18,9 @@ public class Partida {
     private TipoPartida tipoPartida;
 
     //Reglas
-    private LinkedHashMap<String, Boolean> razas;
-    private LinkedHashMap<String, Boolean> clases;
-    private LinkedHashMap<String, Boolean> rasgos;
+    private LinkedHashMap<Texto, Boolean> razas;
+    private LinkedHashMap<Texto, Boolean> clases;
+    private LinkedHashMap<Texto, Boolean> rasgos;
 
     /*
     private LinkedHashMap<Hechizo, Boolean> hechizos;
@@ -46,18 +46,19 @@ public class Partida {
         this.jugadores = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, TipoPartida tipoPartida) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos,TipoPartida tipoPartida) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
         this.imagen = imagen;
         this.razas = razas;
         this.clases = clases;
+        this.rasgos = rasgos;
         this.tipoPartida = tipoPartida;
         this.jugadores = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<String, Boolean> razas, LinkedHashMap<String, Boolean> clases, ArrayList<String> jugadores) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, ArrayList<String> jugadores) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -65,6 +66,7 @@ public class Partida {
         this.tipoPartida = tipoPartida;
         this.razas = razas;
         this.clases = clases;
+        this.rasgos = rasgos;
         this.jugadores = jugadores;
     }
 
@@ -114,19 +116,19 @@ public class Partida {
         this.tipoPartida = tipoPartida;
     }
 
-    public LinkedHashMap<String, Boolean> getRazas() {
+    public LinkedHashMap<Texto, Boolean> getRazas() {
         return razas;
     }
 
-    public void setRazas(LinkedHashMap<String, Boolean> razas) {
+    public void setRazas(LinkedHashMap<Texto, Boolean> razas) {
         this.razas = razas;
     }
 
-    public LinkedHashMap<String, Boolean> getClases() {
+    public LinkedHashMap<Texto, Boolean> getClases() {
         return clases;
     }
 
-    public void setClases(LinkedHashMap<String, Boolean> clases) {
+    public void setClases(LinkedHashMap<Texto, Boolean> clases) {
         this.clases = clases;
     }
 
@@ -138,11 +140,11 @@ public class Partida {
         this.jugadores = jugadores;
     }
 
-    public LinkedHashMap<String, Boolean> getRasgos() {
+    public LinkedHashMap<Texto, Boolean> getRasgos() {
         return rasgos;
     }
 
-    public void setRasgos(LinkedHashMap<String, Boolean> rasgos) {
+    public void setRasgos(LinkedHashMap<Texto, Boolean> rasgos) {
         this.rasgos = rasgos;
     }
 }

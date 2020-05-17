@@ -39,7 +39,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
     boolean cambiofoto = false;
     private final int AVATAR = 1;
     List<String> grupoExpandible;
-    HashMap<String, LinkedHashMap<String, Boolean>> itemExpandible;
+    HashMap<String, LinkedHashMap<Texto, Boolean>> itemExpandible;
     PartidaAdapterExpandible adapter;
     Partida partida;
 
@@ -82,9 +82,9 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         grupoExpandible.add(Utils.TABLA_RASGOS);
 
         partida = Utils.getPartidaDefecto();
-        LinkedHashMap<String, Boolean> listaRazas = partida.getRazas();
-        LinkedHashMap<String, Boolean> listaClases = partida.getClases();
-        LinkedHashMap<String, Boolean> listaRasgos = partida.getRasgos();
+        LinkedHashMap<Texto, Boolean> listaRazas = partida.getRazas();
+        LinkedHashMap<Texto, Boolean> listaClases = partida.getClases();
+        LinkedHashMap<Texto, Boolean> listaRasgos = partida.getRasgos();
 
         itemExpandible.put(grupoExpandible.get(0), listaRazas);
         itemExpandible.put(grupoExpandible.get(1), listaClases);
@@ -169,7 +169,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Básico
         EditText ETnombre = findViewById(R.id.ETnombre);
         Spinner SPtipos = findViewById(R.id.SPtipos);
-        HashMap<String, LinkedHashMap<String, Boolean>> datosVarios = adapter.itemExpandible; //La lista con todos los datos y sus checkbox
+        HashMap<String, LinkedHashMap<Texto, Boolean>> datosVarios = adapter.itemExpandible; //La lista con todos los datos y sus checkbox
 
         partida.setNombre(ETnombre.getText().toString());
         partida.setTipoPartida(TipoPartida.valueOf(SPtipos.getSelectedItem().toString()));

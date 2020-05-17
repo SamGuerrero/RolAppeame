@@ -81,8 +81,8 @@ public class Utils {
     }
 
     /**Devuelve un ArrayList con las Razas existentes */
-    public static List<String> getRazasFromDatabase() {
-        final ArrayList<String> razas = new ArrayList<>();
+    public static List<Texto> getRazasFromDatabase() {
+        final ArrayList<Texto> razas = new ArrayList<>();
 
         //Obtengo una lista de la base de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -98,7 +98,8 @@ public class Utils {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
                         String nombre = ds.getKey();
-                        razas.add(nombre);
+                        String descripcion = "Sin información"; //TODO:Guardar descripciones
+                        razas.add(new Texto(nombre, descripcion));
                     }
                 }
             }
@@ -114,8 +115,8 @@ public class Utils {
     }
 
     /**Devuelve un ArrayList con las Clases existentes*/
-    public static List<String> getClasesFromDatabase() {
-        final ArrayList<String> clases = new ArrayList<>();
+    public static List<Texto> getClasesFromDatabase() {
+        final ArrayList<Texto> clases = new ArrayList<>();
 
         //Obtengo una lista de la base de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -131,7 +132,8 @@ public class Utils {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
                         String nombre = ds.getKey();
-                        clases.add(nombre);
+                        String descripcion = "Sin info de Clases"; //TODO:Guardar descripciones
+                        clases.add(new Texto(nombre, descripcion));
                     }
                 }
             }
@@ -147,8 +149,8 @@ public class Utils {
     }
 
     /**Devuelve un ArrayList con los Rasgos existentes*/
-    public static List<String> getRasgosFromDatabase(){
-        final ArrayList<String> rasgos = new ArrayList<>();
+    public static List<Texto> getRasgosFromDatabase(){
+        final ArrayList<Texto> rasgos = new ArrayList<>();
 
         //Obtengo una lista de la base de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -164,7 +166,8 @@ public class Utils {
 
                     for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
                         String nombre = ds.getKey();
-                        rasgos.add(nombre);
+                        String descripcion = String.valueOf(ds.getValue());
+                        rasgos.add(new Texto(nombre, descripcion));
                     }
                 }
             }
@@ -452,35 +455,35 @@ public class Utils {
         //FIXME: Aquí pasa algo raro pero no sé el qué
         //Inicializo todos los datos a True
         //Razas
-        List<String> stringRazas = getRazasFromDatabase();
-        LinkedHashMap<String, Boolean> razas = new LinkedHashMap<>();
-        for (String raza: stringRazas)
+        /*List<Texto> stringRazas = getRazasFromDatabase();
+        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+        for (Texto raza: stringRazas)
             razas.put(raza, true);
 
         //Clases
-        List<String> stringClases = getClasesFromDatabase();
-        LinkedHashMap<String, Boolean> clases = new LinkedHashMap<>();
-        for (String clase: stringClases)
+        List<Texto> stringClases = getClasesFromDatabase();
+        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
+        for (Texto clase: stringClases)
             clases.put(clase, true);
 
         //Rasgos
-        List<String> stringRasgos = getRasgosFromDatabase();
-        LinkedHashMap<String, Boolean> rasgos = new LinkedHashMap<>();
-        for (String rasgo: stringRasgos)
-            rasgos.put(rasgo, true);
+        List<Texto> stringRasgos = getRasgosFromDatabase();
+        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
+        for (Texto rasgo: stringRasgos)
+            rasgos.put(rasgo, true);*/
 
         //Para probar, porque no tengo buena conexión y no me muestra las cosas
-        /*LinkedHashMap<String, Boolean> razas = new LinkedHashMap<>();
-        razas.put("Orco", true);
-        razas.put("Elfo", true);
+        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+        razas.put(new Texto("Orco", "Grande y feo"), true);
+        razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
 
-        LinkedHashMap<String, Boolean> clases = new LinkedHashMap<>();
-        clases.put("Guerrero", true);
-        clases.put("Mago", true);
+        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
+        clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
+        clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);
 
-        LinkedHashMap<String, Boolean> rasgos = new LinkedHashMap<>();
-        rasgos.put("Fortaleza Enana", true);
-        rasgos.put("Visión nocturna", true);*/
+        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
+        rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
+        rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
 
         //Guardo y devuelvo partida
         partida.setRazas(razas);
@@ -503,7 +506,7 @@ public class Utils {
 
         myRef.child(usuario.getNombre()).child(Utils.PARTIDAS_USUARIO).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 if (dataSnapshot.exists()){

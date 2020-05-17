@@ -89,14 +89,22 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         BTmenosPercepcion.setOnClickListener(this);
 
         //Rellenar Spinners
-        ArrayList<String> razas = (ArrayList<String>) Utils.getRazasFromDatabase();
+        ArrayList<Texto> razasDes = (ArrayList<Texto>) Utils.getRazasFromDatabase();
+        ArrayList<String> razas = new ArrayList<>();
+        for(Texto raza : razasDes)
+            razas.add(raza.getTitulo());
+
         Spinner Sraza = findViewById(R.id.Sraza);
         ArrayAdapter<String> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
         Sraza.setAdapter(adaptadorRaza);
 
-        ArrayList<String> oficios = (ArrayList<String>) Utils.getClasesFromDatabase();
+        ArrayList<Texto> clasesDes = (ArrayList<Texto>) Utils.getClasesFromDatabase();
+        ArrayList<String> clases = new ArrayList<>();
+        for(Texto clase : clasesDes)
+            clases.add(clase.getTitulo());
+
         Spinner Soficio = findViewById(R.id.Soficio);
-        ArrayAdapter<String> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, oficios);
+        ArrayAdapter<String> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, clases);
         Soficio.setAdapter(adaptadorOficio);
 
         //Inicializar mensaje de los puntos

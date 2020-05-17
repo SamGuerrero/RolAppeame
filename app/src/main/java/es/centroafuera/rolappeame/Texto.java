@@ -2,16 +2,16 @@ package es.centroafuera.rolappeame;
 
 public class Texto {
     private String titulo;
-    private String texto;
+    private String descripcion;
 
     public Texto() {
         titulo = "";
-        texto = "";
+        descripcion = "";
     }
 
-    public Texto(String titulo, String texto){
+    public Texto(String titulo, String descripcion){
         this.titulo = titulo;
-        this.texto = texto;
+        this.descripcion = descripcion;
     }
 
     public String getTitulo() {
@@ -22,11 +22,11 @@ public class Texto {
         this.titulo = titulo;
     }
 
-    public String getTexto() {
-        return texto;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setTexto(String texto) {
-        this.texto = texto;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 }

@@ -60,7 +60,7 @@ public class TextoAdapter extends BaseAdapter {
 
         Texto texto = textos.get(pos);
         holder.titulo.setText(texto.getTitulo());
-        holder.contenido.setText(texto.getTexto());
+        holder.contenido.setText(texto.getDescripcion());
 
         return convertView;
     }
