@@ -605,20 +605,20 @@ public class Utils {
                                         String nombre = (String) subDS.child(Utils.NOMBRE_PARTIDA).getValue();
                                         Bitmap imagen = null;
                                         TipoPartida tipoPartida = TipoPartida.DnD;
-                                        HashMap<Integer, Texto> razas = new HashMap<>();
-                                        HashMap<Integer, Texto> clases = new HashMap<>();
-                                        HashMap<Integer, Texto> rasgos = new HashMap<>();
-                                        HashMap<Integer, Texto> conjuros = new HashMap<>();
-
-                                        //FIXME: ArrayLis cannot be cast to HashMap
-                                       /* try {
+                                        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+                                        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
+                                        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
+                                        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
+/*
+                                        try{
+                                        //FIXME: Esto no va bien
                                             imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PARTIDA).getValue().toString());
                                             tipoPartida = TipoPartida.valueOf(subDS.child("tipoPartida").getValue().toString());
 
-                                            razas = (HashMap<Integer, Texto>) subDS.child(TABLA_RAZAS).getValue();
-                                            clases = (HashMap<Integer, Texto>) subDS.child(TABLA_CLASES).getValue();
-                                            rasgos = (HashMap<Integer, Texto>) subDS.child(TABLA_RASGOS).getValue();
-                                            conjuros = (HashMap<Integer, Texto>) subDS.child(TABLA_CONJUROS).getValue();
+                                            razas = (LinkedHashMap<Texto, Boolean>) subDS.child(TABLA_RAZAS).getValue();
+                                            clases = (LinkedHashMap<Texto, Boolean>) subDS.child(TABLA_CLASES).getValue();
+                                            rasgos = (LinkedHashMap<Texto, Boolean>) subDS.child(TABLA_RASGOS).getValue();
+                                            conjuros = (LinkedHashMap<Texto, Boolean>) subDS.child(TABLA_CONJUROS).getValue();
 
                                         }catch (NullPointerException e){}
 
@@ -627,10 +627,10 @@ public class Utils {
                                         partidaT.setNombre(nombre);
                                         partidaT.setTipoPartida(tipoPartida);
                                         partidaT.setImagen(imagen);
-                                        partidaT.setRazas(arrayToLinkHAshMap(razas));
-                                        partidaT.setClases(arrayToLinkHAshMap(clases));
-                                        partidaT.setRasgos(arrayToLinkHAshMap(rasgos));
-                                        partidaT.setConjuros(arrayToLinkHAshMap(conjuros));
+                                        partidaT.setRazas(razas);
+                                        partidaT.setClases(clases);
+                                        partidaT.setRasgos(rasgos);
+                                        partidaT.setConjuros(conjuros);
 
                                         partidas.add(partidaT);*/
                                     }
@@ -678,9 +678,9 @@ public class Utils {
         return partidas;
     }
 
-    private static LinkedHashMap<Texto, Boolean> arrayToLinkHAshMap(HashMap<Integer, Texto> lista) {
+    private static LinkedHashMap<Texto, Boolean> arrayToLinkHAshMap(ArrayList<Texto> lista) {
         LinkedHashMap<Texto, Boolean> lhm = new LinkedHashMap<>();
-        for (Texto t : lista.values())
+        for (Texto t : lista)
             lhm.put(t, true);
 
         return lhm;

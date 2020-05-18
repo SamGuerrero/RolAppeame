@@ -20,6 +20,7 @@ import com.google.protobuf.MapEntryLite;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class VistaPartida extends AppCompatActivity implements View.OnClickListener {
     Partida partida;
@@ -55,6 +56,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
         btConjuros.setOnClickListener(this);
         btRasgos.setOnClickListener(this);
+        btDado.setOnClickListener(this);
 
         Button volver = findViewById(R.id.btVolver);
         volver.setOnClickListener(this);
@@ -67,6 +69,10 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
             case R.id.btVolver:
                 onBackPressed();
                 break;
+
+            case R.id.btDado:
+                tirarDado();
+                break;
                 
             case R.id.btConjuros:
                 mostrarLista(Utils.TABLA_CONJUROS, partida.getConjuros());
@@ -78,6 +84,34 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
             default: break;
         }
+    }
+
+    private void tirarDado() {
+        final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        final Button btDado = findViewById(R.id.btDado);
+
+        builder.setTitle("Dado")
+        .setNeutralButton("d6", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int aleatorio = (int) (Math.random()*7);
+                btDado.setText("D6: " + aleatorio);
+            }
+        })
+        .setNegativeButton("d20", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int aleatorio = (int) (Math.random()*21);
+                btDado.setText("D20: " + aleatorio);
+            }
+        })
+        .setPositiveButton("d100", new DialogInterface.OnClickListener() {
+        @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int aleatorio = (int) (Math.random()*101);
+                btDado.setText("D100: " + aleatorio);
+            }
+        }).show();
     }
 
     private void mostrarLista(String tabla, LinkedHashMap<Texto, Boolean> lista) {
