@@ -1,5 +1,6 @@
 package es.centroafuera.rolappeame;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,10 +8,18 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.protobuf.MapEntryLite;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class VistaPartida extends AppCompatActivity implements View.OnClickListener {
     Partida partida;
@@ -26,9 +35,27 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         partida = Utils.getPartidaId(id, VistaPartida.this);
 
         //Muestro datos
+        TextView tvNombre = findViewById(R.id.TVnombre);
+        TextView tvTipoPartida = findViewById(R.id.TVtipoPartida);
+        ImageView ivAvatar = findViewById(R.id.IVavatar);
 
+        tvNombre.setText(partida.getNombre());
+        tvTipoPartida.setText(partida.getTipoPartida().toString());
+        ivAvatar.setImageBitmap(partida.getImagen());
 
-        //Boto
+        //Botones
+        Button btPersonajes = findViewById(R.id.btPersonajes);
+        Button btBestias = findViewById(R.id.btBestias);
+        Button btEquipo = findViewById(R.id.btEquipo);
+        Button btConjuros = findViewById(R.id.btConjuros);
+        Button btDado = findViewById(R.id.btDado);
+        Button btRasgos =findViewById(R.id.btRasgos);
+        Button btSitios = findViewById(R.id.btSitios);
+        Button btCalendario = findViewById(R.id.btCalendario);
+
+        btConjuros.setOnClickListener(this);
+        btRasgos.setOnClickListener(this);
+
         Button volver = findViewById(R.id.btVolver);
         volver.setOnClickListener(this);
     }
@@ -40,9 +67,59 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
             case R.id.btVolver:
                 onBackPressed();
                 break;
+                
+            case R.id.btConjuros:
+                mostrarLista(Utils.TABLA_CONJUROS, partida.getConjuros());
+                break;
+                
+            case R.id.btRasgos:
+                mostrarLista(Utils.TABLA_RASGOS, partida.getRasgos());
+                break;
 
             default: break;
         }
+    }
+
+    private void mostrarLista(String tabla, LinkedHashMap<Texto, Boolean> lista) {
+        CharSequence[] nombres = new CharSequence[lista.size()];
+        int i = 0;
+        for (Map.Entry m: lista.entrySet()) {
+            nombres[i] = ((Texto) m.getKey()).getTitulo();
+            i++;
+        }
+
+        boolean[] booleanos = new boolean[lista.size()];
+        int j = 0;
+        for (Map.Entry m: lista.entrySet()) {
+            booleanos[j] = (boolean) m.getValue();
+            j++;
+        }
+
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+
+        builder
+                .setTitle(tabla)
+                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //
+                    }
+                })
+        .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO: Guardar cambios
+            }
+        })
+        .setMultiChoiceItems(nombres, booleanos, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+
+            }
+        })
+        .show();
+
     }
 
     public void vistaInformacion(String descripcion){

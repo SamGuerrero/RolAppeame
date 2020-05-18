@@ -75,7 +75,7 @@
             app:icon="@drawable/baseline_people_black_18dp" />
 
         <Button
-            android:id="@+id/idBestias"
+            android:id="@+id/btBestias"
             android:layout_width="115dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
@@ -100,12 +100,12 @@
             app:icon="@drawable/baseline_ballot_black_18dp" />
 
         <Button
-            android:id="@+id/btHechizos"
+            android:id="@+id/btConjuros"
             android:layout_width="115dp"
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:text="Hechizos"
+            android:text="Conjuros"
             app:icon="@drawable/baseline_book_black_18dp" />
     </LinearLayout>
 

@@ -79,6 +79,8 @@ public class PartidaAdapter extends BaseAdapter {
             for (String jugador : partida.getJugadores())
                 listaJugadores = listaJugadores + jugador + ", ";
             listaJugadores = listaJugadores.substring(0, listaJugadores.length() - 2); //Esta línea quita el ", "
+        }else{
+            listaJugadores = "Sin jugadores";
         }
         viewHolder.jugadores.setText(listaJugadores);
 

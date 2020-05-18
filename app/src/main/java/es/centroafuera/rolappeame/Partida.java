@@ -48,9 +48,9 @@ public class Partida {
         this.jugadores = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, TipoPartida tipoPartida) {
-        this.id = id;
-        this.idReal = idReal;
+    public Partida(String nombre, Bitmap imagen, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, TipoPartida tipoPartida) {
+        this.id = 0;
+        this.idReal = "";
         this.nombre = nombre;
         this.imagen = imagen;
         this.razas = razas;

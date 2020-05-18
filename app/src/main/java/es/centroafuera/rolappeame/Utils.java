@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -494,16 +495,35 @@ public class Utils {
     }
 
     /**Devuelve una partida concreta*/
-    static Partida partida;
     public static Partida getPartidaId(String id, final Context context){
-        partida = new Partida();
+
+        //Pruebas a mano
+        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+        razas.put(new Texto("Orco", "Grande y feo"), true);
+        razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
+
+        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
+        clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
+        clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);
+
+        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
+        rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
+        rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
+
+        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
+        conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
+        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
+
+        Partida partida = new Partida("Prueba a mano", null, razas, clases, rasgos, conjuros, TipoPartida.DnD);
+
+        //TODO: Devolver partida de la base de datos
 
         return partida;
     }
 
     /**Devuelve una partida por defecto**/
     public static Partida getPartidaDefecto(){
-        partida = new Partida();
+        Partida partida = new Partida();
 
         //FIXME: Aquí pasa algo raro pero no sé el qué
         //Inicializo todos los datos a True
@@ -545,7 +565,7 @@ public class Utils {
         rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
 
         LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
-        conjuros.put(new Texto("Predigistacion", "Básicamente tus manos son un mechero"), true);
+        conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
         conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
 
         //Guardo y devuelvo partida
@@ -585,26 +605,34 @@ public class Utils {
                                         String nombre = (String) subDS.child(Utils.NOMBRE_PARTIDA).getValue();
                                         Bitmap imagen = null;
                                         TipoPartida tipoPartida = TipoPartida.DnD;
-                                        ArrayList<Texto> razas = new ArrayList<>();
-                                        ArrayList<Texto> clases = new ArrayList<>();
-                                        ArrayList<Texto> rasgos = new ArrayList<>();
-                                        ArrayList<Texto> conjuros = new ArrayList<>();
+                                        HashMap<Integer, Texto> razas = new HashMap<>();
+                                        HashMap<Integer, Texto> clases = new HashMap<>();
+                                        HashMap<Integer, Texto> rasgos = new HashMap<>();
+                                        HashMap<Integer, Texto> conjuros = new HashMap<>();
 
-
-                                        try {
+                                        //FIXME: ArrayLis cannot be cast to HashMap
+                                       /* try {
                                             imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PARTIDA).getValue().toString());
                                             tipoPartida = TipoPartida.valueOf(subDS.child("tipoPartida").getValue().toString());
 
-                                            razas = (ArrayList<Texto>) subDS.child(TABLA_RAZAS).getValue();
-                                            clases = (ArrayList<Texto>) subDS.child(TABLA_CLASES).getValue();
-                                            rasgos = (ArrayList<Texto>) subDS.child(TABLA_RASGOS).getValue();
-                                            conjuros = (ArrayList<Texto>) subDS.child(TABLA_CONJUROS).getValue();
+                                            razas = (HashMap<Integer, Texto>) subDS.child(TABLA_RAZAS).getValue();
+                                            clases = (HashMap<Integer, Texto>) subDS.child(TABLA_CLASES).getValue();
+                                            rasgos = (HashMap<Integer, Texto>) subDS.child(TABLA_RASGOS).getValue();
+                                            conjuros = (HashMap<Integer, Texto>) subDS.child(TABLA_CONJUROS).getValue();
 
                                         }catch (NullPointerException e){}
 
                                         Partida partidaT = new Partida();
                                         partidaT.setIdReal(subDS.getKey());
-                                        partidas.add(partidaT);
+                                        partidaT.setNombre(nombre);
+                                        partidaT.setTipoPartida(tipoPartida);
+                                        partidaT.setImagen(imagen);
+                                        partidaT.setRazas(arrayToLinkHAshMap(razas));
+                                        partidaT.setClases(arrayToLinkHAshMap(clases));
+                                        partidaT.setRasgos(arrayToLinkHAshMap(rasgos));
+                                        partidaT.setConjuros(arrayToLinkHAshMap(conjuros));
+
+                                        partidas.add(partidaT);*/
                                     }
 
                                     @Override
@@ -627,7 +655,35 @@ public class Utils {
             }
         });
 
+        //Una lista de partidas por defecto para probar las cosas
+        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+        razas.put(new Texto("Orco", "Grande y feo"), true);
+        razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
+
+        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
+        clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
+        clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);
+
+        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
+        rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
+        rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
+
+        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
+        conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
+        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
+
+        Partida partidaT = new Partida("Prueba a mano", null, razas, clases, rasgos, conjuros, TipoPartida.DnD);
+        partidas.add(partidaT);
+
         return partidas;
+    }
+
+    private static LinkedHashMap<Texto, Boolean> arrayToLinkHAshMap(HashMap<Integer, Texto> lista) {
+        LinkedHashMap<Texto, Boolean> lhm = new LinkedHashMap<>();
+        for (Texto t : lista.values())
+            lhm.put(t, true);
+
+        return lhm;
     }
 
     /**Elimina una partida*/
