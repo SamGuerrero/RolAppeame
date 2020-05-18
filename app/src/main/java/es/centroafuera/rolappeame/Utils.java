@@ -508,7 +508,7 @@ public class Utils {
         //FIXME: Aquí pasa algo raro pero no sé el qué
         //Inicializo todos los datos a True
         //Razas
-        List<Texto> stringRazas = getRazasFromDatabase();
+        /*List<Texto> stringRazas = getRazasFromDatabase();
         LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
         for (Texto raza: stringRazas)
             razas.put(raza, true);
@@ -529,10 +529,10 @@ public class Utils {
         List<Texto> stringConjuros = getConjurosFromDatabase();
         LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
         for (Texto conjuro: stringConjuros)
-            conjuros.put(conjuro, true);
+            conjuros.put(conjuro, true);*/
 
         //Para probar, porque no tengo buena conexión y no me muestra las cosas
-        /*LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
+        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
         razas.put(new Texto("Orco", "Grande y feo"), true);
         razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
 
@@ -546,7 +546,7 @@ public class Utils {
 
         LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
         conjuros.put(new Texto("Predigistacion", "Básicamente tus manos son un mechero"), true);
-        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);*/
+        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
 
         //Guardo y devuelvo partida
         partida.setRazas(razas);
@@ -585,31 +585,26 @@ public class Utils {
                                         String nombre = (String) subDS.child(Utils.NOMBRE_PARTIDA).getValue();
                                         Bitmap imagen = null;
                                         TipoPartida tipoPartida = TipoPartida.DnD;
+                                        ArrayList<Texto> razas = new ArrayList<>();
+                                        ArrayList<Texto> clases = new ArrayList<>();
+                                        ArrayList<Texto> rasgos = new ArrayList<>();
+                                        ArrayList<Texto> conjuros = new ArrayList<>();
 
-                                        int minVida = 0;
-                                        int maxVida = 0;
-                                        int minAtaque = 0;
-                                        int maxAtaque = 0;
-                                        int minDefensa = 0;
-                                        int maxDefensa = 0;
 
                                         try {
                                             imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PARTIDA).getValue().toString());
                                             tipoPartida = TipoPartida.valueOf(subDS.child("tipoPartida").getValue().toString());
 
-                                            minVida = Integer.parseInt(subDS.child("minVida").getValue().toString());
-                                            maxVida = Integer.parseInt(subDS.child("maxVida").getValue().toString());
-                                            minAtaque = Integer.parseInt(subDS.child("minAtaque").getValue().toString());
-                                            maxAtaque = Integer.parseInt(subDS.child("maxAtaque").getValue().toString());
-                                            minDefensa = Integer.parseInt(subDS.child("minDefensa").getValue().toString());
-                                            maxDefensa = Integer.parseInt(subDS.child("maxDefensa").getValue().toString());
+                                            razas = (ArrayList<Texto>) subDS.child(TABLA_RAZAS).getValue();
+                                            clases = (ArrayList<Texto>) subDS.child(TABLA_CLASES).getValue();
+                                            rasgos = (ArrayList<Texto>) subDS.child(TABLA_RASGOS).getValue();
+                                            conjuros = (ArrayList<Texto>) subDS.child(TABLA_CONJUROS).getValue();
 
                                         }catch (NullPointerException e){}
 
-                                        //TODO: Cómo mostrar una patida
-                                        /*Partida partidaT = new Partida(nombre, imagen, tipoPartida, minVida, maxVida, minAtaque, maxAtaque, minDefensa, maxDefensa);
+                                        Partida partidaT = new Partida();
                                         partidaT.setIdReal(subDS.getKey());
-                                        partidas.add(partidaT);*/
+                                        partidas.add(partidaT);
                                     }
 
                                     @Override

@@ -421,7 +421,7 @@
             android:text="@string/volver" />
 
         <Button
-            android:id="@+id/BTcontinuar"
+            android:id="@+id/btGuardar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

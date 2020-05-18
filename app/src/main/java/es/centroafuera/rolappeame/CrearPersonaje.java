@@ -45,7 +45,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         //Coger y añadir ClickListener en botones
         Button BTvolver = findViewById(R.id.btVolver);
         BTvolver.setOnClickListener(this);
-        Button BTcontinuar = findViewById(R.id.BTcontinuar);
+        Button BTcontinuar = findViewById(R.id.btGuardar);
         BTcontinuar.setOnClickListener(this);
         ImageView IVavatar = findViewById(R.id.IVavatar);
         IVavatar.setOnClickListener(this);
@@ -120,7 +120,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
                 break;
 
-            case R.id.BTcontinuar:
+            case R.id.btGuardar:
                 EditText nombre = findViewById(R.id.ETnombre);
                 if (nombre.getText().toString().equals("")) {
                     Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show();

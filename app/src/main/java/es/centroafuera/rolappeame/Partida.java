@@ -42,6 +42,7 @@ public class Partida {
         this.imagen = null;
         this.razas = new LinkedHashMap<>();
         this.clases = new LinkedHashMap<>();
+        this.rasgos = new LinkedHashMap<>();
         this.conjuros = new LinkedHashMap<>();
         this.tipoPartida = TipoPartida.DnD;
         this.jugadores = new ArrayList<>();

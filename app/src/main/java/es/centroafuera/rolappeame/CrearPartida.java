@@ -71,7 +71,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         //Botones
         Button volver = findViewById(R.id.btVolver);
         volver.setOnClickListener(this);
-        Button continuar = findViewById(R.id.btContinuar);
+        Button continuar = findViewById(R.id.btGuardar);
         continuar.setOnClickListener(this);
 
     }
@@ -102,7 +102,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
                 onBackPressed();
                 break;
 
-            case R.id.btContinuar:
+            case R.id.btGuardar:
                 guardarPartida();
                 break;
 

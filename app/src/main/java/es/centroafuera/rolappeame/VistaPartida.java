@@ -27,7 +27,8 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
         //Muestro datos
 
-        
+
+        //Boto
         Button volver = findViewById(R.id.btVolver);
         volver.setOnClickListener(this);
     }
@@ -42,13 +43,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
             default: break;
         }
-    }
-
-    //TODO: Mirar si utilizo estas funciones para algo
-    public void sumarPuntos(TextView pantalla){
-    }
-
-    public void restarPuntos(TextView pantalla){
     }
 
     public void vistaInformacion(String descripcion){
