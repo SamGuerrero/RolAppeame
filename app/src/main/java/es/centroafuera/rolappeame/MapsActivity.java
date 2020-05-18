@@ -119,6 +119,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 InformacionFragment.newInstance(marker.getTitle(), sitio.getDescripcion()).show(getSupportFragmentManager(), null);
             }
         }
+
+        //TODO: Añadir guardar sitios al mapa
     }
 
     @Override

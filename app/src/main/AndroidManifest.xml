@@ -82,6 +82,8 @@
         <activity android:name=".VistaPersonaje" />
         <activity android:name=".CrearPartida" />
         <activity android:name=".VistaPartida" />
+        <activity android:name=".ActivityListaSitios" />
+        <activity android:name=".ActivityListaEventos" />
     </application>
 
 </manifest>
