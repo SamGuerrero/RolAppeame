@@ -29,6 +29,7 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mostrarlista);
+        setTitle("Sitios");
 
         listView = findViewById(R.id.listView);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -46,7 +47,8 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_SITIOS); //La clase en Java
 
-        // Read from the database
+        //TODO: Si no voy a guardar desde mapa, que muestre nomás todos los sitios disponibles
+
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

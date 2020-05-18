@@ -9,177 +9,188 @@
     android:paddingStart="20dp"
     android:paddingEnd="20dp">
 
-    <LinearLayout
-        android:id="@+id/LYbasico"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/IVavatar"
-            android:layout_width="175dp"
-            android:layout_height="77dp"
-            android:layout_weight="1"
-            android:contentDescription="Fondo de Partida"
-            android:maxWidth="50dp"
-            android:maxHeight="77dp"
-            android:onClick="ponerFoto"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="visible" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/TVnombre"
+            <LinearLayout
+                android:id="@+id/LYbasico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/nombre"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/IVavatar"
+                    android:layout_width="175dp"
+                    android:layout_height="77dp"
+                    android:layout_weight="1"
+                    android:contentDescription="Fondo de Partida"
+                    android:maxWidth="50dp"
+                    android:maxHeight="77dp"
+                    android:onClick="ponerFoto"
+                    android:src="@mipmap/ic_launcher"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/TVnombre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/nombre"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+                    <TextView
+                        android:id="@+id/TVtipoPartida"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                </LinearLayout>
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/TVtipoPartida"
+                android:id="@+id/tvSeparacion"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="#673AB7" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btPersonajes"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:background="#FFFFFF"
+                    android:text="@string/personajes"
+                    app:icon="@drawable/baseline_people_black_18dp" />
+
+                <Button
+                    android:id="@+id/btBestias"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Bestias"
+                    app:icon="@drawable/baseline_adb_black_18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btEquipo"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="Equipo"
+                    app:icon="@drawable/baseline_ballot_black_18dp" />
+
+                <Button
+                    android:id="@+id/btConjuros"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Conjuros"
+                    app:icon="@drawable/baseline_book_black_18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btDado"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="Dado"
+                    app:icon="@drawable/baseline_casino_black_18dp" />
+
+                <Button
+                    android:id="@+id/btRasgos"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Rasgos"
+                    app:icon="@drawable/baseline_grade_black_18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btSitios"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="Sitios"
+                    app:icon="@drawable/baseline_room_black_18dp" />
+
+                <Button
+                    android:id="@+id/btCalendario"
+                    android:layout_width="115dp"
+                    android:layout_height="100dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Calendario"
+                    app:icon="@drawable/baseline_event_black_18dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btVolver"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="@string/volver" />
+
+                <Button
+                    android:id="@+id/btGuardar"
+                    android:layout_width="115dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/guardar" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvSeparacion"
-        android:layout_width="match_parent"
-        android:layout_height="5dp"
-        android:background="#673AB7" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btPersonajes"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:background="#FFFFFF"
-            android:text="@string/personajes"
-            app:icon="@drawable/baseline_people_black_18dp" />
-
-        <Button
-            android:id="@+id/btBestias"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
-            android:text="Bestias"
-            app:icon="@drawable/baseline_adb_black_18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btEquipo"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:text="Equipo"
-            app:icon="@drawable/baseline_ballot_black_18dp" />
-
-        <Button
-            android:id="@+id/btConjuros"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
-            android:text="Conjuros"
-            app:icon="@drawable/baseline_book_black_18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btDado"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:text="Dado"
-            app:icon="@drawable/baseline_casino_black_18dp" />
-
-        <Button
-            android:id="@+id/btRasgos"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
-            android:text="Rasgos"
-            app:icon="@drawable/baseline_grade_black_18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foregroundGravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btSitios"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginEnd="5dp"
-            android:layout_weight="1"
-            android:text="Sitios"
-            app:icon="@drawable/baseline_room_black_18dp" />
-
-        <Button
-            android:id="@+id/btCalendario"
-            android:layout_width="115dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="5dp"
-            android:layout_weight="1"
-            android:text="Calendario"
-            app:icon="@drawable/baseline_event_black_18dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btVolver"
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:text="@string/volver" />
-
-        <Button
-            android:id="@+id/btGuardar"
-            android:layout_width="115dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:text="@string/guardar" />
-    </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

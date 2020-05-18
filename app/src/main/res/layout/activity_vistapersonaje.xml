@@ -5,422 +5,434 @@
     android:background="#BCB3843C"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/LYbasico"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:id="@+id/IVavatar"
-            android:layout_width="175dp"
-            android:layout_height="77dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/avatar_de_personaje"
-            android:maxWidth="50dp"
-            android:maxHeight="77dp"
-            android:visibility="visible"
-            android:src="@mipmap/ic_launcher"/>
-
-        <TextView
-            android:id="@+id/TVnombre"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textSize="24sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LYobligatorio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/TVraza"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <TextView
-            android:id="@+id/TVoficio"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/TVpuntos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center" />
-
-    <LinearLayout
-        android:id="@+id/LYatributos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/LYizquierda"
-            android:layout_width="170dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical" >
 
             <LinearLayout
-                android:id="@+id/LYtituloFuerza"
+                android:id="@+id/LYbasico"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/IVavatar"
+                    android:layout_width="175dp"
+                    android:layout_height="77dp"
+                    android:layout_weight="1"
+                    android:contentDescription="@string/avatar_de_personaje"
+                    android:maxWidth="50dp"
+                    android:maxHeight="77dp"
+                    android:src="@mipmap/ic_launcher"
+                    android:visibility="visible" />
+
                 <TextView
-                    android:id="@+id/fuerza"
-                    android:layout_width="135dp"
+                    android:id="@+id/TVnombre"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
-                    android:gravity="center"
-                    android:text="@string/fuerza" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                    android:textSize="24sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/LYpuntosFuerza"
+                android:id="@+id/LYobligatorio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/BTmenosFuerza"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_resta"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/puntosFuerza"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <Button
-                    android:id="@+id/BTmasFuerza"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_suma"
-                    android:text="+" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LYtituloAgilidad"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/agilidad"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
-                    android:gravity="center"
-                    android:text="@string/agilidad" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LYpuntosAgilidad"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/BTmenosAgilidad"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_resta"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/puntosAgilidad"
-                    android:layout_width="20dp"
+                    android:id="@+id/TVraza"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                <Button
-                    android:id="@+id/BTmasAgilidad"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_suma"
-                    android:text="+" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LYtituloPercepcion"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
                 <TextView
-                    android:id="@+id/percepcion"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
-                    android:gravity="center"
-                    android:text="@string/percepci_n" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LYpuntosPercepcion"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/BTmenosPercepcion"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_resta"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/puntosPercepcion"
-                    android:layout_width="20dp"
+                    android:id="@+id/TVoficio"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="0"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-                <Button
-                    android:id="@+id/BTmasPercepcion"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_suma"
-                    android:text="+" />
             </LinearLayout>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/LYderecha"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/LYtituloConstitucion"
+            <TextView
+                android:id="@+id/TVpuntos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/constitucion"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
-                    android:gravity="center"
-                    android:text="@string/constituci_n" />
-
-            </LinearLayout>
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center" />
 
             <LinearLayout
-                android:id="@+id/LYpuntosConstitucion"
+                android:id="@+id/LYatributos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/BTmenosConstitucion"
-                    android:layout_width="50dp"
+                <LinearLayout
+                    android:id="@+id/LYizquierda"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_resta"
-                    android:text="-" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/puntosConstitucion"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    <LinearLayout
+                        android:id="@+id/LYtituloFuerza"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/BTmasConstitucion"
-                    android:layout_width="50dp"
+                        <TextView
+                            android:id="@+id/fuerza"
+                            android:layout_width="135dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableRight="@android:drawable/ic_menu_info_details"
+                            android:gravity="center"
+                            android:text="@string/fuerza" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYpuntosFuerza"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/BTmenosFuerza"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_resta"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/puntosFuerza"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/BTmasFuerza"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_suma"
+                            android:text="+" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYtituloAgilidad"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/agilidad"
+                            android:layout_width="135dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableRight="@android:drawable/ic_menu_info_details"
+                            android:gravity="center"
+                            android:text="@string/agilidad" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYpuntosAgilidad"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/BTmenosAgilidad"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_resta"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/puntosAgilidad"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/BTmasAgilidad"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_suma"
+                            android:text="+" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYtituloPercepcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/percepcion"
+                            android:layout_width="135dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:drawableRight="@android:drawable/ic_menu_info_details"
+                            android:gravity="center"
+                            android:text="@string/percepci_n" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYpuntosPercepcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/BTmenosPercepcion"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_resta"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/puntosPercepcion"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/BTmasPercepcion"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_suma"
+                            android:text="+" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LYderecha"
+                    android:layout_width="170dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_suma"
-                    android:text="+" />
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/LYtituloConstitucion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/constitucion"
+                            android:layout_width="135dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:drawableRight="@android:drawable/ic_menu_info_details"
+                            android:gravity="center"
+                            android:text="@string/constituci_n" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYpuntosConstitucion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/BTmenosConstitucion"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_resta"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/puntosConstitucion"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/BTmasConstitucion"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_suma"
+                            android:text="+" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYtituloInteligencia"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/inteligencia"
+                            android:layout_width="135dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:drawableRight="@android:drawable/ic_menu_info_details"
+                            android:gravity="center"
+                            android:text="@string/inteligencia" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYpuntosInteligencia"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/BTmenosInteligencia"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_resta"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/puntosInteligencia"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/BTmasInteligencia"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_suma"
+                            android:text="+" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYtituloCarisma"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/carisma"
+                            android:layout_width="135dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:drawableRight="@android:drawable/ic_menu_info_details"
+                            android:gravity="center"
+                            android:text="@string/carisma" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/LYpuntosCarisma"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/BTmenosCarisma"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_resta"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/puntosCarisma"
+                            android:layout_width="20dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+                        <Button
+                            android:id="@+id/BTmasCarisma"
+                            android:layout_width="50dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/borde_redondo_suma"
+                            android:text="+" />
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/LYtituloInteligencia"
+                android:id="@+id/LYbotones"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/inteligencia"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
-                    android:gravity="center"
-                    android:text="@string/inteligencia" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LYpuntosInteligencia"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/BTmenosInteligencia"
-                    android:layout_width="50dp"
+                    android:id="@+id/btVolver"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_resta"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/puntosInteligencia"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    android:text="@string/volver" />
 
                 <Button
-                    android:id="@+id/BTmasInteligencia"
-                    android:layout_width="50dp"
+                    android:id="@+id/BTguardar"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_suma"
-                    android:text="+" />
-            </LinearLayout>
+                    android:text="@string/guardar" />
 
-            <LinearLayout
-                android:id="@+id/LYtituloCarisma"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/carisma"
-                    android:layout_width="135dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:drawableRight="@android:drawable/ic_menu_info_details"
-                    android:gravity="center"
-                    android:text="@string/carisma" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/LYpuntosCarisma"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/BTmenosCarisma"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_resta"
-                    android:text="-" />
-
-                <TextView
-                    android:id="@+id/puntosCarisma"
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <Button
-                    android:id="@+id/BTmasCarisma"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@drawable/borde_redondo_suma"
-                    android:text="+" />
             </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/LYbotones"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btVolver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:text="@string/volver" />
-
-        <Button
-            android:id="@+id/BTguardar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/guardar" />
-
-    </LinearLayout>
 </LinearLayout>

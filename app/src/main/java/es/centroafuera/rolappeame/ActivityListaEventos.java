@@ -1,6 +1,5 @@
 package es.centroafuera.rolappeame;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -59,6 +58,8 @@ public class ActivityListaEventos extends AppCompatActivity implements View.OnCl
                         Evento evento = new Evento(fecha);
                         eventos.add(evento);
                         adapter.notifyDataSetChanged();
+
+                        //Nueva activity que permita rellenar y guardar un evento
                     }
                 });
                 break;

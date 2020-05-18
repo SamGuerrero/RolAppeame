@@ -1,6 +1,5 @@
 package es.centroafuera.rolappeame;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,17 +14,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.protobuf.MapEntryLite;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class VistaPartida extends AppCompatActivity implements View.OnClickListener {
     Partida partida;
@@ -34,7 +26,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vistapartida);
-        setTitle("Sitios");
 
         //Recojo el id String que es la key de la base de datos
         Intent intent = getIntent();
