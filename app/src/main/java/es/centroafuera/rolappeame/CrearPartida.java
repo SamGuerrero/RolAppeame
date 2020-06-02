@@ -12,17 +12,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +30,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+
+import es.centroafuera.rolappeame.models.Partida;
+import es.centroafuera.rolappeame.models.Texto;
+import es.centroafuera.rolappeame.models.TipoPartida;
+import es.centroafuera.rolappeame.models.Usuario;
 
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;

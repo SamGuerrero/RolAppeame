@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -32,9 +31,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.google.android.gms.common.util.ArrayUtils;
-
 import java.util.ArrayList;
+
+import es.centroafuera.rolappeame.models.Personaje;
+import es.centroafuera.rolappeame.models.Texto;
+import es.centroafuera.rolappeame.models.Usuario;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
     int[] puntosTotales = new int[6]; //Puntos por defecto, se obtienen aleatoriamente

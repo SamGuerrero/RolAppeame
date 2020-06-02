@@ -73,7 +73,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
 
 
 
-        loginButton = (LoginButton) findViewById(R.id.btEntrarFB);
+        /*loginButton = (LoginButton) findViewById(R.id.btEntrarFB);
         //loginButton.setReadPermissions("email");
 
         // Callback registration
@@ -97,7 +97,7 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(LogInActivity.this, "Ha ocurrido un error", Toast.LENGTH_LONG).show();
                 return;
             }
-        });
+        });*/
 
         signInButton = (SignInButton) findViewById(R.id.btEntrarGoogle);
 

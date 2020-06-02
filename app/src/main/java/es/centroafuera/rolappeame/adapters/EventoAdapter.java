@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame;
+package es.centroafuera.rolappeame.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import es.centroafuera.rolappeame.R;
+import es.centroafuera.rolappeame.models.Evento;
 
 public class EventoAdapter extends BaseAdapter {
     private Context context;

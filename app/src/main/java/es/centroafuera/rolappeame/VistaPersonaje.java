@@ -20,6 +20,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.centroafuera.rolappeame.models.Personaje;
+
 public class VistaPersonaje extends AppCompatActivity implements View.OnClickListener{
     Personaje personaje;
     String id;

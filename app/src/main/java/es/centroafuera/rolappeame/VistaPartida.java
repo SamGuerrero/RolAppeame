@@ -19,6 +19,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import es.centroafuera.rolappeame.models.Partida;
+import es.centroafuera.rolappeame.models.Texto;
+
 public class VistaPartida extends AppCompatActivity implements View.OnClickListener {
     Partida partida;
     String id;

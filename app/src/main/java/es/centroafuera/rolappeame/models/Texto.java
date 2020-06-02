@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame;
+package es.centroafuera.rolappeame.models;
 
 public class Texto {
     private String titulo;

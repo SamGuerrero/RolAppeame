@@ -13,8 +13,8 @@ import androidx.lifecycle.ViewModelProviders;
 import java.util.ArrayList;
 
 import es.centroafuera.rolappeame.R;
-import es.centroafuera.rolappeame.Texto;
-import es.centroafuera.rolappeame.TextoAdapter;
+import es.centroafuera.rolappeame.models.Texto;
+import es.centroafuera.rolappeame.adapters.TextoAdapter;
 
 public class AcercadeFragment extends Fragment {
 

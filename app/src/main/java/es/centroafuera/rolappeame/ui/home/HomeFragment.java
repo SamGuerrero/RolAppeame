@@ -22,19 +22,17 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
 import es.centroafuera.rolappeame.CrearPartida;
 import es.centroafuera.rolappeame.CrearPersonaje;
-import es.centroafuera.rolappeame.Partida;
-import es.centroafuera.rolappeame.PartidaAdapter;
-import es.centroafuera.rolappeame.Personaje;
-import es.centroafuera.rolappeame.PersonajeAdapter;
+import es.centroafuera.rolappeame.models.Partida;
+import es.centroafuera.rolappeame.adapters.PartidaAdapter;
+import es.centroafuera.rolappeame.models.Personaje;
+import es.centroafuera.rolappeame.adapters.PersonajeAdapter;
 import es.centroafuera.rolappeame.R;
-import es.centroafuera.rolappeame.Usuario;
+import es.centroafuera.rolappeame.models.Usuario;
 import es.centroafuera.rolappeame.Utils;
 import es.centroafuera.rolappeame.VistaPartida;
 import es.centroafuera.rolappeame.VistaPersonaje;

@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame;
+package es.centroafuera.rolappeame.models;
 
 import android.graphics.Bitmap;
 

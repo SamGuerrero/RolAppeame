@@ -21,10 +21,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+
+import es.centroafuera.rolappeame.models.Partida;
+import es.centroafuera.rolappeame.models.Personaje;
+import es.centroafuera.rolappeame.models.Texto;
+import es.centroafuera.rolappeame.models.TipoPartida;
+import es.centroafuera.rolappeame.models.Usuario;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 

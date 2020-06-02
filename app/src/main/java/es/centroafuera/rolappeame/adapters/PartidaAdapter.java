@@ -1,4 +1,4 @@
-package es.centroafuera.rolappeame;
+package es.centroafuera.rolappeame.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
+
+import es.centroafuera.rolappeame.R;
+import es.centroafuera.rolappeame.models.Partida;
 
 public class PartidaAdapter extends BaseAdapter {
     private Context context;

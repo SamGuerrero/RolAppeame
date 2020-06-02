@@ -71,22 +71,16 @@
             <Button
                 android:id="@+id/btEntrar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="63dp"
                 android:text="@string/entrar" />
 
             <Button
                 android:id="@+id/btRegistrar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:text="Registrar nuevo usuario" />
-
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/btEntrarFB"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginTop="20dp" />
 
             <com.google.android.gms.common.SignInButton
                 android:id="@+id/btEntrarGoogle"
