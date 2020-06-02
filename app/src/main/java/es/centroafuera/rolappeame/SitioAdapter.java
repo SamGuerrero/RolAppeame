@@ -30,17 +30,17 @@ public class SitioAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return sitios.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return sitios.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SitioAdapter extends BaseAdapter {
         SitioAdapter.ViewHolder viewHolder = null;
 
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.item_partida, null);
+            convertView = layoutInflater.inflate(R.layout.item_sitio, null);
             viewHolder = new SitioAdapter.ViewHolder();
             viewHolder.nombre = (TextView) convertView.findViewById(R.id.tvNombre);
             viewHolder.descripcion = (TextView) convertView.findViewById(R.id.tvDescripcion);
@@ -65,8 +65,8 @@ public class SitioAdapter extends BaseAdapter {
 
         viewHolder.nombre.setText(sitio.getNombre());
         viewHolder.descripcion.setText(sitio.getDescripcion());
-        viewHolder.latitud.setText((int) sitio.getLatitud());
-        viewHolder.longitud.setText((int) sitio.getLongitud());
+        viewHolder.latitud.setText(String.valueOf(sitio.getLatitud()));
+        viewHolder.longitud.setText(String.valueOf(sitio.getLongitud()));
 
         return convertView;
     }

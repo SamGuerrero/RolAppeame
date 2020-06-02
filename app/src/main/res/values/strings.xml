@@ -54,8 +54,8 @@
     <string name="malasuerte">Qué mal has perdido puntos</string>
     <string name="error">No puedes guardar un personaje sin nombre</string>
     <string name="quedanpuntos">Te quedan puntos por repartir\n ¿Quieres continuar?</string>
-    <string name="tienes">Tienes </string>
-    <string name="puntos"> puntos a repartir entre:</string>
+    <string name="tienes">Tienes estos puntos </string>
+    <string name="puntos"> a repartir entre:</string>
     <string name="errorfoto">No puedes guardar un personaje sin una foto</string>
     <string name="control">Debes aceptar primero las condiciones legales</string>
     <string name="m_nimo">Mínimo</string>

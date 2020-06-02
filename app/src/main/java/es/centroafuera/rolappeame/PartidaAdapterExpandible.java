@@ -85,10 +85,8 @@ class PartidaAdapterExpandible extends BaseExpandableListAdapter {
         final Map.Entry child = (Map.Entry) getChild(groupPosition, childPosition);
         final Texto texto = (Texto) child.getKey();
 
-        if (convertView == null){
-            LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.item_expandible, null);
-        }
+        LayoutInflater layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        convertView = layoutInflater.inflate(R.layout.item_expandible, null);
 
         TextView tvNombre = convertView.findViewById(R.id.tvNombre);
         tvNombre.setText(String.valueOf(texto.getTitulo()));
@@ -108,7 +106,7 @@ class PartidaAdapterExpandible extends BaseExpandableListAdapter {
         });
 
         final CheckBox cbIncluido = convertView.findViewById(R.id.cbIncluido);
-        cbIncluido.setChecked((Boolean) child.getValue()); //FIXME:Esto no funciona adecuadamente
+        cbIncluido.setChecked((Boolean) child.getValue());
         cbIncluido.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

@@ -58,16 +58,21 @@
                 <Spinner
                     android:id="@+id/Sraza"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_weight="1" />
 
                 <Spinner
                     android:id="@+id/Soficio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_weight="1" />
 
             </LinearLayout>
+
+            <Spinner
+                android:id="@+id/sSubRaza"
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
 
             <TextView
                 android:id="@+id/TVpuntos"
@@ -84,13 +89,14 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp">
 
                 <LinearLayout
                     android:id="@+id/LYizquierda"
-                    android:layout_width="wrap_content"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
@@ -102,7 +108,7 @@
 
                         <TextView
                             android:id="@+id/fuerza"
-                            android:layout_width="170dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableRight="@android:drawable/ic_menu_info_details"
@@ -120,15 +126,16 @@
 
                         <Button
                             android:id="@+id/BTmenosFuerza"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
-                            android:text="-" />
+                            app:icon="@drawable/baseline_keyboard_arrow_left_black_18dp"
+                            app:iconGravity="textEnd" />
 
                         <TextView
                             android:id="@+id/puntosFuerza"
-                            android:layout_width="20dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -137,11 +144,11 @@
 
                         <Button
                             android:id="@+id/BTmasFuerza"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
-                            android:text="+" />
+                            app:icon="@drawable/baseline_keyboard_arrow_right_black_18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -152,7 +159,7 @@
 
                         <TextView
                             android:id="@+id/agilidad"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -171,15 +178,16 @@
 
                         <Button
                             android:id="@+id/BTmenosAgilidad"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
-                            android:text="-" />
+                            app:icon="@drawable/baseline_keyboard_arrow_left_black_18dp"
+                            app:iconGravity="end" />
 
                         <TextView
                             android:id="@+id/puntosAgilidad"
-                            android:layout_width="20dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -188,11 +196,11 @@
 
                         <Button
                             android:id="@+id/BTmasAgilidad"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
-                            android:text="+" />
+                            app:icon="@drawable/baseline_keyboard_arrow_right_black_18dp" />
 
                     </LinearLayout>
 
@@ -204,7 +212,7 @@
 
                         <TextView
                             android:id="@+id/percepcion"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -223,15 +231,16 @@
 
                         <Button
                             android:id="@+id/BTmenosPercepcion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
-                            android:text="-" />
+                            app:icon="@drawable/baseline_keyboard_arrow_left_black_18dp"
+                            app:iconGravity="end" />
 
                         <TextView
                             android:id="@+id/puntosPercepcion"
-                            android:layout_width="20dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -240,21 +249,20 @@
 
                         <Button
                             android:id="@+id/BTmasPercepcion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
-                            android:text="+" />
+                            app:icon="@drawable/baseline_keyboard_arrow_right_black_18dp" />
                     </LinearLayout>
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/LYderecha"
-                    android:layout_width="170dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="10dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -265,7 +273,7 @@
 
                         <TextView
                             android:id="@+id/constitucion"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableRight="@android:drawable/ic_menu_info_details"
@@ -283,15 +291,16 @@
 
                         <Button
                             android:id="@+id/BTmenosConstitucion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
-                            android:text="-" />
+                            app:icon="@drawable/baseline_keyboard_arrow_left_black_18dp"
+                            app:iconGravity="textEnd" />
 
                         <TextView
                             android:id="@+id/puntosConstitucion"
-                            android:layout_width="25dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -300,11 +309,11 @@
 
                         <Button
                             android:id="@+id/BTmasConstitucion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
-                            android:text="+" />
+                            app:icon="@drawable/baseline_keyboard_arrow_right_black_18dp" />
 
                     </LinearLayout>
 
@@ -316,7 +325,7 @@
 
                         <TextView
                             android:id="@+id/inteligencia"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -335,15 +344,16 @@
 
                         <Button
                             android:id="@+id/BTmenosInteligencia"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
-                            android:text="-" />
+                            app:icon="@drawable/baseline_keyboard_arrow_left_black_18dp"
+                            app:iconGravity="end" />
 
                         <TextView
                             android:id="@+id/puntosInteligencia"
-                            android:layout_width="25dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -352,11 +362,11 @@
 
                         <Button
                             android:id="@+id/BTmasInteligencia"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
-                            android:text="+" />
+                            app:icon="@drawable/baseline_keyboard_arrow_right_black_18dp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -367,7 +377,7 @@
 
                         <TextView
                             android:id="@+id/carisma"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -386,15 +396,16 @@
 
                         <Button
                             android:id="@+id/BTmenosCarisma"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
-                            android:text="-" />
+                            app:icon="@drawable/baseline_keyboard_arrow_left_black_18dp"
+                            app:iconGravity="end" />
 
                         <TextView
                             android:id="@+id/puntosCarisma"
-                            android:layout_width="20dp"
+                            android:layout_width="50dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="center"
@@ -403,11 +414,11 @@
 
                         <Button
                             android:id="@+id/BTmasCarisma"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
-                            android:text="+" />
+                            app:icon="@drawable/baseline_keyboard_arrow_right_black_18dp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -422,8 +433,8 @@
 
                 <Button
                     android:id="@+id/btVolver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
@@ -431,8 +442,8 @@
 
                 <Button
                     android:id="@+id/btGuardar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"

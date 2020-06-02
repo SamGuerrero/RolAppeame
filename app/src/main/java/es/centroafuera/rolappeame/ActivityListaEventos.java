@@ -27,6 +27,7 @@ public class ActivityListaEventos extends AppCompatActivity implements View.OnCl
         FloatingActionButton fab = findViewById(R.id.fab);
 
         getEventosFromDatabase();
+        adapter = new EventoAdapter(this, eventos);
         listView.setAdapter(adapter);
 
         fab.setOnClickListener(this);
@@ -36,8 +37,8 @@ public class ActivityListaEventos extends AppCompatActivity implements View.OnCl
         eventos = new ArrayList<>();
 
         //TODO:Rellenar desde la base de datos
+        eventos.add(new Evento("Evento de prueba", "Esto está metido a mano dentro del código", new Date()));
 
-        adapter = new EventoAdapter(this, eventos);
     }
 
     @Override

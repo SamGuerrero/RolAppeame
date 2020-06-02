@@ -110,19 +110,6 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    //TODO: Mirar si utilizo esta función para algo
-    public void vistaInformacion(String descripcion){
-        LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.toast_info, (ViewGroup) findViewById(R.id.lyToastInfo));
-
-        TextView info = v.findViewById(R.id.tvInfo);
-        info.setText(descripcion);
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setView(v);
-        toast.show();
-    }
-
     public void ponerFoto(View view) {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){

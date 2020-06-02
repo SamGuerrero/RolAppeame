@@ -35,6 +35,7 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
         FloatingActionButton fab = findViewById(R.id.fab);
 
         getSitiosFromDatabase();
+        adapter = new SitioAdapter(this, sitios);
         listView.setAdapter(adapter);
 
         fab.setOnClickListener(this);
@@ -42,7 +43,6 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
 
     private void getSitiosFromDatabase() {
         sitios = new ArrayList<>();
-
         //Obtengo una lista de la base de datos
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_SITIOS); //La clase en Java
@@ -77,7 +77,8 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
             }
         });
 
-        adapter = new SitioAdapter(this, sitios);
+        sitios.add(new Sitio("Sitio prueba", "Como no coge de internet tendré que probarlo a mano", 90.87, 40.36));
+
     }
 
     @Override

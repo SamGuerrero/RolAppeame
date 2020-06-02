@@ -28,17 +28,17 @@ public class EventoAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return eventos.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return null;
+        return eventos.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class EventoAdapter extends BaseAdapter {
         EventoAdapter.ViewHolder viewHolder = null;
 
         if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.item_partida, null);
+            convertView = layoutInflater.inflate(R.layout.item_evento, null);
             viewHolder = new EventoAdapter.ViewHolder();
             viewHolder.nombre = (TextView) convertView.findViewById(R.id.tvNombre);
             viewHolder.descripcion = (TextView) convertView.findViewById(R.id.tvDescripcion);
@@ -62,7 +62,7 @@ public class EventoAdapter extends BaseAdapter {
 
         viewHolder.nombre.setText(evento.getNombre());
         viewHolder.descripcion.setText(evento.getDescripcion());
-        viewHolder.fecha.setText((CharSequence) evento.getFecha());
+        viewHolder.fecha.setText(evento.getFecha().toString());
 
         return convertView;
     }

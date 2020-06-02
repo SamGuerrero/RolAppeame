@@ -63,6 +63,7 @@ public class Utils {
 
     //Dentro de Razas
     public static String RAZA_DESCRIPCION = "descripcion";
+    public static String RAZA_SUBRAZA = "subrazas";
 
     //Dentro de Clases
     public static String CLASE_DESCRIPCION = "descripcion";
@@ -288,6 +289,7 @@ public class Utils {
                     String nombre = (String) ds.child(Utils.NOMBRE_PERSONAJE).getValue();
                     Bitmap imagen = null;
                     String raza = "";
+                    String subraza = "";
                     String oficio = "";
                     int fuerza = 0;
                     int agilidad = 0;
@@ -300,6 +302,7 @@ public class Utils {
                         imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
 
                         raza = ds.child("raza").getValue().toString();
+                        subraza = ds.child("subraza").getValue().toString();
                         oficio =  ds.child("oficio").getValue().toString();
                         fuerza = Integer.parseInt(ds.child("fuerza").getValue().toString());
                         agilidad = Integer.parseInt(ds.child("agilidad").getValue().toString());
@@ -310,7 +313,7 @@ public class Utils {
 
                     }catch (NullPointerException e){}
 
-                    personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+                    personaje = new Personaje(nombre, raza, subraza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
                     personaje.setIdReal(ds.getKey());
 
                 } else {
@@ -356,6 +359,7 @@ public class Utils {
                                             String nombre = (String) subDS.child(Utils.NOMBRE_PERSONAJE).getValue();
                                             Bitmap imagen = null;
                                             String raza = "";
+                                            String subraza = "";
                                             String oficio = "";
                                             int fuerza = 0;
                                             int agilidad = 0;
@@ -368,6 +372,7 @@ public class Utils {
                                                 imagen = Utils.StringToBitMap(subDS.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
 
                                                 raza = subDS.child("raza").getValue().toString();
+                                                subraza = subDS.child("subraza").getValue().toString();
                                                 oficio =  subDS.child("oficio").getValue().toString();
                                                 fuerza = Integer.parseInt(subDS.child("fuerza").getValue().toString());
                                                 agilidad = Integer.parseInt(subDS.child("agilidad").getValue().toString());
@@ -378,7 +383,7 @@ public class Utils {
 
                                             }catch (NullPointerException e){}
 
-                                            Personaje personajeT = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+                                            Personaje personajeT = new Personaje(nombre, raza, subraza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
                                             personajeT.setIdReal(subDS.getKey()); //Se guarda el ID real, donde se encuentra en la BDD
                                             personajes.add(personajeT);
                                         }
@@ -525,10 +530,9 @@ public class Utils {
     public static Partida getPartidaDefecto(){
         Partida partida = new Partida();
 
-        //FIXME: Aquí pasa algo raro pero no sé el qué
         //Inicializo todos los datos a True
         //Razas
-        /*List<Texto> stringRazas = getRazasFromDatabase();
+        List<Texto> stringRazas = getRazasFromDatabase();
         LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
         for (Texto raza: stringRazas)
             razas.put(raza, true);
@@ -549,22 +553,18 @@ public class Utils {
         List<Texto> stringConjuros = getConjurosFromDatabase();
         LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
         for (Texto conjuro: stringConjuros)
-            conjuros.put(conjuro, true);*/
+            conjuros.put(conjuro, true);
 
         //Para probar, porque no tengo buena conexión y no me muestra las cosas
-        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
         razas.put(new Texto("Orco", "Grande y feo"), true);
         razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
 
-        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
         clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
         clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);
 
-        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
         rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
         rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
 
-        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
         conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
         conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
 
@@ -709,4 +709,84 @@ public class Utils {
         });
     }
 
+    /**Obtiene los nombres de partida de un usuario en concreto**/
+    public static ArrayList<String> getPartidasUsuario(String usuario){
+        ArrayList<String> lista = new ArrayList<>();
+        Usuario user = new Usuario(usuario);
+
+        ArrayList<Partida> partidas = getPartidas(user);
+
+        for (Partida p: partidas)
+            lista.add(p.getNombre());
+
+        return lista;
+    }
+
+    /**Devuelve lista de usuarios**/
+    public static ArrayList<String> getUsuarios(){
+        final ArrayList<String> lista = new ArrayList<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TABLA_USUARIOS); //La clase en Java
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        lista.add(nombre);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        lista.add("sam");
+
+        return lista;
+    }
+
+    /**Devuelve una lista de subRazas**/
+    public static ArrayList<String> getSubRazas(String raza){
+        final ArrayList<String> lista = new ArrayList<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(TABLA_RAZAS).child(raza).child(RAZA_SUBRAZA).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        lista.add(nombre);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return lista;
+    }
 }

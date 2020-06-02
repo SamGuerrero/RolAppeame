@@ -1,6 +1,7 @@
 package es.centroafuera.rolappeame;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,10 +14,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,18 +32,115 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.google.android.gms.common.util.ArrayUtils;
+
 import java.util.ArrayList;
 
 public class CrearPersonaje extends AppCompatActivity implements View.OnClickListener {
-    //A futuro: set puntos obligatorios, que no se puedan reducir según las combinaciones
-    int puntosTotales = 12; //El máximo de puntos a repartir cuando eliges X clase y X raza
-    int puntosActuales = 0; //Los puntos que llevas acumulados
+    int[] puntosTotales = new int[6]; //Puntos por defecto, se obtienen aleatoriamente
+    boolean[] puntosUsados = new boolean[6]; //Saber si esos puntos se han usado ya o no
+    int puntosActuales = 0; //Los puntos que llevas usados
     boolean cambiofoto = false;
     private final int AVATAR = 1;
+
+    String master;
+    String nombrePartida;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crearpersonaje);
+        final Context context = this;
+
+        //Abrir dialogo para preguntar por master
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+        /*final EditText dialogUsuario = new EditText(this);
+        dialogUsuario.setInputType(InputType.TYPE_CLASS_TEXT);
+        dialogUsuario.setHint("Nombre Master");
+        builder.setView(dialogUsuario);
+        builder.setMessage("Introduce el usuario de tu master")
+                .setPositiveButton("Aceptar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Recoger usuario
+                                //Comprobar que existe ese usuario
+                                //Recoger partida
+                                //Comprobar que tiene esa partida
+
+                                ArrayList<String> usuarios = Utils.getUsuarios();
+                                boolean existeUsuario = false;
+                                int i = 0;
+                                while ( (!existeUsuario) && (i < usuarios.size()) ){
+                                    if (usuarios.get(i) == dialogUsuario.getText().toString())
+                                        existeUsuario = true;
+                                    else
+                                        i++;
+                                }
+
+                                if (!existeUsuario){
+                                    Toast.makeText(context, "No existe nadie con ese nombre de usuario", Toast.LENGTH_LONG);
+                                    onBackPressed();
+
+                                }else {
+                                    master = dialogUsuario.getText().toString();
+                                    //Abrir dialogo para preguntar por partida
+                                    AlertDialog.Builder builderPartida = new AlertDialog.Builder(context);
+
+                                    final EditText dialogPartida = new EditText(context);
+                                    dialogPartida.setInputType(InputType.TYPE_CLASS_TEXT);
+                                    dialogPartida.setHint("Nombre Partida");
+                                    builderPartida.setView(dialogPartida);
+                                    builderPartida.setMessage("Introduce el nombre de la partida")
+                                            .setPositiveButton("Aceptar",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            //Recoger usuario
+                                                            //Comprobar que existe ese usuario
+                                                            //Recoger partida
+                                                            //Comprobar que tiene esa partida
+
+                                                            ArrayList<String> partidas = Utils.getPartidasUsuario(master);
+                                                            boolean existePartida = false;
+                                                            int i = 0;
+                                                            while ( (!existePartida) && (i < partidas.size()) ){
+                                                                if (partidas.get(i) == dialogPartida.getText().toString())
+                                                                    existePartida = true;
+                                                                else
+                                                                    i++;
+                                                            }
+
+                                                            if (!existePartida){
+                                                                Toast.makeText(context, "Ese usuario no tiene ninguna partida llamada así", Toast.LENGTH_LONG);
+                                                                onBackPressed();
+                                                            }else
+                                                                nombrePartida = dialogPartida.getText().toString();
+
+                                                        }
+                                                    })
+                                            .setNegativeButton("Volver",
+                                                    new DialogInterface.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            onBackPressed(); //Vuelve
+                                                        }
+                                                    });
+                                    builderPartida.create().show();
+                                }
+
+                            }
+                        })
+                .setNegativeButton("Volver",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            onBackPressed(); //Vuelve
+                        }
+                });
+        builder.create().show();*/
+
+
 
         //Coger y añadir ClickListener en botones
         Button BTvolver = findViewById(R.id.btVolver);
@@ -90,13 +190,30 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
         //Rellenar Spinners
         ArrayList<Texto> razasDes = (ArrayList<Texto>) Utils.getRazasFromDatabase();
-        ArrayList<String> razas = new ArrayList<>();
+        final ArrayList<String> razas = new ArrayList<>();
         for(Texto raza : razasDes)
             razas.add(raza.getTitulo());
 
-        Spinner Sraza = findViewById(R.id.Sraza);
-        ArrayAdapter<String> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
+        final Spinner Sraza = findViewById(R.id.Sraza);
+        final ArrayAdapter<String> adaptadorRaza = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, razas);
         Sraza.setAdapter(adaptadorRaza);
+        Sraza.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+                ArrayList<String> subRazas = Utils.getSubRazas(Sraza.getSelectedItem().toString());
+
+                Spinner sSubRaza = findViewById(R.id.sSubRaza);
+                ArrayAdapter<String> adaptadorSubRaza = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, subRazas);
+                sSubRaza.setAdapter(adaptadorSubRaza);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
 
         ArrayList<Texto> clasesDes = (ArrayList<Texto>) Utils.getClasesFromDatabase();
         ArrayList<String> clases = new ArrayList<>();
@@ -107,9 +224,18 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         ArrayAdapter<String> adaptadorOficio = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, clases);
         Soficio.setAdapter(adaptadorOficio);
 
-        //Inicializar mensaje de los puntos
+        //Inicializar puntos
         TextView TVpuntos = findViewById(R.id.TVpuntos);
-        TVpuntos.setText(getString(R.string.tienes) + " " + (puntosTotales-puntosActuales) + " " + getString(R.string.puntos));
+        String puntosTemp = "";
+        for (int i = 0; i < puntosTotales.length; i++) {
+            puntosTotales[i] = obtenerPuntuacion();
+            puntosTemp += puntosTotales[i] + " ";
+        }
+        TVpuntos.setText(getString(R.string.tienes) + " " + puntosTemp + getString(R.string.puntos));
+
+        for (int i = 0; i < puntosUsados.length; i++) {
+            puntosUsados[i] = false;
+        }
 
     }
 
@@ -125,29 +251,20 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                 if (nombre.getText().toString().equals("")) {
                     Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else
-                    if (puntosTotales > puntosActuales) {
+                    
+                } else if (!usadosTodosPuntos()) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                        builder.setMessage(getString(R.string.quedanpuntos))
-                                .setPositiveButton(getString(R.string.si),
+                        builder.setMessage("Has repartido mal los puntos")
+                                .setPositiveButton("Volver",
                                         new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                guardarPersonaje();
-                                            }
-                                        })
-                                .setNegativeButton(getString(R.string.no),
-                                        new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // En este caso se cierra directamente el diálogo y no se hace nada más
                                                 dialog.dismiss();
                                             }
                                         });
                         builder.create().show();
-                    }else
-                        guardarPersonaje();
+                }else
+                    guardarPersonaje();
 
                 break;
 
@@ -252,28 +369,118 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             default: break;
         }
 
-        //Se actualiza el mensaje de puntos
-        TextView TVpuntos = findViewById(R.id.TVpuntos);
-        TVpuntos.setText(getString(R.string.tienes) + " " + (puntosTotales-puntosActuales) + " " + getString(R.string.puntos));
+    }
+
+    private boolean usadosTodosPuntos() {
+        TextView tvFuerza = findViewById(R.id.puntosFuerza);
+        TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
+        TextView tvCarisma = findViewById(R.id.puntosCarisma);
+        TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
+        TextView tvInteligencia = findViewById(R.id.puntosInteligencia);
+        TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
+
+        int fuerza = Integer.parseInt(tvFuerza.getText().toString());
+        int agilidad = Integer.parseInt(tvAgilidad.getText().toString());
+        int carisma = Integer.parseInt(tvCarisma.getText().toString());
+        int constitucion = Integer.parseInt(tvConstitucion.getText().toString());
+        int inteligencia = Integer.parseInt(tvInteligencia.getText().toString());
+        int percepcion = Integer.parseInt(tvPercepcion.getText().toString());
+
+        int[] pActuales = {fuerza, agilidad, carisma, constitucion, inteligencia, percepcion};
+
+        int[] pUsados = puntosTotales;
+        int i = 0;
+        int t = 0;
+        boolean fin = false;
+        boolean coincidencia;
+        while ((!fin) && (i < pActuales.length)){
+            if (pActuales[i] == 0)
+                fin = true;
+
+            else{
+                t = 0;
+                coincidencia = false;
+                while ((!coincidencia) && (t < pUsados.length)){
+                    if (pActuales[i] == pUsados[t]){
+                        coincidencia = true;
+                        pUsados = borrarElemento(pUsados, pUsados[t]);
+                    }else
+                        t++;
+                }
+
+                if (!coincidencia)
+                    fin = true;
+                else
+                    i++;
+
+            }
+        }
+
+        if (fin)
+            return false; //No se han usado todos los puntos
+        else
+            return true; //Sí que se han usado todos
 
     }
 
+    private static int[] borrarElemento(int[] pUsados, int num) {
+        int[] lista = new int[pUsados.length];
+        for (int i = 0; i < lista.length; i++)
+            lista[i] = 0;
+
+        boolean hecho = false;
+        for (int i = 0; i < pUsados.length; i++)
+            if (pUsados[i] != num)
+                lista[i] = pUsados[i];
+            else if (hecho)
+                lista[i] = pUsados[i];
+            else{
+                hecho = true;
+            }
+
+        return lista;
+    }
+
+    int pos = -1;
     public void sumarPuntos(TextView pantalla){
         int puntos = Integer.parseInt(pantalla.getText().toString());
-        if (puntosTotales > puntosActuales) {
-            puntos++;
-            puntosActuales++;
-            pantalla.setText(String.valueOf(puntos));
+        boolean mostrarPantalla = false;
+        while(!mostrarPantalla) {
+            pos++;
+            if (pos >= 6) {
+                puntos = 0;
+                pos = -1;
+                mostrarPantalla = true;
+                puntosActuales--;
+
+            } else {
+                puntos = puntosTotales[pos];
+                mostrarPantalla = true;
+                puntosActuales++;
+            }
         }
+        pantalla.setText(String.valueOf(puntos));
+
     }
 
     public void restarPuntos(TextView pantalla){
         int puntos = Integer.parseInt(pantalla.getText().toString());
-        if (puntos > 0) {
-            puntos--;
-            puntosActuales--;
-            pantalla.setText(String.valueOf(puntos));
+        boolean mostrarPantalla = false;
+        while(!mostrarPantalla) {
+            pos--;
+            if (pos <= -1) {
+                puntos = 0;
+                pos = 6;
+                mostrarPantalla = true;
+                puntosActuales--;
+
+            } else {
+                puntos = puntosTotales[pos];
+                mostrarPantalla = true;
+                puntosActuales++;
+            }
         }
+        pantalla.setText(String.valueOf(puntos));
     }
 
     public void guardarPersonaje(){
@@ -290,6 +497,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         //Básico
         EditText ETnombre = findViewById(R.id.ETnombre);
         Spinner Sraza = findViewById(R.id.Sraza);
+        Spinner sSubRaza = findViewById(R.id.sSubRaza);
         Spinner Soficio = findViewById(R.id.Soficio);
 
 
@@ -302,8 +510,12 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
 
         String nombre = ETnombre.getText().toString();
-        String raza = Sraza.getSelectedItem().toString();
-        String oficio = Soficio.getSelectedItem().toString();
+        //String raza = Sraza.getSelectedItem().toString();
+        //String subRaza = sSubRaza.getSelectedItem().toString();
+        //String oficio = Soficio.getSelectedItem().toString();
+        String raza = "Elfo";
+        String subRaza = "Elfo de los Bosques";
+        String oficio = "Bardo";
 
         int agilidad = Integer.parseInt(TVpuntosAgilidad.getText().toString());
         int carisma = Integer.parseInt(TVpuntoscarisma.getText().toString());
@@ -312,7 +524,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         int inteligencia = Integer.parseInt(TVpuntosinteligencia.getText().toString());
         int percepcion = Integer.parseInt(TVpuntospercepcion.getText().toString());
 
-        Personaje personaje = new Personaje(nombre, raza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
+        Personaje personaje = new Personaje(nombre, raza, subRaza, oficio, fuerza, agilidad, percepcion, constitucion, inteligencia, carisma, imagen);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String nombreUser = prefs.getString("Usuario", "John Doe");
         Usuario usuario = new Usuario(nombreUser);
@@ -357,6 +569,33 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         Toast toast = new Toast(getApplicationContext());
         toast.setView(v);
         toast.show();
+    }
+
+    public int obtenerPuntuacion(){
+        //Relleno el array con 4 números aleatorios del 1 al 6
+        int[] tiradas = new int[4];
+        for (int i = 0; i < tiradas.length; i++)
+            tiradas[i] = (int) (Math.random()*6 + 1);
+
+        //Calculo cual es el menor
+        int menor = 0;
+        for (int i = 0; i < tiradas.length; i++)
+            if (tiradas[i] < menor)
+                menor = tiradas[i];
+
+        //Sumo los 3 mayores
+        int puntuacion = 0;
+        boolean menorContado = false;
+        for (int i = 0; i < tiradas.length; i++)
+            if (tiradas[i] > menor)
+                puntuacion += tiradas[i];
+            else if (tiradas[i] == menor && menorContado)
+                puntuacion += tiradas[i];
+            else
+                menorContado = true;
+
+        return puntuacion;
+
     }
 
     //Infla el Action Bar
