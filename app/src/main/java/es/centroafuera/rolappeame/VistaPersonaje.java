@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +42,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
             TextView tvNombre = findViewById(R.id.TVnombre);
             tvNombre.setText(personaje.getNombre());
             TextView tvRaza = findViewById(R.id.TVraza);
-            tvRaza.setText(personaje.getRaza());
+            tvRaza.setText(personaje.getSubraza());
             TextView tvOficio = findViewById(R.id.TVoficio);
             tvOficio.setText(personaje.getOficio());
 
@@ -89,6 +91,15 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         BTmasPercepcion.setOnClickListener(this);
         Button BTmenosPercepcion = findViewById(R.id.BTmenosPercepcion);
         BTmenosPercepcion.setOnClickListener(this);
+
+        Button btDado = findViewById(R.id.btDado);
+        btDado.setOnClickListener(this);
+        Button btRasgos = findViewById(R.id.btRasgos);
+        btRasgos.setOnClickListener(this);
+        Button btCitas = findViewById(R.id.btCitas);
+        btCitas.setOnClickListener(this);
+        Button btMagia =findViewById(R.id.btMagia);
+        btMagia.setOnClickListener(this);
 
         TextView BTinfoAgilidad = findViewById(R.id.agilidad);
         BTinfoAgilidad.setOnClickListener(this);
@@ -223,8 +234,55 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
 
                 break;
 
+            case R.id.btRasgos:
+                //mostrarListaRasgos();
+                break;
+
+            case R.id.btDado:
+                tirarDado();
+                break;
+
+            case R.id.btCitas:
+                Intent intent = new Intent(this, ActivityListaEventos.class);
+                startActivity(intent);
+                break;
+
+            case R.id.btMagia:
+                //mostrarListaMagia();
+                break;
+
+
             default: break;
         }
+
+    }
+
+    private void tirarDado() {
+        final MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+        final Button btDado = findViewById(R.id.btDado);
+
+        builder.setTitle("Dado")
+                .setNeutralButton("d6", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int aleatorio = (int) (Math.random()*7);
+                        btDado.setText("D6: " + aleatorio);
+                    }
+                })
+                .setNegativeButton("d20", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int aleatorio = (int) (Math.random()*21);
+                        btDado.setText("D20: " + aleatorio);
+                    }
+                })
+                .setPositiveButton("d100", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int aleatorio = (int) (Math.random()*101);
+                        btDado.setText("D100: " + aleatorio);
+                    }
+                }).show();
 
     }
 

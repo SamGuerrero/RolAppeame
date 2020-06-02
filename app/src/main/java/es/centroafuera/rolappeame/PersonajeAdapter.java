@@ -91,8 +91,8 @@ public class PersonajeAdapter extends BaseAdapter {
 
         viewHolder.avatar.setImageBitmap(personaje.getImagen());
         viewHolder.nombre.setText(personaje.getNombre());
-        viewHolder.raza.setText(personaje.getRaza().toString());
-        viewHolder.oficio.setText(personaje.getOficio().toString());
+        viewHolder.raza.setText(personaje.getSubraza());
+        viewHolder.oficio.setText(personaje.getOficio());
         viewHolder.fuerza.setText(fuerzaTexto);
         viewHolder.agilidad.setText(agilidadTexto);
         viewHolder.percepcion.setText(percepcionTexto);

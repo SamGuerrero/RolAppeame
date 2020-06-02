@@ -80,7 +80,7 @@
                     android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:background="#FFFFFF"
-                    android:text="@string/personajes"
+                    android:text="Gente"
                     app:icon="@drawable/baseline_people_black_18dp" />
 
                 <Button
@@ -114,7 +114,7 @@
                     android:layout_height="100dp"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:text="Conjuros"
+                    android:text="Magia"
                     app:icon="@drawable/baseline_book_black_18dp" />
             </LinearLayout>
 
@@ -164,7 +164,7 @@
                     android:layout_height="100dp"
                     android:layout_marginStart="5dp"
                     android:layout_weight="1"
-                    android:text="Calendario"
+                    android:text="CITAS"
                     app:icon="@drawable/baseline_event_black_18dp" />
             </LinearLayout>
 

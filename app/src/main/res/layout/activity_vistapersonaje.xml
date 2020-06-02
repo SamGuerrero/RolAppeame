@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#BCB3843C"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,37 +16,34 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/LYbasico"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/IVavatar"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:background="#C0C0C0"
+                android:contentDescription="@string/avatar_de_personaje"
+                android:maxWidth="50dp"
+                android:maxHeight="77dp"
+                android:padding="3dp"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="visible"
+                tools:srcCompat="@drawable/com_facebook_profile_picture_blank_portrait" />
+
+            <TextView
+                android:id="@+id/TVnombre"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/IVavatar"
-                    android:layout_width="175dp"
-                    android:layout_height="77dp"
-                    android:layout_weight="1"
-                    android:contentDescription="@string/avatar_de_personaje"
-                    android:maxWidth="50dp"
-                    android:maxHeight="77dp"
-                    android:src="@mipmap/ic_launcher"
-                    android:visibility="visible" />
-
-                <TextView
-                    android:id="@+id/TVnombre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textSize="24sp" />
-
-            </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center|center_horizontal"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:id="@+id/LYobligatorio"
@@ -55,7 +56,7 @@
                 <TextView
                     android:id="@+id/TVraza"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -63,7 +64,7 @@
                 <TextView
                     android:id="@+id/TVoficio"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
@@ -89,9 +90,8 @@
 
                 <LinearLayout
                     android:id="@+id/LYizquierda"
-                    android:layout_width="170dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_marginRight="10dp"
                     android:orientation="vertical">
 
@@ -103,7 +103,7 @@
 
                         <TextView
                             android:id="@+id/fuerza"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableRight="@android:drawable/ic_menu_info_details"
@@ -120,7 +120,7 @@
 
                         <Button
                             android:id="@+id/BTmenosFuerza"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
@@ -137,7 +137,7 @@
 
                         <Button
                             android:id="@+id/BTmasFuerza"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
@@ -153,7 +153,7 @@
 
                         <TextView
                             android:id="@+id/agilidad"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableRight="@android:drawable/ic_menu_info_details"
@@ -170,7 +170,7 @@
 
                         <Button
                             android:id="@+id/BTmenosAgilidad"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
@@ -203,7 +203,7 @@
 
                         <TextView
                             android:id="@+id/percepcion"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -221,7 +221,7 @@
 
                         <Button
                             android:id="@+id/BTmenosPercepcion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
@@ -238,7 +238,7 @@
 
                         <Button
                             android:id="@+id/BTmasPercepcion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
@@ -249,10 +249,9 @@
 
                 <LinearLayout
                     android:id="@+id/LYderecha"
-                    android:layout_width="170dp"
+                    android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="5dp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -263,7 +262,7 @@
 
                         <TextView
                             android:id="@+id/constitucion"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:drawableRight="@android:drawable/ic_menu_info_details"
@@ -280,7 +279,7 @@
 
                         <Button
                             android:id="@+id/BTmenosConstitucion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
@@ -297,7 +296,7 @@
 
                         <Button
                             android:id="@+id/BTmasConstitucion"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
@@ -313,7 +312,7 @@
 
                         <TextView
                             android:id="@+id/inteligencia"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -331,7 +330,7 @@
 
                         <Button
                             android:id="@+id/BTmenosInteligencia"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
@@ -348,7 +347,7 @@
 
                         <Button
                             android:id="@+id/BTmasInteligencia"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
@@ -363,7 +362,7 @@
 
                         <TextView
                             android:id="@+id/carisma"
-                            android:layout_width="135dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:layout_weight="1"
@@ -381,7 +380,7 @@
 
                         <Button
                             android:id="@+id/BTmenosCarisma"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_resta"
@@ -398,7 +397,7 @@
 
                         <Button
                             android:id="@+id/BTmasCarisma"
-                            android:layout_width="50dp"
+                            android:layout_width="30dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/borde_redondo_suma"
@@ -406,6 +405,61 @@
                     </LinearLayout>
                 </LinearLayout>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btRasgos"
+                    android:layout_width="115dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="Rasgos"
+                    app:icon="@drawable/baseline_grade_black_18dp"
+                    app:iconGravity="start" />
+
+                <Button
+                    android:id="@+id/btDado"
+                    android:layout_width="115dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Dado"
+                    app:icon="@drawable/baseline_casino_black_18dp"
+                    app:iconGravity="start" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btCitas"
+                    android:layout_width="115dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="Citas"
+                    app:icon="@drawable/baseline_event_black_18dp"
+                    app:iconGravity="start" />
+
+                <Button
+                    android:id="@+id/btMagia"
+                    android:layout_width="115dp"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Magia"
+                    app:icon="@drawable/baseline_book_black_18dp"
+                    app:iconGravity="start" />
             </LinearLayout>
 
             <LinearLayout
@@ -417,8 +471,8 @@
 
                 <Button
                     android:id="@+id/btVolver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="70dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_weight="1"
@@ -426,8 +480,10 @@
 
                 <Button
                     android:id="@+id/BTguardar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="70dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:text="@string/guardar" />
 

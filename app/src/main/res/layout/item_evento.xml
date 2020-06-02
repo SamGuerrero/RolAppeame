@@ -17,7 +17,7 @@
         android:paddingLeft="10dp"
         android:text="Fecha"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#6e2c00" />
+        android:textColor="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_weight="1"
             app:srcCompat="@drawable/baseline_event_black_18dp" />
 
@@ -40,13 +40,13 @@
             <TextView
                 android:id="@+id/tvNombre"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/nombre" />
 
             <TextView
                 android:id="@+id/tvDescripcion"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="70dp"
                 android:text="Descripcion" />
         </LinearLayout>
     </LinearLayout>

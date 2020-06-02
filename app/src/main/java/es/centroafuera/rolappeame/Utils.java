@@ -280,7 +280,7 @@ public class Utils {
         DatabaseReference myRef = database.getReference();
 
         // Read from the database
-        myRef.child(Utils.TABLA_PERSONAJES).child(id).addValueEventListener(new ValueEventListener() {
+        /*myRef.child(Utils.TABLA_PERSONAJES).child(id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot ds) {
                 // This method is called once with the initial value and again
@@ -299,7 +299,7 @@ public class Utils {
                     int carisma = 0;
 
                     try {
-                        imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
+                        imagen = StringToBitMap(ds.child(Utils.IMAGEN_PERSONAJE).getValue().toString());
 
                         raza = ds.child("raza").getValue().toString();
                         subraza = ds.child("subraza").getValue().toString();
@@ -327,7 +327,9 @@ public class Utils {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
-        });
+        });*/
+
+        Personaje personaje = new Personaje("Personaje Pruebas", "Elfo", "Elfo oscuro", "Pícaro", 14, 12, 12, 17, 14, 16, null);
 
         return personaje;
     }
@@ -342,7 +344,7 @@ public class Utils {
 
         // Read from the database             //Usuarios > email > personajes
 
-        myRef.child(usuario.getNombre()).child(Utils.PERSONAJES_USUARIO).addValueEventListener(new ValueEventListener() {
+        /*myRef.child(usuario.getNombre()).child(Utils.PERSONAJES_USUARIO).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
@@ -408,7 +410,10 @@ public class Utils {
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
-        });
+        });*/
+
+        Personaje amano = new Personaje("Personaje Pruebas", "Elfo", "Elfo oscuro", "Pícaro", 14, 12, 12, 17, 14, 16, null);
+        personajes.add(amano);
 
         return personajes;
     }
