@@ -237,7 +237,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.btRasgos:
-                //mostrarListaRasgos();
+                mostrarListaRasgos();
                 break;
 
             case R.id.btDado:
@@ -250,12 +250,30 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
                 break;
 
             case R.id.btMagia:
-                //mostrarListaMagia();
+                mostrarListaMagia();
                 break;
 
 
             default: break;
         }
+
+    }
+
+    private void mostrarListaMagia() {
+        //TODO
+        //Coger lista de rasgos según clase (Nivel 1)
+
+        //Abrir dialogo en forma de lista //Abrir fragment con listview expandible (Título/descripción)
+
+        //Si no tiene magia informarlo
+    }
+
+    private void mostrarListaRasgos() {
+        //TODO
+
+        //Coger lista de rasgos según clase y raza (Nivel 1) //Abrir fragment con listview expandible (Título/descripción)
+
+        //Abrir dialogo en forma de lista
 
     }
 

@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -33,6 +35,7 @@ import androidx.core.app.ActivityCompat;
 
 import java.util.ArrayList;
 
+import es.centroafuera.rolappeame.models.Partida;
 import es.centroafuera.rolappeame.models.Personaje;
 import es.centroafuera.rolappeame.models.Texto;
 import es.centroafuera.rolappeame.models.Usuario;
@@ -55,7 +58,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
         //Abrir dialogo para preguntar por master
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-        /*final EditText dialogUsuario = new EditText(this);
+        final EditText dialogUsuario = new EditText(this);
         dialogUsuario.setInputType(InputType.TYPE_CLASS_TEXT);
         dialogUsuario.setHint("Nombre Master");
         builder.setView(dialogUsuario);
@@ -70,10 +73,11 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                                 //Comprobar que tiene esa partida
 
                                 ArrayList<String> usuarios = Utils.getUsuarios();
+
                                 boolean existeUsuario = false;
                                 int i = 0;
                                 while ( (!existeUsuario) && (i < usuarios.size()) ){
-                                    if (usuarios.get(i) == dialogUsuario.getText().toString())
+                                    if (usuarios.get(i).equals(dialogUsuario.getText().toString()))
                                         existeUsuario = true;
                                     else
                                         i++;
@@ -85,49 +89,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
 
                                 }else {
                                     master = dialogUsuario.getText().toString();
-                                    //Abrir dialogo para preguntar por partida
-                                    AlertDialog.Builder builderPartida = new AlertDialog.Builder(context);
-
-                                    final EditText dialogPartida = new EditText(context);
-                                    dialogPartida.setInputType(InputType.TYPE_CLASS_TEXT);
-                                    dialogPartida.setHint("Nombre Partida");
-                                    builderPartida.setView(dialogPartida);
-                                    builderPartida.setMessage("Introduce el nombre de la partida")
-                                            .setPositiveButton("Aceptar",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            //Recoger usuario
-                                                            //Comprobar que existe ese usuario
-                                                            //Recoger partida
-                                                            //Comprobar que tiene esa partida
-
-                                                            ArrayList<String> partidas = Utils.getPartidasUsuario(master);
-                                                            boolean existePartida = false;
-                                                            int i = 0;
-                                                            while ( (!existePartida) && (i < partidas.size()) ){
-                                                                if (partidas.get(i) == dialogPartida.getText().toString())
-                                                                    existePartida = true;
-                                                                else
-                                                                    i++;
-                                                            }
-
-                                                            if (!existePartida){
-                                                                Toast.makeText(context, "Ese usuario no tiene ninguna partida llamada así", Toast.LENGTH_LONG);
-                                                                onBackPressed();
-                                                            }else
-                                                                nombrePartida = dialogPartida.getText().toString();
-
-                                                        }
-                                                    })
-                                            .setNegativeButton("Volver",
-                                                    new DialogInterface.OnClickListener() {
-                                                        @Override
-                                                        public void onClick(DialogInterface dialog, int which) {
-                                                            onBackPressed(); //Vuelve
-                                                        }
-                                                    });
-                                    builderPartida.create().show();
+                                    preguntarPartida();
                                 }
 
                             }
@@ -139,8 +101,7 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
                             onBackPressed(); //Vuelve
                         }
                 });
-        builder.create().show();*/
-
+        builder.create().show();
 
 
         //Coger y añadir ClickListener en botones
@@ -238,6 +199,52 @@ public class CrearPersonaje extends AppCompatActivity implements View.OnClickLis
             puntosUsados[i] = false;
         }
 
+    }
+
+    private void preguntarPartida() {
+        //Abrir dialogo para preguntar por partida
+        AlertDialog.Builder builderPartida = new AlertDialog.Builder(this);
+
+        final EditText dialogPartida = new EditText(this);
+        dialogPartida.setInputType(InputType.TYPE_CLASS_TEXT);
+        dialogPartida.setHint("Nombre Partida");
+        builderPartida.setView(dialogPartida);
+        builderPartida.setMessage("Introduce el nombre de la partida")
+                .setPositiveButton("Aceptar",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //Recoger usuario
+                                //Comprobar que existe ese usuario
+                                //Recoger partida
+                                //Comprobar que tiene esa partida
+
+                                ArrayList<Partida> partidas = Utils.getPartidas(new Usuario(master));
+                                boolean existePartida = false;
+                                int i = 0;
+                                while ( (!existePartida) && (i < partidas.size()) ){
+                                    if (partidas.get(i).getNombre().equals(dialogPartida.getText().toString()))
+                                        existePartida = true;
+                                    else
+                                        i++;
+                                }
+
+                                if (!existePartida){
+                                    Toast.makeText(getApplicationContext(), "Ese usuario no tiene ninguna partida llamada así", Toast.LENGTH_LONG);
+                                    onBackPressed();
+                                }else
+                                    nombrePartida = dialogPartida.getText().toString();
+
+                            }
+                        })
+                .setNegativeButton("Volver",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                onBackPressed(); //Vuelve
+                            }
+                        });
+        builderPartida.create().show();
     }
 
     @Override

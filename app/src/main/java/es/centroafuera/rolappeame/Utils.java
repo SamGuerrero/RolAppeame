@@ -719,19 +719,6 @@ public class Utils {
         });
     }
 
-    /**Obtiene los nombres de partida de un usuario en concreto**/
-    public static ArrayList<String> getPartidasUsuario(String usuario){
-        ArrayList<String> lista = new ArrayList<>();
-        Usuario user = new Usuario(usuario);
-
-        ArrayList<Partida> partidas = getPartidas(user);
-
-        for (Partida p: partidas)
-            lista.add(p.getNombre());
-
-        return lista;
-    }
-
     /**Devuelve lista de usuarios**/
     public static ArrayList<String> getUsuarios(){
         final ArrayList<String> lista = new ArrayList<>();

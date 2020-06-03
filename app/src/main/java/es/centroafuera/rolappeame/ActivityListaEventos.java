@@ -107,7 +107,7 @@ public class ActivityListaEventos extends AppCompatActivity implements View.OnCl
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         eventos.get(pos).setNombre(input.getText().toString());
-                                        adapter.notifyDataSetChanged(); 
+                                        adapter.notifyDataSetChanged();
 
                                     }
                                 })
