@@ -34,7 +34,8 @@
                 android:layout_gravity="right"
                 android:layout_marginEnd="20dp"
                 android:clickable="true"
-                app:srcCompat="@android:drawable/ic_input_add" />
+                app:backgroundTint="#6002ee"
+                app:srcCompat="@drawable/baseline_add_black_18dp" />
 
         </LinearLayout>
     </ScrollView>

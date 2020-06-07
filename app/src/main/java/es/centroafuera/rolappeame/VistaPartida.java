@@ -16,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -61,7 +63,10 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         btSitios.setOnClickListener(this);
 
         Button volver = findViewById(R.id.btVolver);
+        Button guardar = findViewById(R.id.btGuardar);
         volver.setOnClickListener(this);
+        guardar.setOnClickListener(this);
+
     }
 
     @Override
@@ -71,6 +76,9 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
             case R.id.btVolver:
                 onBackPressed();
                 break;
+
+            case R.id.btGuardar:
+                guardarPartida();
 
             case R.id.btDado:
                 tirarDado();
@@ -182,38 +190,47 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
 
 
     public void guardarPartida(){
-        /*
         //Estadisticas
-        TextView TvminVida = findViewById(R.id.minVida);
-        TextView TVmaxVida = findViewById(R.id.maxVida);
-        TextView TVminAtaque = findViewById(R.id.minAtaque);
-        TextView TVmaxAtaque = findViewById(R.id.maxAtaque);
-        TextView TVminDefensa = findViewById(R.id.minDefensa);
-        TextView TVmaxDefensa = findViewById(R.id.maxDefensa);
+        ArrayList razasIncluidas = new ArrayList();
+        for (Map.Entry m : partida.getRazas().entrySet()) {
+            if (m.getValue().equals(true))
+                razasIncluidas.add(m.getKey());
+        }
+        ArrayList clasesIncluidas = new ArrayList();
+        for (Map.Entry m : partida.getClases().entrySet()) {
+            if (m.getValue().equals(true))
+                clasesIncluidas.add(m.getKey());
+        }
 
-        partida.setMinVida(Integer.parseInt(TvminVida.getText().toString()));
-        partida.setMaxVida(Integer.parseInt(TVmaxVida.getText().toString()));
-        partida.setMinAtaque(Integer.parseInt(TVminAtaque.getText().toString()));
-        partida.setMaxAtaque(Integer.parseInt(TVmaxAtaque.getText().toString()));
-        partida.setMinDefensa(Integer.parseInt(TVminDefensa.getText().toString()));
-        partida.setMaxDefensa(Integer.parseInt(TVmaxDefensa.getText().toString()));
+        ArrayList rasgosIncluidos = new ArrayList();
+        for (Map.Entry m : partida.getRasgos().entrySet()) {
+            if (m.getValue().equals(true))
+                rasgosIncluidos.add(m.getKey());
+        }
+
+        ArrayList conjurosIncluidos = new ArrayList();
+        for (Map.Entry m : partida.getConjuros().entrySet()) {
+            if (m.getValue().equals(true))
+                conjurosIncluidos.add(m.getKey());
+        }
 
         //Guardo los datos en un HashMap que luego guardaré
-        Map<String, Object> personajeT = new HashMap<>();
-        personajeT.put(Utils.NOMBRE_PARTIDA, partida.getNombre());
-        personajeT.put("tipoPartida", partida.getTipoPartida());
-        personajeT.put("minVida", partida.getMinVida());
-        personajeT.put("maxVida", partida.getMaxVida());
-        personajeT.put("minAtaque", partida.getMinAtaque());
-        personajeT.put("maxAtaque", partida.getMaxAtaque());
-        personajeT.put("minDefensa", partida.getMinDefensa());
-        personajeT.put("maxDefensa", partida.getMaxDefensa());
-        personajeT.put(Utils.IMAGEN_PARTIDA, Utils.BitMapToString(partida.getImagen()));
+        Map<String, Object> nuevaPartida = new HashMap<>();
+        nuevaPartida.put(Utils.NOMBRE_PARTIDA, partida.getNombre());
+        nuevaPartida.put(Utils.IMAGEN_PARTIDA, Utils.BitMapToString(partida.getImagen()));
+        nuevaPartida.put("tipoPartida", partida.getTipoPartida());
+
+        nuevaPartida.put(Utils.TABLA_RAZAS, razasIncluidas);
+        nuevaPartida.put(Utils.TABLA_CLASES, clasesIncluidas);
+        nuevaPartida.put(Utils.TABLA_RASGOS, rasgosIncluidos);
+        nuevaPartida.put(Utils.TABLA_CONJUROS, conjurosIncluidos);
+
+        nuevaPartida.put("jugadores", partida.getJugadores());
+        nuevaPartida.put("citas", partida.getCitas());
 
 
-        Utils.actualizaPartida(partidaT, partida, VistaPartida.this);
+        Utils.actualizarPartida(nuevaPartida, partida, VistaPartida.this);
 
-        */
     }
 
     //Infla el Action Bar

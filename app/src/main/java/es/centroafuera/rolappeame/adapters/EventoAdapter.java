@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import es.centroafuera.rolappeame.R;
@@ -63,9 +64,12 @@ public class EventoAdapter extends BaseAdapter {
 
         Evento evento = eventos.get(position);
 
+        String formato = "dd/MM/yyyy";
+        SimpleDateFormat fechaFormateada = new SimpleDateFormat(formato);
+
         viewHolder.nombre.setText(evento.getNombre());
         viewHolder.descripcion.setText(evento.getDescripcion());
-        viewHolder.fecha.setText(evento.getFecha().toString());
+        viewHolder.fecha.setText(fechaFormateada.format(evento.getFecha()));
 
         return convertView;
     }

@@ -22,6 +22,7 @@ public class Partida {
     private LinkedHashMap<Texto, Boolean> clases;
     private LinkedHashMap<Texto, Boolean> rasgos;
     private LinkedHashMap<Texto, Boolean> conjuros;
+
     /*
 
     private LinkedHashMap<Habilidad, Boolean> habilidades;
@@ -33,6 +34,7 @@ public class Partida {
     */
 
     private ArrayList<String> jugadores; //Guardará los id de cada personaje
+    private ArrayList<Evento> citas;
 
     //Constructores
     public Partida() {
@@ -46,6 +48,7 @@ public class Partida {
         this.conjuros = new LinkedHashMap<>();
         this.tipoPartida = TipoPartida.DnD;
         this.jugadores = new ArrayList<>();
+        this.citas = new ArrayList<>();
     }
 
     public Partida(String nombre, Bitmap imagen, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, TipoPartida tipoPartida) {
@@ -59,9 +62,10 @@ public class Partida {
         this.conjuros = conjuros;
         this.tipoPartida = tipoPartida;
         this.jugadores = new ArrayList<>();
+        this.citas = new ArrayList<>();
     }
 
-    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, ArrayList<String> jugadores) {
+    public Partida(long id, String idReal, String nombre, Bitmap imagen, TipoPartida tipoPartida, LinkedHashMap<Texto, Boolean> razas, LinkedHashMap<Texto, Boolean> clases, LinkedHashMap<Texto, Boolean> rasgos, LinkedHashMap<Texto, Boolean> conjuros, ArrayList<String> jugadores, ArrayList<Evento> citas) {
         this.id = id;
         this.idReal = idReal;
         this.nombre = nombre;
@@ -72,6 +76,7 @@ public class Partida {
         this.rasgos = rasgos;
         this.conjuros = conjuros;
         this.jugadores = jugadores;
+        this.citas = citas;
     }
 
     //Getters y Setters
@@ -158,6 +163,14 @@ public class Partida {
 
     public void setConjuros(LinkedHashMap<Texto, Boolean> conjuros) {
         this.conjuros = conjuros;
+    }
+
+    public ArrayList<Evento> getCitas() {
+        return citas;
+    }
+
+    public void setCitas(ArrayList<Evento> citas) {
+        this.citas = citas;
     }
 }
 

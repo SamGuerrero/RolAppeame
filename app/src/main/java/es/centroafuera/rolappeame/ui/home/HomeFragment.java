@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -105,6 +106,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void getPersonajesFromFirebase(final HomeFragment activity){
+
         personajes = Utils.getPersonajes(usuario);
 
         //Esto es un comentario como arriba de la página que te dirá si tienes o no partidas
@@ -134,9 +136,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //Cuando vuelve
     public void onResume() {
         super.onResume();
-        getPersonajesFromFirebase(this);
+
+        //Recarga personajes
         personajeAdapter.notifyDataSetChanged();
-        getPartidasFromFirebase(this);
+
+        //Recarga Partidas
         partidaAdapter.notifyDataSetChanged();
 
     }
@@ -205,6 +209,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (tabHost.getCurrentTabTag().equals(getString(R.string.personajes))) {
                     intent = new Intent(getContext(), VistaPersonaje.class);
                     intent.putExtra("ID", personajes.get(pos).getIdReal()); //Estoy pasando mal el Id
+
                 }else{
                     intent = new Intent(getContext(), VistaPartida.class);
                     intent.putExtra("ID", partidas.get(pos).getIdReal()); //Estoy pasando mal el Id

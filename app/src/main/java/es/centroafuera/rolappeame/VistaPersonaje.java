@@ -3,6 +3,7 @@ package es.centroafuera.rolappeame;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,14 +18,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import es.centroafuera.rolappeame.models.Personaje;
+import es.centroafuera.rolappeame.models.Texto;
 
 public class VistaPersonaje extends AppCompatActivity implements View.OnClickListener{
     Personaje personaje;
     String id;
+    ArrayList<Texto> listaMagia;
+    ArrayList<Texto> listaRasgos;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +52,12 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
             TextView tvRaza = findViewById(R.id.TVraza);
             tvRaza.setText(personaje.getSubraza());
             TextView tvOficio = findViewById(R.id.TVoficio);
-            tvOficio.setText(personaje.getOficio());
+            tvOficio.setText(personaje.getClase());
 
             TextView tvFuerza = findViewById(R.id.puntosFuerza);
             tvFuerza.setText(Integer.toString(personaje.getFuerza()));
             TextView tvAgilidad = findViewById(R.id.puntosAgilidad);
-            tvAgilidad.setText(Integer.toString(personaje.getAgilidad()));
+            tvAgilidad.setText(Integer.toString(personaje.getDestreza()));
             TextView tvPercepcion = findViewById(R.id.puntosPercepcion);
             tvPercepcion.setText(Integer.toString(personaje.getPercepcion()));
             TextView tvConstitucion = findViewById(R.id.puntosConstitucion);
@@ -260,20 +266,87 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
     }
 
     private void mostrarListaMagia() {
-        //TODO
         //Coger lista de rasgos según clase (Nivel 1)
+        listaMagia = Utils.getConjuros(personaje.getClase());
 
+        CharSequence[] nombres = new CharSequence[listaMagia.size()];
+        int i = 0;
+        for (Texto m: listaMagia) {
+            nombres[i] = m.getTitulo();
+            i++;
+        }
+
+        Log.i("Acción", "Voy a abrir el dialogo");
         //Abrir dialogo en forma de lista //Abrir fragment con listview expandible (Título/descripción)
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
 
-        //Si no tiene magia informarlo
+        builder
+                .setTitle("Magia disponible")
+                .setPositiveButton("Volver", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setItems(nombres, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        abrirDescripcion(listaMagia.get(which));
+                    }
+                })
+                .show();
+
+    }
+
+    private void abrirDescripcion(Texto texto) {
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+
+        builder
+                .setTitle(texto.getTitulo())
+                .setPositiveButton("Volver", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setMessage(texto.getDescripcion())
+                .show();
     }
 
     private void mostrarListaRasgos() {
         //TODO
 
-        //Coger lista de rasgos según clase y raza (Nivel 1) //Abrir fragment con listview expandible (Título/descripción)
+        //Coger lista de rasgos según clase (Nivel 1)
+        listaRasgos = Utils.getRasgos(personaje.getClase(), personaje.getRaza());
 
-        //Abrir dialogo en forma de lista
+        CharSequence[] nombres = new CharSequence[listaRasgos.size()];
+        int i = 0;
+        for (Texto m: listaRasgos) {
+            nombres[i] = m.getTitulo();
+            i++;
+        }
+
+        Log.i("Acción", "Voy a abrir el dialogo");
+        //Abrir dialogo en forma de lista //Abrir fragment con listview expandible (Título/descripción)
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(this);
+
+        builder
+                .setTitle("Rasgos activos")
+                .setPositiveButton("Volver", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setItems(nombres, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        abrirDescripcion(listaRasgos.get(which));
+                    }
+                })
+                .show();
 
     }
 
@@ -331,7 +404,7 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         TextView TVpuntosinteligencia = findViewById(R.id.puntosInteligencia);
         TextView TVpuntospercepcion = findViewById(R.id.puntosPercepcion);
 
-        personaje.setAgilidad( Integer.parseInt(TVpuntosAgilidad.getText().toString()) );
+        personaje.setDestreza( Integer.parseInt(TVpuntosAgilidad.getText().toString()) );
         personaje.setCarisma( Integer.parseInt(TVpuntoscarisma.getText().toString()));
         personaje.setConstitucion( Integer.parseInt(TVpuntosconstitucion.getText().toString()));
         personaje.setFuerza( Integer.parseInt(TVpuntosfuerza.getText().toString()));
@@ -341,14 +414,14 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
         //Guardo los datos en un HashMap que luego guardaré
         Map<String, Object> personajeT = new HashMap<>();
         personajeT.put(Utils.NOMBRE_PERSONAJE, personaje.getNombre());
-        personajeT.put("raza", personaje.getRaza());
-        personajeT.put("oficio", personaje.getOficio());
-        personajeT.put("fuerza", personaje.getFuerza());
-        personajeT.put("agilidad", personaje.getAgilidad());
-        personajeT.put("percepcion", personaje.getPercepcion());
-        personajeT.put("constitucion", personaje.getConstitucion());
-        personajeT.put("inteligencia", personaje.getInteligencia());
-        personajeT.put("carisma", personaje.getCarisma());
+        personajeT.put(Utils.RAZA_PERSONAJE, personaje.getRaza());
+        personajeT.put(Utils.CLASE_PERSONAJE, personaje.getClase());
+        personajeT.put(Utils.FUERZA_PERSONAJE, personaje.getFuerza());
+        personajeT.put(Utils.DESTREZA_PERSONAJE, personaje.getDestreza());
+        personajeT.put(Utils.PERCEPCION_PERSONAJE, personaje.getPercepcion());
+        personajeT.put(Utils.CONSTITUCION_PERSONAJE, personaje.getConstitucion());
+        personajeT.put(Utils.INTELIGENCIA_PERSONAJE, personaje.getInteligencia());
+        personajeT.put(Utils.CARISMA_PERSONAJE, personaje.getCarisma());
         personajeT.put(Utils.IMAGEN_PERSONAJE, Utils.BitMapToString(personaje.getImagen()));
 
 

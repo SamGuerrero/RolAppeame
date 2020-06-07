@@ -13,11 +13,11 @@ public class Personaje {
     //private String ubicacion; //FUTURO: Lugar donde se encuentra. Lo decidirá el máster
     private String raza;
     private String subraza;
-    private String oficio;
+    private String clase;
 
     //Stats del personaje
     private int fuerza;
-    private int agilidad;
+    private int destreza;
     private int percepcion;
     private int constitucion;
     private int inteligencia;
@@ -30,13 +30,13 @@ public class Personaje {
         this.id = count.incrementAndGet();
     }
 
-    public Personaje(String nombre, String raza, String subraza, String oficio, int fuerza, int agilidad, int percepcion, int constitucion, int inteligencia, int carisma, Bitmap imagen) {
+    public Personaje(String nombre, String raza, String subraza, String clase, int fuerza, int destreza, int percepcion, int constitucion, int inteligencia, int carisma, Bitmap imagen) {
         this.nombre = nombre;
         this.raza = raza;
         this.subraza = subraza;
-        this.oficio = oficio;
+        this.clase = clase;
         this.fuerza = fuerza;
-        this.agilidad = agilidad;
+        this.destreza = destreza;
         this.percepcion = percepcion;
         this.constitucion = constitucion;
         this.inteligencia = inteligencia;
@@ -75,11 +75,11 @@ public class Personaje {
         this.subraza = subraza;
     }
 
-    public String getOficio() {
-        return oficio;
+    public String getClase() {
+        return clase;
     }
-    public void setOficio(String oficio) {
-        this.oficio = oficio;
+    public void setClase(String clase) {
+        this.clase = clase;
     }
 
     public int getFuerza() {
@@ -89,11 +89,11 @@ public class Personaje {
         this.fuerza = fuerza;
     }
 
-    public int getAgilidad() {
-        return agilidad;
+    public int getDestreza() {
+        return destreza;
     }
-    public void setAgilidad(int agilidad) {
-        this.agilidad = agilidad;
+    public void setDestreza(int destreza) {
+        this.destreza = destreza;
     }
 
     public int getPercepcion() {
