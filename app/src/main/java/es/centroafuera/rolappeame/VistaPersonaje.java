@@ -315,8 +315,6 @@ public class VistaPersonaje extends AppCompatActivity implements View.OnClickLis
     }
 
     private void mostrarListaRasgos() {
-        //TODO
-
         //Coger lista de rasgos según clase (Nivel 1)
         listaRasgos = Utils.getRasgos(personaje.getClase(), personaje.getRaza());
 

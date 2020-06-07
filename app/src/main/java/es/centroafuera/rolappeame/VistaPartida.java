@@ -163,7 +163,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         .setPositiveButton("Guardar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: Guardar cambios
             }
         })
         .setMultiChoiceItems(nombres, booleanos, new DialogInterface.OnMultiChoiceClickListener() {
@@ -174,18 +173,6 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         })
         .show();
 
-    }
-
-    public void vistaInformacion(String descripcion){
-        LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.toast_info, (ViewGroup) findViewById(R.id.lyToastInfo));
-
-        TextView info = v.findViewById(R.id.tvInfo);
-        info.setText(descripcion);
-
-        Toast toast = new Toast(getApplicationContext());
-        toast.setView(v);
-        toast.show();
     }
 
 

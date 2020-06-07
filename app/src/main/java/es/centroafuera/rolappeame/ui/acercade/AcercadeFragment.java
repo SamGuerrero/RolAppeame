@@ -25,7 +25,6 @@ public class AcercadeFragment extends Fragment {
         slideshowViewModel = ViewModelProviders.of(this).get(AcercadeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_acercade, container, false);
 
-        //TODO: Cambiar las condiciones legales por algo con más sentido
         Texto acercaDe = new Texto(getString(R.string.About), getString(R.string.contenido_about));
         Texto condicionesLegales = new Texto(getString(R.string.titulo_condiciones), getString(R.string.contenido_condiciones));
 

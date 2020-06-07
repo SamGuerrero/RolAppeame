@@ -112,8 +112,12 @@ public class Utils {
 
         Texto t = new Texto();
         for (HashMap<String, String> map : lista) {
-            t.setTitulo(map.get("titulo"));
-            t.setDescripcion(map.get("descripcion"));
+
+            if (!map.get("titulo").equals(null))
+                t.setTitulo(map.get("titulo"));
+
+            if (!map.get("descripcion").equals(null))
+                t.setDescripcion(map.get("descripcion"));
 
             lhm.put(t, true);
         }
@@ -152,10 +156,6 @@ public class Utils {
             }
         });
 
-        /*
-        razas.put(new Texto("Orco", "Grande y feo"), true);
-        razas.put(new Texto("Elfo", "Delgaducho y snob"), true);*/
-
         return razas;
     }
 
@@ -189,9 +189,6 @@ public class Utils {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-        /*clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
-        clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);*/
 
         return clases;
     }
@@ -227,9 +224,6 @@ public class Utils {
             }
         });
 
-        /*rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
-        rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);*/
-
         return rasgos;
     }
 
@@ -263,9 +257,6 @@ public class Utils {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-        /*conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
-        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);*/
 
         return conjuros;
     }
@@ -332,10 +323,6 @@ public class Utils {
 
             }
         });
-
-        lista.add(new Texto ("Abrir", "Elige un objeto que puedas ver dentro del alcance. El objeto puede ser una puerta, una caja, un cofre, unas esposas, un candado u otro objeto que evite el acceso por medios mágicos o mundanos.\nUn objetivo retenido, atrapado o bloqueado por una cerradura mundana se libera. Si el objetivo tiene varias cerraduras, solo una de ellas se abre.\nSi eliges un objetivo que está retenido con Cerradura arcana, ese conjuro se anula durante 10 minutos, durante los cuales el objetivo se puede abrir y cerrar con normalidad.\nCuando lanzas este conjuro, se oye un fuerte golpe hasta una distancia de 300 pies que surge del objetivo."));
-        lista.add(new Texto("Boca mágica", "Colocas un mensaje en un objeto dentro del alcance, el cual se emite cuando se cumple la condición que lo activa. Elige un objeto que puedas ver y que ninguna otra criatura lleve puesto ni transporte. Luego di el mensaje, que debe tener como máximo 25 palabras, aunque se puede entregar a lo largo de 10 minutos. Por último, determina la circunstancia que activa el conjuro para entregar el mensaje.\nCuando se dé esta circunstancia, una boca mágica aparece en el objeto y recita el mensaje con tu voz y al mismo volumen al que la dijiste. Si el objeto que elijes tiene una boca o algo que parece una boca (por ejemplo, la boca de una estatua), la boca mágica aparece ahí para que parezca que las palabras provienen de la boca del objeto. Cuando lanzas este conjuro, puedes decidir que el conjuro termine después de entregar el mensaje o que permanezca y repita el mensaje en cualquier momento en el que se active.\nLa circunstancia que activa el mensaje puede ser todo lo general o detallada que quieras, aunque debe basarse en una condición visual o auditiva que ocurra a 30 pies o menos del objeto. Por ejemplo, puedes hacer que la boca hable cuando cualquier criatura se mueva a 30 pies o menos del objeto o cuando suene una campana de plata también a 30 pies o menos."));
-        lista.add(new Texto("Confusión", "Este conjuro distorsiona la mente de las criaturas creando ilusiones y provocando acciones incontroladas. Todas las criaturas que se encuentren en una esfera de 10 pies de radio, cuyo centro está en un lugar de tu elección dentro del alcance, deben superar una tirada de salvación de Sabiduría cuando lances este conjuro para no quedar afectadas por él.\n\nUn objetivo afectado no puede reaccionar y debe tirar 1d10 al principio de cada uno de sus turnos para determinar su comportamiento.\nd10 Comportamiento\n 1 La criatura usa todo su movimiento para moverse en una dirección al azar. Para determinar dicha dirección, tira 1d8 y asigna una dirección a cada una de las caras del dado. La criatura no realiza ninguna acción este turno.\n 2-6 La criatura no se mueve ni realiza acciones este turno.\n 7-8 La criatura usa su acción para realizar un ataque cuerpo a cuerpo contra una criatura determinada al azar dentro de su alcance. Si no hay ninguna criatura dentro de su alcance, no hace nada durante este turno.\n 9-10 La criatura puede actuar y moverse con normalidad.\n\nAl final de cada turno, un objetivo afectado puede hacer una tirada de salvación de Sabiduría. Si tiene éxito, el efecto termina.\n\nEn niveles superiores. Cuando lanzas este conjuro usando un espacio de conjuro de nivel 5 o superior, el radio de la esfera aumenta en 5 pies por cada nivel por encima de 4."));
 
         return lista;
     };
@@ -406,12 +393,6 @@ public class Utils {
                 }
             });
         }
-
-
-
-        lista.add(new Texto ("Acción astuta", "Tu agilidad mental te permite moverte y actuar rápidamente. Puedes realizar una acción adicional en cada uno de tus turnos de combate para esprintar, retirarte o esconderte."));
-        lista.add(new Texto("Corona de luz", "Puedes usar tu acción para activar un aura de luz solar que dura un minuto o hasta que la desactives, usando otra acción. Emites luz brillante en un radio de 60 pies y luz tenue en un radio de 30 pies más allá. Tus enemigos en la luz brillante tienen desventaja en las tiradas de salvación contra cualquier conjuro que haga daño radiante o de fuego."));
-        lista.add(new Texto("Furia", "Luchas con una ferocidad primitiva en la batalla. Durante tu turno, puedes dejarte llevar por la furia como acción adicional. Mientras estás en furia, consigues los siguientes beneficios si no llevas armadura pesada:\n\nTienes ventaja en las pruebas de Fuerza y en las tiradas de salvación de Fuerza.\n\nCuando realizas un ataque con armas cuerpo a cuerpo usando Fuerza, recibes un bonificador a la tirada de daño que aumenta según vas subiendo niveles de bárbaro, como se muestra en la columna «Daño de furia» de la tabla del bárbaro.\n\nTienes resistencia al daño contundente, perforante y cortante.\\nSi sabes lanzar conjuros, no puedes lanzarlos ni concentrarte en ellos mientras estás en furia.\n\nTu furia dura un minuto. Acaba antes si te quedas inconsciente o, si antes de que acabe tu turno, no has atacado a una criatura hostil o no has recibido daño desde tu último turno. También puedes terminar tu furia durante tu turno como acción adicional.\n\nUna vez que has entrado en furia el número de veces indicado para tu nivel de bárbaro en la columna «Furias» de la tabla del bárbaro, debes terminar un descanso prolongado para poder volver a entrar en furia."));
 
         return lista;
     };
@@ -523,8 +504,6 @@ public class Utils {
             }
         });
 
-        //Personaje personaje = new Personaje("Personaje Pruebas", "Elfo", "Elfo oscuro", "Pícaro", 14, 12, 12, 17, 14, 16, null);
-
         return personaje;
     }
 
@@ -618,8 +597,6 @@ public class Utils {
             }
         });
 
-        //personajes.add(new Personaje("Personaje Pruebas", "Elfo", "Elfo oscuro", "Pícaro", 14, 12, 12, 17, 14, 16, null));
-
         return personajes;
     }
 
@@ -649,7 +626,7 @@ public class Utils {
 
     /**Inserta una partida*/
     public static void insertarPartida(Partida partida, Usuario usuario){
-        //Partida > ID > Cada Dato //FIXME: No debería cogerlo por partida.getId sino por un push automatico, guardar luego el código push para meter el resto de datos
+        //Partida > ID > Cada Dato
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(TABLA_PARTIDAS); //Referencia a la clase Java
         myRef.child(String.valueOf(partida.getId())).child(NOMBRE_PARTIDA).setValue(partida.getNombre()); //El .push() es para crear un id único, lo pondría antes del segundo child
@@ -732,17 +709,19 @@ public class Utils {
 
                 try{
                     imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PARTIDA).getValue().toString());
+
+                }catch (NullPointerException e){}
                     tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
 
-                    Log.i("Tipo de variable", ds.child(TABLA_RAZAS).getValue().getClass().toString());
 
+                try{
                     razas = (ArrayList) ds.child(TABLA_RAZAS).getValue();
                     clases = (ArrayList) ds.child(TABLA_CLASES).getValue();
                     rasgos = (ArrayList) ds.child(TABLA_RASGOS).getValue();
                     conjuros = (ArrayList) ds.child(TABLA_CONJUROS).getValue();
-
-
                 }catch (NullPointerException e){}
+                tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
+
 
                 partida.setIdReal(ds.getKey());
                 partida.setNombre(nombre);
@@ -760,26 +739,6 @@ public class Utils {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-
-        //Pruebas a mano
-        /*LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
-        razas.put(new Texto("Orco", "Grande y feo"), true);
-        razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
-
-        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
-        clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
-        clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);
-
-        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
-        rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
-        rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
-
-        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
-        conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
-        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
-
-        Partida partida = new Partida("Prueba a mano", null, razas, clases, rasgos, conjuros, TipoPartida.DnD);*/
 
         return partida;
     }
@@ -904,26 +863,6 @@ public class Utils {
             }
         });
 
-        /*/Una lista de partidas por defecto para probar las cosas
-        LinkedHashMap<Texto, Boolean> razas = new LinkedHashMap<>();
-        razas.put(new Texto("Orco", "Grande y feo"), true);
-        razas.put(new Texto("Elfo", "Delgaducho y snob"), true);
-
-        LinkedHashMap<Texto, Boolean> clases = new LinkedHashMap<>();
-        clases.put(new Texto("Guerrero", "Espaditas y tal"), true);
-        clases.put(new Texto("Mago", "En plan Harry Potter pero sin ser tan inútil"), true);
-
-        LinkedHashMap<Texto, Boolean> rasgos = new LinkedHashMap<>();
-        rasgos.put(new Texto("Fortaleza Enana", "Mazo resistente"), true);
-        rasgos.put(new Texto("Visión nocturna", "Puedes ver en la oscuridad sin gafas especiales ni nada"), true);
-
-        LinkedHashMap<Texto, Boolean> conjuros = new LinkedHashMap<>();
-        conjuros.put(new Texto("Prestidigitacion", "Básicamente tus manos son un mechero"), true);
-        conjuros.put(new Texto("Don de lenguas", "Puedes hablar cualquier idioma durante X turnos"), true);
-
-        Partida partidaT = new Partida("Prueba a mano", null, razas, clases, rasgos, conjuros, TipoPartida.DnD);
-        partidas.add(partidaT);*/
-
         return partidas;
     }
 
@@ -980,8 +919,6 @@ public class Utils {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-        //lista.add("sam");
 
         return lista;
     }

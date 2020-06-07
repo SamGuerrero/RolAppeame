@@ -95,7 +95,7 @@ class PartidaAdapterExpandible extends BaseExpandableListAdapter {
             @Override
             public void onClick(View v) {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(context);
-                builder.setTitle("Información") .setMessage(texto.getDescripcion())
+                builder.setTitle(texto.getTitulo()) .setMessage(texto.getDescripcion())
                         .setNeutralButton("Volver", new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

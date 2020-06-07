@@ -30,7 +30,6 @@ public class PreferenciasFragment extends Fragment implements View.OnClickListen
         galleryViewModel = ViewModelProviders.of(this).get(PreferenciasViewModel.class);
         View root = inflater.inflate(R.layout.fragment_preferencias, container, false);
 
-        //TODO: Cambiar esta función que de todas formas es algo cutre
         //Silenciar movil
         cbSonido = root.findViewById(R.id.cbSonido);
         cbSonido.setOnClickListener(this);
@@ -99,8 +98,6 @@ public class PreferenciasFragment extends Fragment implements View.OnClickListen
         Locale.setDefault(loc);
         Configuration config = new Configuration();
         config.locale = loc;
-        //TODO: Arreglar lo del getContext desde Fragment
-        //getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         Intent refrescar = new Intent(getContext(), MainActivity.class);
         refrescar.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -48,8 +48,6 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Utils.TABLA_SITIOS); //La clase en Java
 
-        //TODO: Si no voy a guardar desde mapa, que muestre nomás todos los sitios disponibles
-
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -78,7 +76,7 @@ public class ActivityListaSitios extends AppCompatActivity implements View.OnCli
             }
         });
 
-        sitios.add(new Sitio("Sitio prueba", "Como no coge de internet tendré que probarlo a mano", 90.87, 40.36));
+        sitios.add(new Sitio("Auditorio Carmen Laforet", "https://www.madrid.es/sites/v/index.jsp?vgnextchannel=bfa48ab43d6bb410VgnVCM100000171f5a0aRCRD&vgnextoid=fca22248514ae210VgnVCM1000000b205a0aRCRD", 40.47960826297022, -3.665799020694628));
 
     }
 

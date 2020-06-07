@@ -122,7 +122,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
 
-        //TODO: Añadir guardar sitios al mapa
     }
 
     @Override

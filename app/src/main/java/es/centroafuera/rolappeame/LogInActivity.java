@@ -71,34 +71,6 @@ public class LogInActivity extends AppCompatActivity implements View.OnClickList
         Button btRegistrar = (Button) findViewById(R.id.btRegistrar);
         Button btEntrar = (Button) findViewById(R.id.btEntrar);
 
-
-
-        /*loginButton = (LoginButton) findViewById(R.id.btEntrarFB);
-        //loginButton.setReadPermissions("email");
-
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Toast.makeText(LogInActivity.this, "Bienvenido", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-
-            @Override
-            public void onCancel() {
-                Toast.makeText(LogInActivity.this, "Se ha cancelado el proceso", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                Toast.makeText(LogInActivity.this, "Ha ocurrido un error", Toast.LENGTH_LONG).show();
-                return;
-            }
-        });*/
-
         signInButton = (SignInButton) findViewById(R.id.btEntrarGoogle);
 
         signInButton.setOnClickListener(this);

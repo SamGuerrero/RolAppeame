@@ -49,7 +49,7 @@ public class ActivityListaEventos extends AppCompatActivity implements View.OnCl
         eventos = new ArrayList<>();
 
         //TODO:Rellenar desde la base de datos
-        eventos.add(new Evento("Evento de prueba", "Esto está metido a mano dentro del código", new Date()));
+        eventos.add(new Evento("Evento de prueba", "Primera partida de rol", new Date()));
 
     }
 
