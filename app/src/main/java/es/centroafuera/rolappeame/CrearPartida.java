@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,12 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -36,6 +43,8 @@ import es.centroafuera.rolappeame.models.Texto;
 import es.centroafuera.rolappeame.models.TipoPartida;
 import es.centroafuera.rolappeame.models.Usuario;
 
+import static androidx.constraintlayout.widget.Constraints.TAG;
+
 public class CrearPartida extends AppCompatActivity implements View.OnClickListener {
     boolean cambiofoto = false;
     private final int AVATAR = 1;
@@ -48,6 +57,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crearpartida);
 
+        partida = new Partida();
         //Imagen de la partida
         ImageView ivAvatar = findViewById(R.id.IVavatar);
 
@@ -75,6 +85,7 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         Button continuar = findViewById(R.id.btGuardar);
         continuar.setOnClickListener(this);
 
+
     }
 
     private void rellenarLista() {
@@ -83,16 +94,183 @@ public class CrearPartida extends AppCompatActivity implements View.OnClickListe
         grupoExpandible.add(Utils.TABLA_RASGOS);
         grupoExpandible.add(Utils.TABLA_CONJUROS);
 
-        partida = Utils.getPartidaDefecto();
-        LinkedHashMap<Texto, Boolean> listaRazas = partida.getRazas();
-        LinkedHashMap<Texto, Boolean> listaClases = partida.getClases();
-        LinkedHashMap<Texto, Boolean> listaRasgos = partida.getRasgos();
-        LinkedHashMap<Texto, Boolean> listaConjuros = partida.getConjuros();
+        LinkedHashMap<Texto, Boolean> listaRazas = getRazasFromDatabase();
+        LinkedHashMap<Texto, Boolean> listaClases = getClasesFromDatabase();
+        LinkedHashMap<Texto, Boolean> listaRasgos = getRasgosFromDatabase();
+        LinkedHashMap<Texto, Boolean> listaConjuros = getConjurosFromDatabase();
 
         itemExpandible.put(grupoExpandible.get(0), listaRazas);
         itemExpandible.put(grupoExpandible.get(1), listaClases);
         itemExpandible.put(grupoExpandible.get(2), listaRasgos);
         itemExpandible.put(grupoExpandible.get(3), listaConjuros);
+    }
+
+
+    public LinkedHashMap<Texto, Boolean> getRazasFromDatabase() {
+        final ArrayList<Texto> razas = new ArrayList<>();
+        final LinkedHashMap<Texto, Boolean> razasF = new LinkedHashMap<>();;
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(Utils.TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(Utils.TABLA_RAZAS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        String descripcion = String.valueOf(ds.child(Utils.RAZA_DESCRIPCION).getValue());
+                        razas.add(new Texto(nombre, descripcion));
+                    }
+
+
+                    for (Texto raza: razas)
+                        razasF.put(raza, true);
+
+
+                    partida.setRazas(razasF);
+
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return razasF;
+    }
+
+    /**Devuelve un ArrayList con las Clases existentes*/
+    public LinkedHashMap<Texto, Boolean> getClasesFromDatabase() {
+        final ArrayList<Texto> clases = new ArrayList<>();
+        LinkedHashMap<Texto, Boolean> clasesF = new LinkedHashMap<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(Utils.TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(Utils.TABLA_CLASES).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        String descripcion = String.valueOf(ds.child(Utils.CLASE_DESCRIPCION).getValue());
+                        clases.add(new Texto(nombre, descripcion));
+                    }
+
+                    for (Texto clase: clases)
+                        clasesF.put(clase, true);
+
+
+                    partida.setClases(clasesF);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return clasesF;
+    }
+
+    /**Devuelve un ArrayList con los Rasgos existentes*/
+    public LinkedHashMap<Texto, Boolean> getRasgosFromDatabase(){
+        final ArrayList<Texto> rasgos = new ArrayList<>();
+        LinkedHashMap<Texto, Boolean> rasgosF = new LinkedHashMap<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(Utils.TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(Utils.TABLA_RASGOS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        String descripcion = String.valueOf(ds.getValue());
+                        rasgos.add(new Texto(nombre, descripcion));
+                    }
+
+                    for (Texto rasgo: rasgos)
+                        rasgosF.put(rasgo, true);
+
+                    partida.setRasgos(rasgosF);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return rasgosF;
+    }
+
+    /**Devuelve un ArrayList con los Conjuros existentes*/
+    public LinkedHashMap<Texto, Boolean> getConjurosFromDatabase(){
+        final ArrayList<Texto> conjuros = new ArrayList<>();
+        LinkedHashMap<Texto, Boolean> conjurosF = new LinkedHashMap<>();
+
+        //Obtengo una lista de la base de datos
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(Utils.TABLA_REGLAS); //La clase en Java
+
+        // Read from the database
+        myRef.child(Utils.TABLA_CONJUROS).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                if (dataSnapshot.exists()){
+
+                    for (DataSnapshot ds: dataSnapshot.getChildren()) { //Nos encontramos en los ID
+                        String nombre = ds.getKey();
+                        String descripcion = String.valueOf(ds.getValue());
+                        conjuros.add(new Texto(nombre, descripcion));
+                    }
+
+                    for (Texto conjuro: conjuros)
+                        conjurosF.put(conjuro, true);
+
+                    partida.setConjuros(conjurosF);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        return conjurosF;
     }
 
     @Override

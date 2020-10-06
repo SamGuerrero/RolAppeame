@@ -1,8 +1,11 @@
 package es.centroafuera.rolappeame;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -12,9 +15,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +32,9 @@ import java.util.Map;
 
 import es.centroafuera.rolappeame.models.Partida;
 import es.centroafuera.rolappeame.models.Texto;
+import es.centroafuera.rolappeame.models.TipoPartida;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class VistaPartida extends AppCompatActivity implements View.OnClickListener {
     Partida partida;
@@ -35,16 +47,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         //Recojo el id String que es la key de la base de datos
         Intent intent = getIntent();
         id = intent.getStringExtra("ID");
-        partida = Utils.getPartidaId(id, VistaPartida.this);
-
-        //Muestro datos
-        TextView tvNombre = findViewById(R.id.TVnombre);
-        TextView tvTipoPartida = findViewById(R.id.TVtipoPartida);
-        ImageView ivAvatar = findViewById(R.id.IVavatar);
-
-        tvNombre.setText(partida.getNombre());
-        tvTipoPartida.setText(partida.getTipoPartida().toString());
-        ivAvatar.setImageBitmap(partida.getImagen());
+        getPartidaId(id);
 
         //Botones
         Button btPersonajes = findViewById(R.id.btPersonajes);
@@ -66,6 +69,71 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
         Button guardar = findViewById(R.id.btGuardar);
         volver.setOnClickListener(this);
         guardar.setOnClickListener(this);
+
+    }
+
+    public void getPartidaId(String id){
+        partida = new Partida();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        //Obtengo una lista de la base de datos
+        DatabaseReference myRef = database.getReference(Utils.TABLA_PARTIDAS); //La clase en Java
+
+        //Partidas > id
+        myRef.child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot ds) {
+
+                String nombre = (String) ds.child(Utils.NOMBRE_PARTIDA).getValue();
+                Bitmap imagen = null;
+                TipoPartida tipoPartida = TipoPartida.DnD;
+                ArrayList razas = new ArrayList<>();
+                ArrayList clases = new ArrayList<>();
+                ArrayList rasgos = new ArrayList<>();
+                ArrayList conjuros = new ArrayList<>();
+
+                try{
+                    imagen = Utils.StringToBitMap(ds.child(Utils.IMAGEN_PARTIDA).getValue().toString());
+
+                }catch (NullPointerException e){}
+
+                try{
+                tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
+                }catch (NullPointerException e){}
+
+                try{
+                    razas = (ArrayList) ds.child(Utils.TABLA_RAZAS).getValue();
+                    clases = (ArrayList) ds.child(Utils.TABLA_CLASES).getValue();
+                    rasgos = (ArrayList) ds.child(Utils.TABLA_RASGOS).getValue();
+                    conjuros = (ArrayList) ds.child(Utils.TABLA_CONJUROS).getValue();
+                }catch (NullPointerException e){}
+                tipoPartida = TipoPartida.valueOf(ds.child("tipoPartida").getValue().toString());
+
+                partida.setIdReal(id);
+                partida.setNombre(nombre);
+                partida.setTipoPartida(tipoPartida);
+                partida.setImagen(imagen);
+                partida.setRazas(Utils.arrayToLinkHAshMap(razas));
+                partida.setClases(Utils.arrayToLinkHAshMap(clases));
+                partida.setRasgos(Utils.arrayToLinkHAshMap(rasgos));
+                partida.setConjuros(Utils.arrayToLinkHAshMap(conjuros));
+
+                //Muestro datos
+                TextView tvNombre = findViewById(R.id.TVnombre);
+                TextView tvTipoPartida = findViewById(R.id.TVtipoPartida);
+                ImageView ivAvatar = findViewById(R.id.IVavatar);
+
+                tvNombre.setText(partida.getNombre());
+                tvTipoPartida.setText(partida.getTipoPartida().toString());
+                ivAvatar.setImageBitmap(partida.getImagen());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
 
     }
 
@@ -135,6 +203,7 @@ public class VistaPartida extends AppCompatActivity implements View.OnClickListe
     }
 
     private void mostrarLista(String tabla, LinkedHashMap<Texto, Boolean> lista) {
+
         CharSequence[] nombres = new CharSequence[lista.size()];
         int i = 0;
         for (Map.Entry m: lista.entrySet()) {

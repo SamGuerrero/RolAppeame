@@ -107,20 +107,21 @@ public class Utils {
         return temp;
     }
 
-    private static LinkedHashMap<Texto, Boolean> arrayToLinkHAshMap(ArrayList<HashMap> lista) {
+    static LinkedHashMap<Texto, Boolean> arrayToLinkHAshMap(ArrayList<HashMap> lista) {
         LinkedHashMap<Texto, Boolean> lhm = new LinkedHashMap<>();
 
-        Texto t = new Texto();
-        for (HashMap<String, String> map : lista) {
+        Texto t;
+        if (lista != null)
+            for (HashMap<String, String> map : lista) {
+                t = new Texto();
+                if (!map.get("titulo").equals(null))
+                    t.setTitulo(map.get("titulo"));
 
-            if (!map.get("titulo").equals(null))
-                t.setTitulo(map.get("titulo"));
+                if (!map.get("descripcion").equals(null))
+                    t.setDescripcion(map.get("descripcion"));
 
-            if (!map.get("descripcion").equals(null))
-                t.setDescripcion(map.get("descripcion"));
-
-            lhm.put(t, true);
-        }
+                lhm.put(t, true);
+            }
 
         return lhm;
     }
@@ -919,6 +920,8 @@ public class Utils {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
+        lista.add("sam ");
 
         return lista;
     }
